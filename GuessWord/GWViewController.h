@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GWViewController : UIViewController
+
+@interface GWViewController : UIViewController<PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
