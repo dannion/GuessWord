@@ -36,15 +36,17 @@
 
 //Controller调用方式：先用initWith初始化，然后每次用户输入更新Board，获取current_state
 
-//测试用
+
 -(void)saveToFile:(NSString *)saveFile;
 
+
+//测试用
 -(NSString*)description;
 
 
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
 
--(PlayBoard *)initWith;//默认的初始化函数
+-(PlayBoard *)initWithJsonFile:(NSString *)json_file;//默认的初始化函数
 -(NSArray *)current_state;//获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//通过point获得指定方向的单词
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//判断某个点所在单词是否完成
