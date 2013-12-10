@@ -10,6 +10,10 @@
 		563F5125C1E0409E8257A99E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B9CDA8592C4BDB823921FD /* libPods.a */; };
 		64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28A818559ECD0046D43A /* GWGridCell.m */; };
 		64AF28AA18559ECD0046D43A /* GWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28A818559ECD0046D43A /* GWGridCell.m */; };
+		64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C01856A48E0046D43A /* PlayBoard.m */; };
+		64AF28C41856A48E0046D43A /* PlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C01856A48E0046D43A /* PlayBoard.m */; };
+		64AF28C51856A48E0046D43A /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C21856A48E0046D43A /* Word.m */; };
+		64AF28C61856A48E0046D43A /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C21856A48E0046D43A /* Word.m */; };
 		64D09A3F185594AB0054E807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A3E185594AB0054E807 /* Foundation.framework */; };
 		64D09A41185594AB0054E807 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A40185594AB0054E807 /* CoreGraphics.framework */; };
 		64D09A43185594AB0054E807 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A42185594AB0054E807 /* UIKit.framework */; };
@@ -41,6 +45,10 @@
 		01B9CDA8592C4BDB823921FD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		64AF28A718559ECD0046D43A /* GWGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWGridCell.h; sourceTree = "<group>"; };
 		64AF28A818559ECD0046D43A /* GWGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWGridCell.m; sourceTree = "<group>"; };
+		64AF28BF1856A48E0046D43A /* PlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayBoard.h; sourceTree = "<group>"; };
+		64AF28C01856A48E0046D43A /* PlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayBoard.m; sourceTree = "<group>"; };
+		64AF28C11856A48E0046D43A /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
+		64AF28C21856A48E0046D43A /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
 		64D09A3B185594AB0054E807 /* GuessWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D09A3E185594AB0054E807 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64D09A40185594AB0054E807 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -89,6 +97,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64AF28BE1856A48E0046D43A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				64AF28BF1856A48E0046D43A /* PlayBoard.h */,
+				64AF28C01856A48E0046D43A /* PlayBoard.m */,
+				64AF28C11856A48E0046D43A /* Word.h */,
+				64AF28C21856A48E0046D43A /* Word.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		64D09A32185594AB0054E807 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +143,7 @@
 		64D09A44185594AB0054E807 /* GuessWord */ = {
 			isa = PBXGroup;
 			children = (
+				64AF28BE1856A48E0046D43A /* Model */,
 				64D09A4D185594AB0054E807 /* GWAppDelegate.h */,
 				64D09A4E185594AB0054E807 /* GWAppDelegate.m */,
 				64D09A50185594AB0054E807 /* Main_iPhone.storyboard */,
@@ -305,6 +325,8 @@
 				64D09A58185594AB0054E807 /* GWViewController.m in Sources */,
 				64D09A4B185594AB0054E807 /* main.m in Sources */,
 				64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */,
+				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
+				64AF28C51856A48E0046D43A /* Word.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +335,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				64D09A6D185594AB0054E807 /* GuessWordTests.m in Sources */,
+				64AF28C61856A48E0046D43A /* Word.m in Sources */,
+				64AF28C41856A48E0046D43A /* PlayBoard.m in Sources */,
 				64AF28AA18559ECD0046D43A /* GWGridCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

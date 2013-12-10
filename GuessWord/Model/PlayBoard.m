@@ -1,0 +1,138 @@
+//
+//  PlayBoard.m
+//  DMTXW
+//
+//  Created by WangJZ on 12/9/13.
+//  Copyright (c) 2013 WangJZ. All rights reserved.
+//
+
+#import "PlayBoard.h"
+
+@interface PlayBoard()
+
+@property(nonatomic,strong) NSArray *words;//包含了全部的单词
+@property(nonatomic,strong) NSString *file; // 对应的文件
+@property(nonatomic) NSDate *date; // 游戏的日期
+
+@property(nonatomic,strong) NSString *gamename; // 游戏名字
+@property(nonatomic,strong) NSString *author; // 作者
+
+@property(nonatomic) int score;//得分
+@property(nonatomic) int percent;//完成度
+@property(nonatomic) int level;//游戏等级
+@property(nonatomic) int width;//横向有多少个格子
+@property(nonatomic) int height;//纵向有多少个格子
+@property(nonatomic) CGPoint current_point;//当前坐标x
+
+@property(nonatomic,strong)NSMutableArray *areaOfCorrect;//正确的文字
+@property(nonatomic,strong)NSMutableArray *areaOfInput;//输入的字母
+@property(nonatomic,strong)NSMutableArray *areaOfDisplay;//应该显示的内容
+
+-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
+-(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
+-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
+
+@end
+
+@implementation PlayBoard
+
+-(NSMutableArray *)areaByLazyInstance
+{
+    //初始化各种area，使用Lazy instance,初始化都为BLOCK
+    int i,j;
+    NSMutableArray *theArea = [[NSMutableArray alloc]init];
+    for (j = 0; j < self.height; j++) {
+        NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
+        for (i = 0; i < self.width; i++) {
+            [column_array addObject:BLOCK];
+        }
+        [theArea addObject:column_array];
+    }
+    return theArea;
+}
+-(NSMutableArray *)areaOfCorrect
+{
+    if (! _areaOfCorrect) _areaOfCorrect = [self areaByLazyInstance];
+    return _areaOfCorrect;
+}
+-(NSMutableArray *)areaOfInput
+{
+    if (! _areaOfInput) _areaOfInput = [self areaByLazyInstance];
+    return _areaOfInput;
+}
+
+-(NSMutableArray *)areaOfDisplay
+{
+    if (! _areaOfDisplay) _areaOfDisplay = [self areaByLazyInstance];
+    return _areaOfDisplay;
+}
+
+-(void)initArea{
+    for (Word *aWord in self.words) {
+        NSString *tmp       = aWord.tmp;
+        NSString *ans_cap   = aWord.answer_capital;
+        BOOL horizontal     = aWord.horizontal;
+        int x               = aWord.start_x;
+        int y               = aWord.start_y;
+        int length          = aWord.length;
+        for (int i = 0 ; i < length; i++) {
+            if (horizontal) {
+                if (y >= 0 && y < self.height && x+i >= 0 && x+i < self.width) {
+                    //正确答案（首字母）
+                    self.areaOfCorrect[y][x+i] = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    
+                    //用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
+                    self.areaOfInput[y][x+i]   = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                    
+                    //应该显示的内容：当用户输入和正确答案一致时，显示汉字，否则显示用户输入
+                    if ([self.areaOfCorrect[y][x+i] isEqualToString:self.areaOfInput[y][x+i]]) {
+                        self.areaOfDisplay[y][x+i] = [aWord.answer_chinese_character substringWithRange:NSMakeRange(i,1)];
+                    } else {
+                        self.areaOfDisplay[y][x+i] = self.areaOfInput[y][x+i];
+                    }
+                }
+            } else {
+                if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
+                    self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    self.areaOfCorrect[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                    if ([self.areaOfCorrect[y+i][x] isEqualToString:self.areaOfInput[y][x+i]]) {
+                        self.areaOfDisplay[y+i][x] = [aWord.answer_chinese_character substringWithRange:NSMakeRange(i,1)];
+                    } else {
+                        self.areaOfDisplay[y+i][x] = self.areaOfInput[y][x+i];
+                    }
+                }
+            }
+        }
+    }
+}
+
+-(PlayBoard *)initWith{
+    self = [super init];
+    if (self) {
+        Word *word1 = [[Word alloc]init];
+        word1.answer_capital = @"hyl";
+        word1.answer_chinese_character = @"好运来";
+        word1.mask = @"100";
+        word1.description = @"时来运转";
+        word1.tmp = @"h-l";
+        word1.horizontal = YES;
+        word1.start_x = 1;
+        word1.start_y = 2;
+        word1.length = 3;
+        self.words = @[word1];
+        self.width = 5;
+        self.height = 5;
+        [self initArea];
+    }
+    return self;
+}
+
+
+
+
+
+
+
+
+
+@end

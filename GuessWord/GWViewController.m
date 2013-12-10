@@ -30,6 +30,8 @@ NSInteger gridWidthNum = 6;
     [super viewDidLoad];
     [self createGridView];
     [self loadData];
+    //now we have data already, draw the actual grid.
+    [self collectionViewCellSize];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -111,6 +113,11 @@ NSInteger gridWidthNum = 6;
 - (void)collectionViewCellSize
 {
     NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
+    
+    int temp = (int)_gridView.bounds.size.width % (int)gridWidthNum;
+    CGRect gridViewBounds = CGRectMake(0, 0, _gridView.bounds.size.width-temp+gridWidthNum-1, _gridView.bounds.size.height);
+    _gridView.bounds = gridViewBounds;
+    
     int width = (_gridView.bounds.size.width - gridWidthNum + 1) / gridWidthNum;
     int height = width;
     gridWidth = width;
@@ -118,7 +125,6 @@ NSInteger gridWidthNum = 6;
 }
 
 - (CGSize)collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self collectionViewCellSize];
     return CGSizeMake(gridWidth, gridHeight);
 }
 
