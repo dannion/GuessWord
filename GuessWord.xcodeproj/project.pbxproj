@@ -33,6 +33,7 @@
 		64D09A6D185594AB0054E807 /* GuessWordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D09A6C185594AB0054E807 /* GuessWordTests.m */; };
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
 		8373AB5C1857040500931677 /* testdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* testdata.json */; };
+		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		831A3C061856BF76005CEF99 /* ModelTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTest.h; sourceTree = "<group>"; };
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* testdata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testdata.json; path = json_file/testdata.json; sourceTree = "<group>"; };
+		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		A1A21F5321544896AA0D8298 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -203,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				8373AB5B1857040500931677 /* testdata.json */,
+				8373AB5D18570CD100931677 /* td.json */,
 			);
 			name = Json_file;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				64AF28C81856B9160046D43A /* 1.jpeg in Resources */,
 				64D09A55185594AB0054E807 /* Main_iPad.storyboard in Resources */,
 				8373AB5C1857040500931677 /* testdata.json in Resources */,
+				8373AB5E18570CD100931677 /* td.json in Resources */,
 				64D09A5A185594AB0054E807 /* Images.xcassets in Resources */,
 				64D09A52185594AB0054E807 /* Main_iPhone.storyboard in Resources */,
 				64D09A49185594AB0054E807 /* InfoPlist.strings in Resources */,

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408357231.061034"
+            timestampString = "408360541.205948"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
             landmarkName = "-saveToFile:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/ModelTest.m"
-            timestampString = "408356443.305458"
+            timestampString = "408360541.205948"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "+testFunction"
             landmarkType = "5">
          </BreakpointContent>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/ModelTest.m"
-            timestampString = "408356469.15662"
+            filePath = "GuessWord/Model/PlayBoard.m"
+            timestampString = "408360541.205948"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "+testFunction"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
+            landmarkName = "-readPlayBoardFromJsonFile:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

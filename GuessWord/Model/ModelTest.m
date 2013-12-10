@@ -11,7 +11,7 @@
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard *pb = [[PlayBoard alloc]initWith];
+    PlayBoard *pb = [[PlayBoard alloc]initWithJsonFile:@"td"];
     NSArray *a = [pb current_state];
     NSLog(@"%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
@@ -24,7 +24,6 @@
     a = [pb current_state];
     //BOOL suc = [pb isGameBoardCompleted];
 
-    [pb saveToFile:@"chazhao.json"];
     NSLog(@"%@",pb);
 
 
