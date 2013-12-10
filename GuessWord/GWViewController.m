@@ -9,6 +9,8 @@
 #import "GWViewController.h"
 #import "GWGridCell.h"
 #import "ModelTest.h"
+#import "PMCustomKeyboard.h"
+
 
 #define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 180
 
@@ -37,6 +39,8 @@ NSInteger gridColNum = 10; //网格列数
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:nil];
+        
     }
     return self;
 }
@@ -217,6 +221,7 @@ NSInteger gridColNum = 10; //网格列数
     //只有选中该cell,cell内的label才可交互。
     selectedGridCell.label.userInteractionEnabled = YES;
     // 弹起键盘
+    [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
     [selectedGridCell.label becomeFirstResponder];
 }
 
@@ -268,13 +273,19 @@ NSInteger gridColNum = 10; //网格列数
 #pragma mark UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField.text.length>1) {
-        return NO;
-    }
+//    if (textField.text.length>1) {
+//        return NO;
+//    }
     
     return YES;
 }
 
+#pragma mark -
+#pragma mark UITextFieldTextDidChangeNotification
+- (void)textFieldTextDidChangeNotification:(NSNotification *)notification
+{
+
+}
 
 #pragma mark -
 #pragma mark keyboardNotification
