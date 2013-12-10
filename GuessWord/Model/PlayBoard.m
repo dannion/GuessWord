@@ -32,16 +32,41 @@
 /*********************************私有API*************************/
 -(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
 
--(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
+//-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
 -(void) updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
--(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
--(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
+//-(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
+//-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
     
 @end
 
 @implementation PlayBoard
+/*判断该点是否能够点击*/
+#warning 当前的实现方式看该位置是否是墙，而不考虑是不是有汉字，有待商榷
+-(BOOL)isClickableAtPoint:(CGPoint)point{
+    int x = point.x;
+    int y = point.y;
+    if ([self.areaOfCorrect[y][x]  isEqualToString: BLOCK]) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+/*是否闯关成功*/
+-(BOOL)isCompleted{
+    //遍历所有单词，只要其中有一个单词没有完成，那么就返回未完成
+    BOOL completed = YES;
+    for (Word *aWord in self.words) {
+        if (![self isBingoOfWord:aWord]) {
+            completed = NO;
+            break;
+        }
+    }
+    return completed;
+}
+
 
 //在某个坐标上输入一个字母，修改areaOfInput
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point{
