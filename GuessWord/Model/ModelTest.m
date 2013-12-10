@@ -22,8 +22,9 @@
     [pb updateBoardWithInputValue:@"y" atPoint:CGPointMake(2, 2)];
     [pb updateBoardWithInputValue:@"l" atPoint:CGPointMake(3, 2)];
     a = [pb current_state];
-    BOOL suc = [pb isGameBoardCompleted];
+    //BOOL suc = [pb isGameBoardCompleted];
 
+    [pb saveToFile:@"chazhao.json"];
     NSLog(@"%@",pb);
 
 
