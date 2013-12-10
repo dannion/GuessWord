@@ -37,6 +37,8 @@
 //Controller调用方式：先用initWith初始化，然后每次用户输入更新Board，获取current_state
 
 //测试用
+-(void)saveToFile:(NSString *)saveFile;
+
 -(NSString*)description;
 
 

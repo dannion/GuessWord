@@ -21,12 +21,12 @@
 /*********************************私有API*************************/
 
 -(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
--(void) updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
+-(void)updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
 -(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
 
 //-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
-//-(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
+-(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
 //-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
     
@@ -300,8 +300,78 @@
 }
 
 
-
-
+//将信息保存到文件中（或数据库）
+-(void)saveToFile:(NSString *)saveFile{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
+    
+    NSMutableArray *word_writable_array = [[NSMutableArray alloc]initWithCapacity:50];
+//    for (Word *aWord in self.words) {
+//        NSDictionary *aWordDic = @{@"cap":aWord.answer_capital,
+//                                   @"chi":aWord.answer_chinese_character,
+//                                   @"mask":aWord.mask,
+//                                   @"desc":aWord.description,
+//                                   @"tmp":aWord.tmp,
+//                                   @"horiz":aWord.horizontal == YES? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
+//                                   @"x":[NSNumber numberWithInt:aWord.start_x],
+//                                   @"y":[NSNumber numberWithInt:aWord.start_y],
+//                                   @"len":[NSNumber numberWithInt:aWord.length]
+//                                   };
+//        [word_writable_array addObject:aWordDic];
+//    }
+//    NSDictionary *dictionary = @{@"file":self.file,
+//                                 @"date":self.date,
+//                                 @"gamename":self.gamename,
+//                                 @"author":self.author,
+//                                 @"score":[NSNumber numberWithInt:self.score],
+//                                 @"percent":[NSNumber numberWithInt:self.percent],
+//                                 @"level":[NSNumber numberWithInt:self.level],
+//                                 @"width":[NSNumber numberWithInt:self.width],
+//                                 @"height":[NSNumber numberWithInt:self.height],
+//                                 @"words":word_writable_array
+//                                 };
+    for (Word *aWord in self.words) {
+        NSDictionary *aWordDic = @{@"cap":aWord.answer_capital              == nil ? @"":aWord.answer_capital,
+                                   @"chi":aWord.answer_chinese_character    == nil ? @"":aWord.answer_chinese_character,
+                                   @"mask":aWord.mask                       == nil ? @"":aWord.mask,
+                                   @"desc":aWord.description                == nil ? @"":aWord.description,
+                                   @"tmp":aWord.tmp                         == nil ? @"":aWord.tmp,
+                                   @"horiz":aWord.horizontal                == YES? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
+                                   @"x":[NSNumber numberWithInt:aWord.start_x],
+                                   @"y":[NSNumber numberWithInt:aWord.start_y],
+                                   @"len":[NSNumber numberWithInt:aWord.length]
+                                   };
+        [word_writable_array addObject:aWordDic];
+    }
+    NSDictionary *dictionary = @{@"file":self.file == nil ? @"":self.file,
+                                 @"date":self.date == nil ? @"":self.date,
+                                 @"gamename":self.gamename == nil ? @"":self.gamename,
+                                 @"author":self.author == nil ? @"":self.author,
+                                 @"score":[NSNumber numberWithInt:self.score],
+                                 @"percent":[NSNumber numberWithInt:self.percent],
+                                 @"level":[NSNumber numberWithInt:self.level],
+                                 @"width":[NSNumber numberWithInt:self.width],
+                                 @"height":[NSNumber numberWithInt:self.height],
+                                 @"words":word_writable_array
+                                 };
+    
+    
+//    [dictionary setValue:[NSNumber numberWithUnsignedInteger:51] forKey:@"Age"];
+//    NSArray *arrayOfAnthonysChildren = [[NSArray alloc] initWithObjects:@"Anthony's Son 1", @"Anthony's Daughter 1", @"Anthony's Son 2", @"Anthony's Son 3", @"Anthony's Daughter 2", nil];
+//    [dictionary setValue:arrayOfAnthonysChildren forKey:@"children"];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) {
+        NSLog(@"dic->%@",error);
+    }
+    BOOL succeed = [jsonData writeToFile:file atomically:YES];
+    if (succeed) {
+        NSLog(@"Save succeed");
+    }else {
+        NSLog(@"Save fail");
+    }
+}
 
 
 

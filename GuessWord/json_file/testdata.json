@@ -1,0 +1,24 @@
+{
+  "score" : 0,
+  "level" : 0,
+  "author" : "",
+  "words" : [
+    {
+      "desc" : "时来运转",
+      "tmp" : "h-l",
+      "horiz" : 1,
+      "x" : 1,
+      "y" : 2,
+      "len" : 3,
+      "chi" : "好运来",
+      "cap" : "hyl",
+      "mask" : "100"
+    }
+  ],
+  "file" : "",
+  "date" : "",
+  "gamename" : "",
+  "percent" : 0,
+  "width" : 5,
+  "height" : 5
+}
