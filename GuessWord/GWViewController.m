@@ -10,23 +10,22 @@
 #import "GWGridCell.h"
 #import "ModelTest.h"
 
-#define kGuessWordHeightChangeAmountWhenShowKeyBoard 180
+#define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 180
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
-NSInteger gridHeightNum = 10;
-NSInteger gridWidthNum = 10;
+
+NSInteger gridRowNum = 10;//网格行数
+NSInteger gridColNum = 10; //网格列数
 
 @interface GWViewController ()<PSUICollectionViewDelegateFlowLayout, UITextFieldDelegate>
 {
-    NSInteger gridHeight;//
-    NSInteger gridWidth;//
+    NSInteger gridCellHeight;//网格单元的高度
+    NSInteger gridCellWidth; //网格单元的宽度
     GWGridCell* selectedGridCell;
 }
 
-@property (nonatomic, strong) UIView* contentView;
-
-@property (nonatomic, weak) IBOutlet PSUICollectionView* gridView;
-@property (nonatomic, strong) UIImageView* gridViewBackgroundImageView;
+@property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
+@property (nonatomic, strong) UIImageView* gridViewBackgroundImageView; //网格背景页面
 
 @end
 
@@ -87,16 +86,16 @@ NSInteger gridWidthNum = 10;
 {
     NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
     
-    int temp = (int)_gridView.bounds.size.width % (int)gridWidthNum;
+    int temp = (int)_gridView.bounds.size.width % (int)gridColNum;
     int newWidthAndHeight = _gridView.bounds.size.width-temp-1;
     CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
     _gridView.frame = gridViewFrame;
     
     
-    int width = (_gridView.bounds.size.width - gridWidthNum + 1) / gridWidthNum;
+    int width = (_gridView.bounds.size.width - gridColNum + 1) / gridColNum;
     int height = width;
-    gridWidth = width;
-    gridHeight = height;
+    gridCellWidth = width;
+    gridCellHeight = height;
 }
 
 - (void)addGridViewBackgroundImage
@@ -112,9 +111,11 @@ NSInteger gridWidthNum = 10;
     [self.view bringSubviewToFront:_gridView];
 }
 
+#pragma mark -
+#pragma mark LoadData
 - (void)loadData
 {
-    //从本地取
+    //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
     [self refetchDataFromNetWork];
@@ -125,7 +126,8 @@ NSInteger gridWidthNum = 10;
     
 }
 
-- (void)refetchDataFromNetWork{
+- (void)refetchDataFromNetWork
+{
     
 }
 
@@ -138,13 +140,6 @@ NSInteger gridWidthNum = 10;
 #pragma mark -
 #pragma mark Getters & Setters
 
-- (UIView*)contentView
-{
-    if (!_contentView) {
-        _contentView = [[UIView alloc] init];
-    }
-    return _contentView;
-}
 - (UIImageView *)gridViewBackgroundImageView
 {
     if (!_gridViewBackgroundImageView) {
@@ -189,13 +184,13 @@ NSInteger gridWidthNum = 10;
 
 - (CGSize)collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(gridWidth, gridHeight);
+    return CGSizeMake(gridCellWidth, gridCellHeight);
 }
 
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return gridHeightNum * gridWidthNum;
+    return gridRowNum * gridColNum;
 }
 
 #pragma mark -
@@ -219,6 +214,7 @@ NSInteger gridWidthNum = 10;
     // change color
     selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
     
+    //只有选中该cell,cell内的label才可交互。
     selectedGridCell.label.userInteractionEnabled = YES;
     // 弹起键盘
     [selectedGridCell.label becomeFirstResponder];
@@ -258,6 +254,7 @@ NSInteger gridWidthNum = 10;
 }
 
 #pragma mark -
+#pragma mark - Button Action
 - (void)tapRequest
 {
     if (selectedGridCell) {
@@ -274,39 +271,46 @@ NSInteger gridWidthNum = 10;
 #pragma mark -
 #pragma mark keyboardNotification
 
+//弹出键盘时的动画
 - (void)keyboardWillShowNotification:(NSNotification *)notification
 {
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect newFrame = self.gridView.frame;
-        newFrame.size.height -= kGuessWordHeightChangeAmountWhenShowKeyBoard;
-        self.gridView.frame = newFrame;
-        
-        newFrame = self.gridViewBackgroundImageView.frame;
-        newFrame.size.height -= kGuessWordHeightChangeAmountWhenShowKeyBoard;
-        self.gridViewBackgroundImageView.frame = newFrame;
-    } completion:^(BOOL finished){
-        
-    }];
-
-    
+//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        CGRect newFrame = self.gridViewBackgroundImageView.frame;
+//        newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+//        self.gridViewBackgroundImageView.frame = newFrame;
+//       
+//    } completion:^(BOOL finished){
+//        CGRect newFrame = self.gridView.frame;
+//        newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+//        self.gridView.frame = newFrame;
+//    }];
+    CGRect newFrame = self.gridViewBackgroundImageView.frame;
+    newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+    self.gridViewBackgroundImageView.frame = newFrame;
+    newFrame = self.gridView.frame;
+    newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+    self.gridView.frame = newFrame;
 
 }
 
+//收起键盘时的动画
 - (void)keyboardWillHideNotification:(NSNotification *)notification
 {
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect newFrame = self.gridView.frame;
-        newFrame.size.height += kGuessWordHeightChangeAmountWhenShowKeyBoard;
-        self.gridView.frame = newFrame;
-        
-        newFrame = self.gridViewBackgroundImageView.frame;
-        newFrame.size.height += kGuessWordHeightChangeAmountWhenShowKeyBoard;
-        self.gridViewBackgroundImageView.frame = newFrame;
-    } completion:^(BOOL finished){
-        
-    }];
-    
-    
+//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        CGRect newFrame = self.gridView.frame;
+//        newFrame.size.height += kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+//        self.gridView.frame = newFrame;
+//    } completion:^(BOOL finished){
+//        CGRect newFrame = self.gridViewBackgroundImageView.frame;
+//        newFrame.size.height += kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+//        self.gridViewBackgroundImageView.frame = newFrame;
+//    }];
+    CGRect newFrame = self.gridViewBackgroundImageView.frame;
+    newFrame.size.height += kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+    self.gridViewBackgroundImageView.frame = newFrame;
+    newFrame = self.gridView.frame;
+    newFrame.size.height += kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
+    self.gridView.frame = newFrame;
 }
 
 #pragma mark -
@@ -323,6 +327,17 @@ NSInteger gridWidthNum = 10;
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
+}
+
+#pragma mark -
+#pragma mark Internal Method
+- (CGPoint)getLocationFromIndexPath:(NSIndexPath *)indexPath
+{
+    CGPoint location = CGPointMake(0, 0);
+    location.x = indexPath.row % gridColNum;
+    location.y = indexPath.row / gridColNum;
+    
+    return location;
 }
 
 @end
