@@ -41,6 +41,32 @@
 
 @implementation PlayBoard
 
+//为了打印输出查看结果
+-(NSString*)description
+{
+    NSMutableString *retString = [[NSMutableString alloc]init];
+    [retString appendString:@"\n[Correct]\n"];
+    for (NSArray *row_array in self.areaOfCorrect) {
+        for (NSString *columnString in row_array) {
+            [retString appendString:columnString];
+            [retString appendString:@" "];
+        }
+        [retString appendString:@"\n"];
+    }
+    
+    [retString appendString:@"\[Input]\n"];
+    for (NSArray *row_array in self.areaOfInput) {
+        for (NSString *columnString in row_array) {
+            [retString appendString:columnString];
+            [retString appendString:@" "];
+        }
+        [retString appendString:@"\n"];
+    }
+    
+    
+    return retString;
+}
+
 -(NSMutableArray *)areaByLazyInstance
 {
     //初始化各种area，使用Lazy instance,初始化都为BLOCK

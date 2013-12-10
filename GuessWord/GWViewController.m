@@ -8,7 +8,7 @@
 
 #import "GWViewController.h"
 #import "GWGridCell.h"
-
+#import "ModelTest.h"
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 NSInteger gridHeightNum = 10;
@@ -40,6 +40,8 @@ NSInteger gridWidthNum = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    #warning 测试用，后期应删掉
+    [ModelTest testFunction];
     [self createGridView];
     
     [self loadData];

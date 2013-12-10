@@ -19,6 +19,7 @@ enum DIRECTION{
 
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
+-(NSString*)description;
 
 /**************************************************API******************************************/
 
