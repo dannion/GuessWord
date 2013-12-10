@@ -12,17 +12,6 @@
 @interface PlayBoard()
 
 /*********************************私有变量*************************/
-@property(nonatomic,strong) NSArray *words;//包含了全部的单词
-@property(nonatomic,strong) NSString *file; // 对应的文件
-@property(nonatomic) NSDate *date; // 游戏的日期
-@property(nonatomic,strong) NSString *gamename; // 游戏名字
-@property(nonatomic,strong) NSString *author; // 作者
-@property(nonatomic) int score;//得分
-@property(nonatomic) int percent;//完成度
-@property(nonatomic) int level;//游戏等级
-@property(nonatomic) int width;//横向有多少个格子
-@property(nonatomic) int height;//纵向有多少个格子
-@property(nonatomic) CGPoint current_point;//当前坐标x
 
 @property(nonatomic,strong)NSMutableArray *areaOfCorrect;//正确的文字
 @property(nonatomic,strong)NSMutableArray *areaOfInput;//输入的字母
@@ -30,11 +19,13 @@
 
 
 /*********************************私有API*************************/
--(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
 
-//-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
+-(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
 -(void) updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
+-(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
+
+//-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
 //-(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
 //-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
@@ -42,12 +33,72 @@
 @end
 
 @implementation PlayBoard
+
+#pragma mark LAZY-INSTANCE
+#pragma mark --
+-(NSMutableArray *)areaByLazyInstance
+{
+    //初始化各种area，使用Lazy instance,初始化都为BLOCK
+    int i,j;
+    NSMutableArray *theArea = [[NSMutableArray alloc]init];
+    for (j = 0; j < self.height; j++) {
+        NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
+        for (i = 0; i < self.width; i++) {
+            [column_array addObject:BLOCK];
+        }
+        [theArea addObject:column_array];
+    }
+    return theArea;
+}
+-(NSMutableArray *)areaOfCorrect
+{
+    if (! _areaOfCorrect) _areaOfCorrect = [self areaByLazyInstance];
+    return _areaOfCorrect;
+}
+-(NSMutableArray *)areaOfInput
+{
+    if (! _areaOfInput) _areaOfInput = [self areaByLazyInstance];
+    return _areaOfInput;
+}
+
+-(NSMutableArray *)areaOfDisplay
+{
+    if (! _areaOfDisplay) _areaOfDisplay = [self areaByLazyInstance];
+    return _areaOfDisplay;
+}
+
+
+#pragma mark PUBLIC-API
+#pragma mark --
+
+//判断某个点所在单词是否完成
+-(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal{
+    //先获取当前的点上对应的那两个词
+    Word *word = [self wordOfPoint:point inDirection:isHorizontal];
+    //查看对应的单词是否完成
+    if ([self isBingoOfWord:word]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+//Lazy更新,返回得到当前应该显示的状态
+-(NSArray *)current_state
+{
+    //batch update
+    for (Word *aWord in self.words) {
+        [self updateAreaOfDisplayByWord:aWord];
+    }
+    return self.areaOfDisplay;
+}
+
 /*判断该点是否能够点击*/
 #warning 当前的实现方式看该位置是否是墙，而不考虑是不是有汉字，有待商榷
 -(BOOL)isClickableAtPoint:(CGPoint)point{
     int x = point.x;
     int y = point.y;
-    if ([self.areaOfCorrect[y][x]  isEqualToString: BLOCK]) {
+    if ([self.areaOfCorrect[y][x] isEqualToString: BLOCK]) {
         return NO;
     }else{
         return YES;
@@ -55,7 +106,7 @@
 }
 
 /*是否闯关成功*/
--(BOOL)isCompleted{
+-(BOOL)isGameBoardCompleted{
     //遍历所有单词，只要其中有一个单词没有完成，那么就返回未完成
     BOOL completed = YES;
     for (Word *aWord in self.words) {
@@ -78,14 +129,14 @@
         
         //if (![self.areaOfCorrect[y][x] isEqualToString:BLOCK] && ![self.areaOfInput[y][x] isEqualToString:self.areaOfCorrect[y][x]]) {
         
-        //check该坐标位置不是Block,暂时不检查是否已经是正确答案
+#warning check该坐标位置不是Block,暂时不检查是否已经是正确答案的情况
         if (![self.areaOfCorrect[y][x] isEqualToString:BLOCK]) {
             self.areaOfInput[y][x] = oneAlphabet;
         }
     }
 }
 
-//指定的初始化函数
+/*指定的初始化函数*/
 -(PlayBoard *)initWith{
     self = [super init];
     if (self) {
@@ -142,37 +193,9 @@
     return retString;
 }
 
--(NSMutableArray *)areaByLazyInstance
-{
-    //初始化各种area，使用Lazy instance,初始化都为BLOCK
-    int i,j;
-    NSMutableArray *theArea = [[NSMutableArray alloc]init];
-    for (j = 0; j < self.height; j++) {
-        NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
-        for (i = 0; i < self.width; i++) {
-            [column_array addObject:BLOCK];
-        }
-        [theArea addObject:column_array];
-    }
-    return theArea;
-}
--(NSMutableArray *)areaOfCorrect
-{
-    if (! _areaOfCorrect) _areaOfCorrect = [self areaByLazyInstance];
-    return _areaOfCorrect;
-}
--(NSMutableArray *)areaOfInput
-{
-    if (! _areaOfInput) _areaOfInput = [self areaByLazyInstance];
-    return _areaOfInput;
-}
 
--(NSMutableArray *)areaOfDisplay
-{
-    if (! _areaOfDisplay) _areaOfDisplay = [self areaByLazyInstance];
-    return _areaOfDisplay;
-}
-
+#pragma mark PRIVATE-API
+#pragma mark --
 
 //根据tmp信息初始化两个area数组，只在最初调用
 -(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP{
@@ -277,27 +300,9 @@
 }
 
 
-//判断某个点所在单词是否完成
--(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal{
-    //先获取当前的点上对应的那两个词
-    Word *word = [self wordOfPoint:point inDirection:isHorizontal];
-    //查看对应的单词是否完成
-    if ([self isBingoOfWord:word]) {
-        return YES;
-    }else{
-        return NO;
-    }
-}
 
-//Lazy更新,返回得到当前应该显示的状态
--(NSArray *)current_state
-{
-    //batch update
-    for (Word *aWord in self.words) {
-        [self updateAreaOfDisplayByWord:aWord];
-    }
-    return self.areaOfDisplay;
-}
+
+
 
 
 
