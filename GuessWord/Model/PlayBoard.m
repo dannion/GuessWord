@@ -10,13 +10,12 @@
 
 @interface PlayBoard()
 
+/*********************************私有变量*************************/
 @property(nonatomic,strong) NSArray *words;//包含了全部的单词
 @property(nonatomic,strong) NSString *file; // 对应的文件
 @property(nonatomic) NSDate *date; // 游戏的日期
-
 @property(nonatomic,strong) NSString *gamename; // 游戏名字
 @property(nonatomic,strong) NSString *author; // 作者
-
 @property(nonatomic) int score;//得分
 @property(nonatomic) int percent;//完成度
 @property(nonatomic) int level;//游戏等级
@@ -26,12 +25,18 @@
 
 @property(nonatomic,strong)NSMutableArray *areaOfCorrect;//正确的文字
 @property(nonatomic,strong)NSMutableArray *areaOfInput;//输入的字母
-@property(nonatomic,strong)NSMutableArray *areaOfDisplay;//应该显示的内容
+@property(nonatomic,strong)NSMutableArray *areaOfDisplay;//应该显示的内容，目前看来没啥用处，可以考虑删掉。。。
+
+
+/*********************************私有函数*************************/
+-(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
 
 -(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
+
 -(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
 -(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
+    
 @end
 
 @implementation PlayBoard
@@ -67,7 +72,9 @@
     return _areaOfDisplay;
 }
 
--(void)initArea{
+
+//根据tmp信息初始化两个area数组
+-(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP{
     for (Word *aWord in self.words) {
         NSString *tmp       = aWord.tmp;
         NSString *ans_cap   = aWord.answer_capital;
@@ -83,7 +90,28 @@
                     
                     //用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
                     self.areaOfInput[y][x+i]   = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
-                    
+                }
+            } else {
+                if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
+                    self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    self.areaOfCorrect[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                }
+            }
+        }
+    }
+}
+
+//更新并返回得到当前应该显示的状态
+-(NSArray *)current_state
+{
+    for (Word *aWord in self.words) {
+        BOOL horizontal     = aWord.horizontal;
+        int x               = aWord.start_x;
+        int y               = aWord.start_y;
+        int length          = aWord.length;
+        for (int i = 0 ; i < length; i++) {
+            if (horizontal) {
+                if (y >= 0 && y < self.height && x+i >= 0 && x+i < self.width) {
                     //应该显示的内容：当用户输入和正确答案一致时，显示汉字，否则显示用户输入
                     if ([self.areaOfCorrect[y][x+i] isEqualToString:self.areaOfInput[y][x+i]]) {
                         self.areaOfDisplay[y][x+i] = [aWord.answer_chinese_character substringWithRange:NSMakeRange(i,1)];
@@ -93,8 +121,6 @@
                 }
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
-                    self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
-                    self.areaOfCorrect[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
                     if ([self.areaOfCorrect[y+i][x] isEqualToString:self.areaOfInput[y][x+i]]) {
                         self.areaOfDisplay[y+i][x] = [aWord.answer_chinese_character substringWithRange:NSMakeRange(i,1)];
                     } else {
@@ -104,8 +130,24 @@
             }
         }
     }
+    return self.areaOfDisplay;
 }
 
+//在某个坐标上输入一个字母
+-(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point{
+    int x = (int)point.x;
+    int y = (int)point.y;
+    
+    //check坐标在方格内
+    if (x>= 0 && x< self.width && y>= 0 && y <self.height ) {
+        //check该坐标位置不是Block，不是汉字
+        if (![self.areaOfCorrect[y][x] isEqualToString:BLOCK] && ![self.areaOfInput[y][x] isEqualToString:self.areaOfCorrect[y][x]]) {
+            self.areaOfInput[y][x] = oneAlphabet;
+        }
+    }
+}
+
+//指定的初始化函数
 -(PlayBoard *)initWith{
     self = [super init];
     if (self) {
@@ -122,7 +164,7 @@
         self.words = @[word1];
         self.width = 5;
         self.height = 5;
-        [self initArea];
+        [self initAreaOfInputAndAreaOfCorrectBasedOnTMP];
     }
     return self;
 }
