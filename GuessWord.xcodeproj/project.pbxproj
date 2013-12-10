@@ -36,6 +36,10 @@
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
 		8373AB5C1857040500931677 /* testdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* testdata.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
+		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
+		8373AB691857357E00931677 /* PlayBoardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB681857357E00931677 /* PlayBoardHelper.m */; };
+		83B43A2418574176007E58C2 /* CDPlayBoards.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B43A2318574176007E58C2 /* CDPlayBoards.m */; };
+		83B43A2718574191007E58C2 /* CDPlayBoards+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B43A2618574191007E58C2 /* CDPlayBoards+Create.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +88,13 @@
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* testdata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testdata.json; path = json_file/testdata.json; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
+		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		8373AB671857357E00931677 /* PlayBoardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayBoardHelper.h; sourceTree = "<group>"; };
+		8373AB681857357E00931677 /* PlayBoardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayBoardHelper.m; sourceTree = "<group>"; };
+		83B43A2218574176007E58C2 /* CDPlayBoards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoards.h; sourceTree = "<group>"; };
+		83B43A2318574176007E58C2 /* CDPlayBoards.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoards.m; sourceTree = "<group>"; };
+		83B43A2518574191007E58C2 /* CDPlayBoards+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDPlayBoards+Create.h"; sourceTree = "<group>"; };
+		83B43A2618574191007E58C2 /* CDPlayBoards+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDPlayBoards+Create.m"; sourceTree = "<group>"; };
 		A1A21F5321544896AA0D8298 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +126,13 @@
 		64AF28BE1856A48E0046D43A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */,
+				83B43A2218574176007E58C2 /* CDPlayBoards.h */,
+				83B43A2318574176007E58C2 /* CDPlayBoards.m */,
+				83B43A2518574191007E58C2 /* CDPlayBoards+Create.h */,
+				83B43A2618574191007E58C2 /* CDPlayBoards+Create.m */,
+				8373AB671857357E00931677 /* PlayBoardHelper.h */,
+				8373AB681857357E00931677 /* PlayBoardHelper.m */,
 				64AF28BF1856A48E0046D43A /* PlayBoard.h */,
 				64AF28C01856A48E0046D43A /* PlayBoard.m */,
 				64AF28C11856A48E0046D43A /* Word.h */,
@@ -217,7 +235,7 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
-        8373AB581857020600931677 /* Json_file */ = {
+		8373AB581857020600931677 /* Json_file */ = {
 			isa = PBXGroup;
 			children = (
 				8373AB5B1857040500931677 /* testdata.json */,
@@ -367,12 +385,16 @@
 			files = (
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
 				64D09A58185594AB0054E807 /* GWViewController.m in Sources */,
+				83B43A2418574176007E58C2 /* CDPlayBoards.m in Sources */,
 				64D09A4B185594AB0054E807 /* main.m in Sources */,
 				64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */,
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
+				8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
+				8373AB691857357E00931677 /* PlayBoardHelper.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,
+				83B43A2718574191007E58C2 /* CDPlayBoards+Create.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +636,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = 8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 64D09A33185594AB0054E807 /* Project object */;
 }

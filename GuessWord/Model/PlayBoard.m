@@ -24,9 +24,8 @@
 -(void)updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
 -(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
--(BOOL)readPlayBoardFromJsonFile:(NSString *)fromFile;
+
 //-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
--(PlayBoard *)readFromFile:(NSString *)fromFile;//根据信息生成PlayBoard
 //-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
     
@@ -137,24 +136,48 @@
 }
 
 /*指定的初始化函数*/
--(PlayBoard *)initWithJsonFile:(NSString *)json_file{
+-(PlayBoard *)initWithJsonData:(NSData *)jsonData{
     self = [super init];
     if (self) {
-//        Word *word1 = [[Word alloc]init];
-//        word1.answer_capital = @"hyl";
-//        word1.answer_chinese_character = @"好运来";
-//        word1.mask = @"100";
-//        word1.description = @"时来运转";
-//        word1.tmp = @"h-l";
-//        word1.horizontal = YES;
-//        word1.start_x = 1;
-//        word1.start_y = 2;
-//        word1.length = 3;
-//        self.words = @[word1];
-//        self.width = 5;
-//        self.height = 5;
-        [self readPlayBoardFromJsonFile:json_file];
-
+        NSError *error = nil;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+        if (jsonObject != nil && error == nil){
+            assert([jsonObject isKindOfClass:[NSDictionary class]]);
+            NSDictionary *playBoardDic = (NSDictionary *)jsonObject;
+            
+            /*********解析每一个单词*********/
+            NSArray *words_json_arr = [playBoardDic objectForKey:@"words"];
+            NSMutableArray *output_words = [[NSMutableArray alloc]initWithCapacity:50];
+            for (NSDictionary *aWordDic in words_json_arr) {
+                Word *tmpWord = [[Word alloc]init];
+                tmpWord.answer_capital              = [aWordDic objectForKey:@"cap"];
+                tmpWord.answer_chinese_character    = [aWordDic objectForKey:@"chi"];
+                tmpWord.mask                        = [aWordDic objectForKey:@"mask"];
+                tmpWord.description                 = [aWordDic objectForKey:@"desc"];
+                tmpWord.tmp                         = [aWordDic objectForKey:@"tmp"];
+                tmpWord.horizontal                  = [(NSNumber *)[aWordDic objectForKey:@"horiz"] intValue];
+                tmpWord.start_x                     = [(NSNumber *)[aWordDic objectForKey:@"x"] intValue];
+                tmpWord.start_y                     = [(NSNumber *)[aWordDic objectForKey:@"y"] intValue];
+                tmpWord.length                      = [(NSNumber *)[aWordDic objectForKey:@"len"] intValue];
+                [output_words addObject:tmpWord];
+            }
+            
+            self.words      = output_words;
+            
+            /*********解析基础数据*********/
+            self.file       = [playBoardDic objectForKey:@"file"];
+            self.category   = [playBoardDic objectForKey:@"category"];
+            self.date       = [playBoardDic objectForKey:@"date"];
+            self.gamename   = [playBoardDic objectForKey:@"gamename"];
+            self.author     = [playBoardDic objectForKey:@"author"];
+            
+            self.score      = [(NSNumber *)[playBoardDic objectForKey:@"score"] intValue];
+            self.percent    = [(NSNumber *)[playBoardDic objectForKey:@"percent"] intValue];
+            self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
+            self.width      = [(NSNumber *)[playBoardDic objectForKey:@"width"] intValue];
+            self.height     = [(NSNumber *)[playBoardDic objectForKey:@"height"] intValue];
+            [self initAreaOfInputAndAreaOfCorrectBasedOnTMP];
+        }
     }
     return self;
 }
@@ -300,59 +323,24 @@
     return bingo;
 }
 
--(BOOL)readPlayBoardFromJsonFile:(NSString *)fromFile;
-{
-    NSString *json_file = [[NSBundle mainBundle] pathForResource:fromFile ofType:@"json"];
-    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:json_file];
-    NSError *error = nil;
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
-    if (jsonObject != nil && error == nil){
-        assert([jsonObject isKindOfClass:[NSDictionary class]]);
-        NSDictionary *playBoardDic = (NSDictionary *)jsonObject;
-        
-        /*********解析每一个单词*********/
-        NSArray *words_json_arr = [playBoardDic objectForKey:@"words"];
-        NSMutableArray *output_words = [[NSMutableArray alloc]initWithCapacity:50];
-        for (NSDictionary *aWordDic in words_json_arr) {
-            Word *tmpWord = [[Word alloc]init];
-            tmpWord.answer_capital              = [aWordDic objectForKey:@"cap"];
-            tmpWord.answer_chinese_character    = [aWordDic objectForKey:@"chi"];
-            tmpWord.mask                        = [aWordDic objectForKey:@"mask"];
-            tmpWord.description                 = [aWordDic objectForKey:@"desc"];
-            tmpWord.tmp                         = [aWordDic objectForKey:@"tmp"];
-            tmpWord.horizontal                  = [(NSNumber *)[aWordDic objectForKey:@"horiz"] intValue];
-            tmpWord.start_x                     = [(NSNumber *)[aWordDic objectForKey:@"x"] intValue];
-            tmpWord.start_y                     = [(NSNumber *)[aWordDic objectForKey:@"y"] intValue];
-            tmpWord.length                      = [(NSNumber *)[aWordDic objectForKey:@"len"] intValue];
-            [output_words addObject:tmpWord];
-        }
 
-        self.words      = output_words;
-        
-        /*********解析基础数据*********/
-        self.file       = [playBoardDic objectForKey:@"file"];
-        self.date       = [playBoardDic objectForKey:@"date"];
-        self.gamename   = [playBoardDic objectForKey:@"gamename"];
-        self.author     = [playBoardDic objectForKey:@"author"];
-        
-        self.score      = [(NSNumber *)[playBoardDic objectForKey:@"score"] intValue];
-        self.percent    = [(NSNumber *)[playBoardDic objectForKey:@"percent"] intValue];
-        self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
-        self.width      = [(NSNumber *)[playBoardDic objectForKey:@"width"] intValue];
-        self.height     = [(NSNumber *)[playBoardDic objectForKey:@"height"] intValue];
-        [self initAreaOfInputAndAreaOfCorrectBasedOnTMP];
-        return YES;
-    }
-    return NO;
-}
-
-//将信息保存到文件中（或数据库）
 -(void)saveToFile:(NSString *)saveFile{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [paths objectAtIndex:0];
     NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
     //目前保存的位置Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
-    
+    NSData *jsData = [self jsonDataDescription];
+    if (jsData) {
+        BOOL succeed = [jsData writeToFile:file atomically:YES];
+        if (succeed) {
+            NSLog(@"Save succeed");
+        }else {
+            NSLog(@"Save fail");
+        }
+    }
+}
+//将类转化成json数据
+-(NSData *)jsonDataDescription{
     NSMutableArray *word_writable_array = [[NSMutableArray alloc]initWithCapacity:50];
 
     //将每一个单词写入json格式的数组
@@ -371,6 +359,7 @@
     }
     //局面写入一个字典
     NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
+                                 @"category"    :self.category                    == nil ? @"":self.category,
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
@@ -385,12 +374,9 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (error) {
         NSLog(@"dic->%@",error);
-    }
-    BOOL succeed = [jsonData writeToFile:file atomically:YES];
-    if (succeed) {
-        NSLog(@"Save succeed");
-    }else {
-        NSLog(@"Save fail");
+        return nil;
+    }else{
+        return jsonData;
     }
 }
 

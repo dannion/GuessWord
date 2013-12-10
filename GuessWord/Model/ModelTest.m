@@ -8,10 +8,11 @@
 
 #import "ModelTest.h"
 #import "PlayBoard.h"
+#import "PlayBoardHelper.h"
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard *pb = [[PlayBoard alloc]initWithJsonFile:@"td"];
+    PlayBoard *pb = [PlayBoardHelper playBoardFromFile:@"td"];
     NSArray *a = [pb current_state];
     NSLog(@"%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
