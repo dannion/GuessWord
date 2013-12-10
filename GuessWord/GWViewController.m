@@ -266,6 +266,14 @@ NSInteger gridColNum = 10; //网格列数
 
 #pragma mark -
 #pragma mark UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.text.length>1) {
+        return NO;
+    }
+    
+    return YES;
+}
 
 
 #pragma mark -

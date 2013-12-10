@@ -31,6 +31,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         _label.textColor = [UIColor blackColor];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.backgroundColor = [UIColor clearColor];
+
         _label.userInteractionEnabled = NO;
 
         [self.contentView addSubview:_imageView];
