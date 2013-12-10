@@ -24,15 +24,16 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         selectedBackground.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.000 alpha:1.000];
         self.selectedBackgroundView = selectedBackground;
         
-        _image = [[UIImageView alloc] init];
-        _image.contentMode = UIViewContentModeScaleToFill;
+        _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleToFill;
         
         _label = [[UITextField alloc] init];
         _label.textColor = [UIColor blackColor];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.backgroundColor = [UIColor clearColor];
+        _label.userInteractionEnabled = NO;
 
-        [self.contentView addSubview:_image];
+        [self.contentView addSubview:_imageView];
         [self.contentView addSubview:_label];
         
     }
@@ -41,7 +42,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
 
 - (void)layoutSubviews
 {
-    _image.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
+    _imageView.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
     _label.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
 }
 

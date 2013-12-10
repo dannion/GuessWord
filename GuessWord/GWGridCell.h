@@ -10,7 +10,7 @@
 
 @interface GWGridCell : PSUICollectionViewCell
 
-@property (strong, nonatomic) UIImageView *image;
+@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UITextField *label;
 
 @end

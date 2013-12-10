@@ -10,6 +10,8 @@
 #import "GWGridCell.h"
 #import "ModelTest.h"
 
+#define kGuessWordHeightChangeAmountWhenShowKeyBoard 180
+
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 NSInteger gridHeightNum = 10;
 NSInteger gridWidthNum = 10;
@@ -20,6 +22,8 @@ NSInteger gridWidthNum = 10;
     NSInteger gridWidth;//
     GWGridCell* selectedGridCell;
 }
+
+@property (nonatomic, strong) UIView* contentView;
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView;
 @property (nonatomic, strong) UIImageView* gridViewBackgroundImageView;
@@ -41,28 +45,30 @@ NSInteger gridWidthNum = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [self addViewBackgroundView];
-    [self createGridView];
+    #warning 测试用，后期应删掉
+    [ModelTest testFunction];
+    
+    [self addViewBackgroundView];
     
     [self loadData];
     
     //now we have data already, draw the actual grid.
+    [self createGridView];
     [self calculateCollectionViewCellSize];
     [self addGridViewBackgroundImage];
 }
 
-//- (void)addViewBackgroundView
-//{
-//    UIView* backgroundAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-//    [self.view addSubview:backgroundAllView];
-//    
-//    UIButton* backgroundButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-//    backgroundButton.isAccessibilityElement = NO;
-//    backgroundButton.backgroundColor = [UIColor clearColor];
-//    [backgroundButton addTarget:self action:@selector(tapRequest) forControlEvents:UIControlEventTouchUpInside];
-//    [backgroundAllView addSubview:backgroundButton];
-//}
-
+- (void)addViewBackgroundView
+{
+    UIView* backgroundAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [self.view addSubview:backgroundAllView];
+    
+    UIButton* backgroundButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    backgroundButton.isAccessibilityElement = NO;
+    backgroundButton.backgroundColor = [UIColor clearColor];
+    [backgroundButton addTarget:self action:@selector(tapRequest) forControlEvents:UIControlEventTouchUpInside];
+    [backgroundAllView addSubview:backgroundButton];
+}
 
 - (void)createGridView
 {
@@ -75,6 +81,35 @@ NSInteger gridWidthNum = 10;
     [_gridView registerClass:[GWGridCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
     
     [self.view addSubview:_gridView];
+}
+
+- (void)calculateCollectionViewCellSize
+{
+    NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
+    
+    int temp = (int)_gridView.bounds.size.width % (int)gridWidthNum;
+    int newWidthAndHeight = _gridView.bounds.size.width-temp-1;
+    CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
+    _gridView.frame = gridViewFrame;
+    
+    
+    int width = (_gridView.bounds.size.width - gridWidthNum + 1) / gridWidthNum;
+    int height = width;
+    gridWidth = width;
+    gridHeight = height;
+}
+
+- (void)addGridViewBackgroundImage
+{
+#warning 后期应该替换为 1像素点大小的黑色图片，伸展成合适大小。 而不是用色值来画图。
+    UIImage* backgroundImage = [self createImageWithColor:[UIColor blackColor]];
+    
+    self.gridViewBackgroundImageView.frame = CGRectMake(_gridView.frame.origin.x-1, _gridView.frame.origin.y-1, _gridView.frame.size.width+2, _gridView.frame.size.height+2);
+    
+    self.gridViewBackgroundImageView.image = backgroundImage;
+    
+    [self.view addSubview:self.gridViewBackgroundImageView];
+    [self.view bringSubviewToFront:_gridView];
 }
 
 - (void)loadData
@@ -103,7 +138,14 @@ NSInteger gridWidthNum = 10;
 #pragma mark -
 #pragma mark Getters & Setters
 
--(UIImageView *)gridViewBackgroundImageView
+- (UIView*)contentView
+{
+    if (!_contentView) {
+        _contentView = [[UIView alloc] init];
+    }
+    return _contentView;
+}
+- (UIImageView *)gridViewBackgroundImageView
 {
     if (!_gridViewBackgroundImageView) {
         _gridViewBackgroundImageView = [[UIImageView alloc] init];
@@ -136,56 +178,14 @@ NSInteger gridWidthNum = 10;
     
     // set cell.text
     cell.label.text = @"";
+    cell.label.delegate = self;
 
     UIImage* aImage = [self createImageWithColor:[UIColor whiteColor]];
-    cell.image.image = aImage;
+    cell.imageView.image = aImage;
 
     return cell;
 }
 
-#warning 后期换成直接用图片
-- (UIImage*)createImageWithColor:(UIColor*)color
-{
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    
-    CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
-}
-
-- (void)calculateCollectionViewCellSize
-{
-    NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
-    
-    int temp = (int)_gridView.bounds.size.width % (int)gridWidthNum;
-    int newWidthAndHeight = _gridView.bounds.size.width-temp-1;
-    CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
-    _gridView.frame = gridViewFrame;
-    
-    
-    int width = (_gridView.bounds.size.width - gridWidthNum + 1) / gridWidthNum;
-    int height = width;
-    gridWidth = width;
-    gridHeight = height;
-}
-
-- (void)addGridViewBackgroundImage
-{
-#warning 后期应该替换为 1像素点大小的黑色图片，伸展成合适大小。 而不是用色值来画图。
-    UIImage* backgroundImage = [self createImageWithColor:[UIColor blackColor]];
-    
-    self.gridViewBackgroundImageView.frame = CGRectMake(_gridView.frame.origin.x-1, _gridView.frame.origin.y-1, _gridView.frame.size.width+2, _gridView.frame.size.height+2);
-    
-    self.gridViewBackgroundImageView.image = backgroundImage;
-    
-    [self.view addSubview:self.gridViewBackgroundImageView];
-    [self.view bringSubviewToFront:_gridView];
-    
-}
 
 - (CGSize)collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -216,13 +216,22 @@ NSInteger gridWidthNum = 10;
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+    // change color
+    selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+    
+    selectedGridCell.label.userInteractionEnabled = YES;
+    // 弹起键盘
     [selectedGridCell.label becomeFirstResponder];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : DESELECTED", [self formatIndexPath:indexPath]);
-
+    GWGridCell* deselectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+    // change color
+    deselectedGridCell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+    
+    deselectedGridCell.label.userInteractionEnabled = NO;
 }
 
 //- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
@@ -249,12 +258,13 @@ NSInteger gridWidthNum = 10;
 }
 
 #pragma mark -
-//- (void)tapRequest
-//{
-//    if (selectedGridCell) {
-//        [selectedGridCell.label resignFirstResponder];
-//    }
-//}
+- (void)tapRequest
+{
+    if (selectedGridCell) {
+        [selectedGridCell.label resignFirstResponder];
+        selectedGridCell.label.userInteractionEnabled = NO;
+    }
+}
 
 
 #pragma mark -
@@ -266,10 +276,53 @@ NSInteger gridWidthNum = 10;
 
 - (void)keyboardWillShowNotification:(NSNotification *)notification
 {
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect newFrame = self.gridView.frame;
+        newFrame.size.height -= kGuessWordHeightChangeAmountWhenShowKeyBoard;
+        self.gridView.frame = newFrame;
+        
+        newFrame = self.gridViewBackgroundImageView.frame;
+        newFrame.size.height -= kGuessWordHeightChangeAmountWhenShowKeyBoard;
+        self.gridViewBackgroundImageView.frame = newFrame;
+    } completion:^(BOOL finished){
+        
+    }];
+
+    
+
 }
 
 - (void)keyboardWillHideNotification:(NSNotification *)notification
 {
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect newFrame = self.gridView.frame;
+        newFrame.size.height += kGuessWordHeightChangeAmountWhenShowKeyBoard;
+        self.gridView.frame = newFrame;
+        
+        newFrame = self.gridViewBackgroundImageView.frame;
+        newFrame.size.height += kGuessWordHeightChangeAmountWhenShowKeyBoard;
+        self.gridViewBackgroundImageView.frame = newFrame;
+    } completion:^(BOOL finished){
+        
+    }];
+    
+    
+}
+
+#pragma mark -
+#pragma mark Temp Method
+#warning 后期删去该方法。换成直接用图片
+- (UIImage*)createImageWithColor:(UIColor*)color
+{
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
 @end
