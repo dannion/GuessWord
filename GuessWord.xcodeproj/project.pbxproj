@@ -31,6 +31,7 @@
 		64D09A63185594AB0054E807 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A42185594AB0054E807 /* UIKit.framework */; };
 		64D09A6B185594AB0054E807 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64D09A69185594AB0054E807 /* InfoPlist.strings */; };
 		64D09A6D185594AB0054E807 /* GuessWordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D09A6C185594AB0054E807 /* GuessWordTests.m */; };
+		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		64D09A68185594AB0054E807 /* GuessWordTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GuessWordTests-Info.plist"; sourceTree = "<group>"; };
 		64D09A6A185594AB0054E807 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		64D09A6C185594AB0054E807 /* GuessWordTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuessWordTests.m; sourceTree = "<group>"; };
+		831A3C061856BF76005CEF99 /* ModelTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTest.h; sourceTree = "<group>"; };
+		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
 		A1A21F5321544896AA0D8298 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +110,8 @@
 				64AF28C01856A48E0046D43A /* PlayBoard.m */,
 				64AF28C11856A48E0046D43A /* Word.h */,
 				64AF28C21856A48E0046D43A /* Word.m */,
+				831A3C061856BF76005CEF99 /* ModelTest.h */,
+				831A3C071856BF76005CEF99 /* ModelTest.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,6 +337,7 @@
 				64D09A4B185594AB0054E807 /* main.m in Sources */,
 				64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */,
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
+				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

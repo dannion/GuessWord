@@ -8,7 +8,7 @@
 
 #import "GWViewController.h"
 #import "GWGridCell.h"
-
+#import "ModelTest.h"
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 NSInteger gridHeightNum = 10;
