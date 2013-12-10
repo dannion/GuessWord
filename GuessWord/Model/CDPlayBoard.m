@@ -1,15 +1,15 @@
 //
-//  CDPlayBoards.m
+//  CDPlayBoard.m
 //  GuessWord
 //
 //  Created by WangJZ on 12/10/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
-#import "CDPlayBoards.h"
+#import "CDPlayBoard.h"
 
 
-@implementation CDPlayBoards
+@implementation CDPlayBoard
 
 @dynamic category;
 @dynamic jsonData;

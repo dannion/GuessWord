@@ -1,0 +1,8 @@
+说明：
+
+PlayBoard是Model的主类，负责数据的逻辑
+PlayBoardHelper 的PlayBoard
+CDPlayBoard是数据库的接口，PlayBoard先转换成CDPlayBoard,再保存到数据库
+
+CDPlayBoard+Interface是属性类，可以理解为不继承的子类
+

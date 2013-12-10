@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="CDBoards" syncable="YES"/>
-    <entity name="CDPlayBoards" representedClassName="CDPlayBoards" syncable="YES">
+    <entity name="CDPlayBoard" representedClassName="CDPlayBoard" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="jsonData" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="level" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="jsonData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="Name" syncable="YES"/>
     <elements>
-        <element name="CDPlayBoards" positionX="160" positionY="192" width="128" height="88"/>
-        <element name="CDBoards" positionX="-155" positionY="65" width="128" height="43"/>
+        <element name="CDPlayBoard" positionX="160" positionY="192" width="128" height="88"/>
+        <element name="Name" positionX="-155" positionY="65" width="128" height="43"/>
     </elements>
 </model>

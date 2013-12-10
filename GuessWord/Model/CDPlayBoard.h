@@ -1,5 +1,5 @@
 //
-//  CDPlayBoards.h
+//  CDPlayBoard.h
 //  GuessWord
 //
 //  Created by WangJZ on 12/10/13.
@@ -10,10 +10,10 @@
 #import <CoreData/CoreData.h>
 
 
-@interface CDPlayBoards : NSManagedObject
+@interface CDPlayBoard : NSManagedObject
 
 @property (nonatomic, retain) NSString * category;
-@property (nonatomic, retain) NSDate * jsonData;
-@property (nonatomic, retain) NSString * level;
+@property (nonatomic, retain) NSData * jsonData;
+@property (nonatomic, retain) NSNumber * level;
 
 @end

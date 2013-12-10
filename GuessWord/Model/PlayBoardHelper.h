@@ -16,6 +16,8 @@
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
 
-+(void)savePlayBoardToDatabase:(PlayBoard *)thePlayBoard;   //将PlayBoard保存到数据库
+//将PlayBoard保存到数据库
++(void)savePlayBoardToDatabase:(PlayBoard *)thePlayBoard
+        inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

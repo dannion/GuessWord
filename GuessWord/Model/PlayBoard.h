@@ -46,6 +46,8 @@
 -(NSString*)description;
 
 
+-(NSData *)jsonDataDescription;//返回对象的json数据
+
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
 
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;//默认的初始化函数
