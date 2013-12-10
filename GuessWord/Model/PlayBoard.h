@@ -17,11 +17,12 @@ enum DIRECTION{
 #define BLOCK @"#" //不能填写的位置
 #define BLANK @"-"  //空着的位置
 
-/*Model：游戏的Board*/
-@interface PlayBoard : NSObject
+@interface PlayBoard : NSObject/*Model：游戏的Board*/
 
 
 /**************************************************API******************************************/
+
+/*Controller调用方式：先用initWith初始化，然后每次用户输入更新Board，获取current_state*/
 
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
 
