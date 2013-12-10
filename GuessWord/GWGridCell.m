@@ -34,15 +34,15 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
 
         [self.contentView addSubview:_image];
         [self.contentView addSubview:_label];
+        
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    
+- (void)layoutSubviews
+{
     _image.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
     _label.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
-
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
