@@ -27,7 +27,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         _image = [[UIImageView alloc] init];
         _image.contentMode = UIViewContentModeScaleToFill;
         
-        _label = [[UILabel alloc] init];
+        _label = [[UITextField alloc] init];
         _label.textColor = [UIColor blackColor];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.backgroundColor = [UIColor clearColor];
