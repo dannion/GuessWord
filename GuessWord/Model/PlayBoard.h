@@ -14,30 +14,25 @@ enum DIRECTION{
     HORIZANTAL
 };
 
-#define BLOCK @"#"
-#define BLANK @"-"
+#define BLOCK @"#" //不能填写的位置
+#define BLANK @"-"  //空着的位置
 
 /*Model：游戏的Board*/
 @interface PlayBoard : NSObject
 
 
--(PlayBoard *)initWith;
-//获取当前游戏状态：
--(NSArray *)current_state;
+/**************************************************API******************************************/
 
-//通过point获得指定方向的单词
--(Word *)wordOfPoint:(CGPoint *)point inDirection:(BOOL)direction;
+-(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
 
-//判断某个点所在单词是否
--(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)direction;
+-(PlayBoard *)initWith;//默认的初始化函数
+-(NSArray *)current_state;//获取当前游戏状态：
+-(Word *)wordOfPoint:(CGPoint *)point inDirection:(BOOL)direction;//通过point获得指定方向的单词
+-(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)direction;//判断某个点所在单词是否完成
+-(BOOL)isFinished;//是否闯关成功
+-(BOOL)isClickableOfPoint:(CGPoint)point;//判断该点是否能够点击
+-(CGPoint *)nextPoint;//获取下一个坐标
 
-//是否闯关成功
--(BOOL)isFinished;
 
-//判断该点是否能够点击
--(BOOL)isClickableOfPoint:(CGPoint)point;
-
-//获取下一个坐标
--(CGPoint *)nextPoint;
 
 @end
