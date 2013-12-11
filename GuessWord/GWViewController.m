@@ -28,6 +28,8 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     
     GWGridCell* selectedGridCell;
     CGPoint selectedLocation;
+    Word* selectedHorizontalWord;
+    Word* selectedVerticalWord;
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
@@ -236,10 +238,32 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             break;
     }
     
-
+    
+    if ([self cellWithIndexPath:indexPath belongsToSelectedHorizontalWord:selectedHorizontalWord orSelectedVerticalWord:selectedVerticalWord]){//添加判断
+        cell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+    }
     return cell;
 }
 
+- (BOOL)cellWithIndexPath:(NSIndexPath*)indexPath belongsToSelectedHorizontalWord:(Word*)aSelectedHorizontalWord orSelectedVerticalWord:(Word*)aSelectedVerticalWord
+{
+    CGPoint location = [self locationFromIndexPath:indexPath];
+    if (aSelectedHorizontalWord) {
+        if (aSelectedHorizontalWord.start_y == (int)location.y) {
+            if ((int)location.x - aSelectedHorizontalWord.start_x >= 0 && (int)location.x - aSelectedHorizontalWord.start_x < aSelectedHorizontalWord.length) {
+                return YES;
+            }
+        }
+    }
+    if(aSelectedVerticalWord){
+        if (aSelectedVerticalWord.start_x == (int)location.x) {
+            if ((int)location.y - aSelectedVerticalWord.start_y >=0 && (int)location.y - aSelectedVerticalWord.start_y < aSelectedVerticalWord.length) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
 
 - (CGSize)collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -281,28 +305,28 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
         
         CGPoint currentLocation = [self locationFromIndexPath:indexPath];
-        Word* currentWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:YES];
-        if (currentWord) {
-            horizontalDescription = currentWord.description;
+        selectedHorizontalWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:YES];
+        if (selectedHorizontalWord) {
+            horizontalDescription = selectedHorizontalWord.description;
             
-            int length = currentWord.length;
+            int length = selectedHorizontalWord.length;
             
             for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(currentWord.start_x+i, currentWord.start_y);
+                CGPoint cellLocation = CGPointMake(selectedHorizontalWord.start_x+i, selectedHorizontalWord.start_y);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
                 gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
             }
         }
         
-        currentWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:NO];
-        if (currentWord) {
-            verticalDescription = currentWord.description;
+        selectedVerticalWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:NO];
+        if (selectedVerticalWord) {
+            verticalDescription = selectedVerticalWord.description;
             
-            int length = currentWord.length;
+            int length = selectedVerticalWord.length;
             
             for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(currentWord.start_x, currentWord.start_y+i);
+                CGPoint cellLocation = CGPointMake(selectedVerticalWord.start_x, selectedVerticalWord.start_y+i);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
                 gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
