@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "349"
             endingLineNumber = "349"
-            landmarkName = "-wordOfPoint:inHorizontalDirection:"
+            landmarkName = "-updateCellsDisplayByWord:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
