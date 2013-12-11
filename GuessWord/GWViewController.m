@@ -285,13 +285,16 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
     
+    NSString* horizontalDescription = nil;
+    NSString* verticalDescription = nil;
+    
+    //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
-        NSString* descriptionString = nil;
         
         CGPoint currentLocation = [self locationFromIndexPath:indexPath];
         Word* currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:YES];
         if (currentWord) {
-            descriptionString = currentWord.description;
+            horizontalDescription = currentWord.description;
             
             int length = currentWord.length;
             
@@ -305,7 +308,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
         
         currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:NO];
         if (currentWord) {
-            descriptionString = currentWord.description;
+            verticalDescription = currentWord.description;
             
             int length = currentWord.length;
             
@@ -316,10 +319,11 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
                 gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
             }
         }
-        
-        
+  
     }
     
+    //设置descriptionLabel文案
+    self.descriptionLabel.text = [self descriptionStringMergeWithHorizontalDescription:horizontalDescription andVerticalDescription:verticalDescription];
 
     
     
@@ -363,12 +367,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             
             break;
     }
-//    
-//    //只有选中该cell,cell内的label才可交互。
-//    selectedGridCell.label.userInteractionEnabled = YES;
-//    // 弹起键盘
-//    [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
-//    [selectedGridCell.label becomeFirstResponder];
+
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -383,11 +382,10 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
         deselectedGridCell.label.userInteractionEnabled = NO;
     }
     
-    
+    //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
     CGPoint deselectLocation = [self locationFromIndexPath:indexPath];
     Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:YES];
-//    BOOL guessWordBingo = [self.playBoard isBingoOfWordAtPoint:deselectLocation inDirection:YES];
-    
+   
     if (deselectWord) {
         int length = deselectWord.length;
         
@@ -398,7 +396,6 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
         }
     }
-    
     deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:NO];
     if (deselectWord) {
         int length = deselectWord.length;
@@ -471,9 +468,6 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     
     //检查用户是否答对了
-//    -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//判断某个点所在单词是否完成
-    NSLog(@"%d %d",[self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES], [self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO]);
-    NSLog(@"%@", self.playBoard);
     
     //先判断垂直，再判断水平
     if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO])
@@ -624,5 +618,15 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     return [self gridCellCurrentStateWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
 }
 
+
+- (NSString*)descriptionStringMergeWithHorizontalDescription:(NSString*)horizontalDescription andVerticalDescription:(NSString*)verticalDescription
+{
+    NSString* finalString;
+    if (horizontalDescription && verticalDescription) {
+        finalString = [NSString stringWithFormat:@" 横:%@\n 竖:%@",horizontalDescription,verticalDescription];
+    }
+    
+    return finalString;
+}
 
 @end
