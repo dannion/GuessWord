@@ -10,24 +10,13 @@
 #import "GWGridCell.h"
 #import "ModelTest.h"
 #import "PMCustomKeyboard.h"
+#import "BoardCell.h"
 
 
 
 #define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 100
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
-
-//NSInteger gridRowNum = 10;//网格行数
-//NSInteger gridColNum = 10; //网格列数
-
-typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
-    GWGridCellCurrentStateBlock,
-    GWGridCellCurrentStateBlank,
-    GWGridCellCurrentStateGuessing,
-    GWGridCellCurrentStateDone,
-    GWGridCellCurrentStateUnKnown,
-};
-
 
 @interface GWViewController ()<PSUICollectionViewDelegateFlowLayout, UITextFieldDelegate>
 {
@@ -292,7 +281,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
         
         CGPoint currentLocation = [self locationFromIndexPath:indexPath];
-        Word* currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:YES];
+        Word* currentWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:YES];
         if (currentWord) {
             horizontalDescription = currentWord.description;
             
@@ -306,7 +295,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             }
         }
         
-        currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:NO];
+        currentWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:NO];
         if (currentWord) {
             verticalDescription = currentWord.description;
             
@@ -384,7 +373,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
     CGPoint deselectLocation = [self locationFromIndexPath:indexPath];
-    Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:YES];
+    Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:YES];
    
     if (deselectWord) {
         int length = deselectWord.length;
@@ -396,7 +385,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
         }
     }
-    deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:NO];
+    deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:NO];
     if (deselectWord) {
         int length = deselectWord.length;
         
@@ -470,9 +459,9 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     //检查用户是否答对了
     
     //先判断垂直，再判断水平，最后判断是否整个网格都答对了
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO]){
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
         //答对了，将对应单词转换为汉字结果。
-        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:NO];
+        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
         
         int length = correctWord.length;
         
@@ -490,8 +479,8 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 
         }
     };
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES]){
-        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:YES];
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]){
+        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
         
         int length = correctWord.length;
         
@@ -588,37 +577,25 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     return [NSIndexPath indexPathForItem:index inSection:0];
 }
 
-- (NSString*)gridCellCurrentStringWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
+- (BoardCell*)gridCellCurrentStringWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
 {
-    NSString* currentStateDescription;
+    BoardCell* currentStateDescription;
     if (aPlayboard.current_state) {
-        currentStateDescription = (NSString*)aPlayboard.current_state[(int)aLocation.y][(int)aLocation.x];
+        currentStateDescription = (BoardCell*)aPlayboard.current_state[(int)aLocation.y][(int)aLocation.x];
     }
     return currentStateDescription;
 }
 
 - (GWGridCellCurrentState)gridCellCurrentStateWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
 {
-    NSString* currentStateDescription = [self gridCellCurrentStringWithPlayBoard:aPlayboard andLocation:aLocation];
+    BoardCell* boardCell = [self gridCellCurrentStringWithPlayBoard:aPlayboard andLocation:aLocation];
     
-    if (currentStateDescription) {
-        if ([currentStateDescription isEqualToString:@"#"]) {
-            return GWGridCellCurrentStateBlock;
-        }
-        if ([currentStateDescription isEqualToString:@"-"]) {
-            return GWGridCellCurrentStateBlank;
-        }
-        
-        //这里需要一个方式来判断该网格单元是正在被猜还是得到正确答案了。
-        //当前返回 正在被猜状态
-        return GWGridCellCurrentStateGuessing;
-    }
-    return GWGridCellCurrentStateUnKnown;
+    return boardCell.currentState;
 }
 
 - (NSString*)gridCellCurrentStringFromIndexPath:(NSIndexPath *)indexPath
 {
-    return [self gridCellCurrentStringWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
+    return [self gridCellCurrentStringWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]].display;
 }
 
 - (GWGridCellCurrentState)gridCellCurrentStateFromIndexPath:(NSIndexPath *)indexPath
@@ -632,7 +609,12 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     NSString* finalString;
     if (horizontalDescription && verticalDescription) {
         finalString = [NSString stringWithFormat:@" 横:%@\n 竖:%@",horizontalDescription,verticalDescription];
+    }else if(horizontalDescription){
+        finalString = [NSString stringWithFormat:@" 横:%@",horizontalDescription];
+    }else if(verticalDescription){
+        finalString = [NSString stringWithFormat:@" 竖:%@",verticalDescription];
     }
+    
     
     return finalString;
 }
