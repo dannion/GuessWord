@@ -35,7 +35,9 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     NSInteger gridCellHeight;//网格单元的高度
     NSInteger gridCellWidth; //网格单元的宽度
+    
     GWGridCell* selectedGridCell;
+    CGPoint selectedLocation;
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
@@ -283,6 +285,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+    selectedLocation = [self locationFromIndexPath:indexPath];
     
     GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
     
@@ -385,10 +388,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 #pragma mark UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-//    if (textField.text.length>1) {
-//        return NO;
-//    }
-    
+ 
     return YES;
 }
 
@@ -396,7 +396,25 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 #pragma mark UITextFieldTextDidChangeNotification
 - (void)textFieldTextDidChangeNotification:(NSNotification *)notification
 {
-
+    UITextField* theTextField = (UITextField*)notification.object;
+    if (theTextField.text.length >1) {
+        //若长度大于1，值取string最后一位
+        theTextField.text = [theTextField.text substringFromIndex:(theTextField.text.length-1)];
+    }
+    
+    //用户已输入，调用playboard相应接口
+    [self.playBoard updateBoardWithInputValue:theTextField.text atPoint:selectedLocation];
+    
+    
+    //检查用户是否答对了
+//    -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//判断某个点所在单词是否完成
+    NSLog(@"%d %d",[self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES], [self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO]);
+    NSLog(@"%@", self.playBoard.current_state);
+    
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES]|[self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO])
+    {
+        [_gridView setNeedsDisplay];
+    };
 }
 
 #pragma mark -
@@ -469,6 +487,12 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     location.y = indexPath.row / gridColNum;
     
     return location;
+}
+
+- (NSIndexPath *)indexPathFromLocation:(CGPoint)location
+{
+    NSInteger index = (NSInteger)location.y * gridColNum + location.x;
+    return [NSIndexPath indexPathForItem:index inSection:0];
 }
 
 - (NSString*)gridCellCurrentStringWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
