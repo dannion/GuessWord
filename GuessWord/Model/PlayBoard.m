@@ -8,20 +8,19 @@
 //
 
 #import "PlayBoard.h"
+#import "BoardCell.h"
 
 @interface PlayBoard()
 
 /*********************************私有变量*************************/
 
-@property(nonatomic,strong)NSMutableArray *areaOfCorrect;//正确的文字
-@property(nonatomic,strong)NSMutableArray *areaOfInput;//输入的字母
-@property(nonatomic,strong)NSMutableArray *areaOfDisplay;//应该显示的内容，目前看来没啥用处，可以考虑删掉。。。
+@property(nonatomic,strong)NSMutableArray *cells;
 
 
 /*********************************私有API*************************/
 
 -(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
--(void)updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新areaOfDisplay
+-(void)updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新display
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
 -(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
 
@@ -35,35 +34,33 @@
 
 #pragma mark LAZY-INSTANCE
 #pragma mark --
--(NSMutableArray *)areaByLazyInstance
+
+
+-(NSMutableArray *)cellsByLazyInstance
 {
     //初始化各种area，使用Lazy instance,初始化都为BLOCK
     int i,j;
-    NSMutableArray *theArea = [[NSMutableArray alloc]init];
+    NSMutableArray *theCells = [[NSMutableArray alloc]init];
     for (j = 0; j < self.height; j++) {
         NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
         for (i = 0; i < self.width; i++) {
-            [column_array addObject:BLOCK];
+            BoardCell *cell = [[BoardCell alloc]init];
+            cell.input = BLOCK;
+            cell.correct = BLOCK;
+            cell.display = BLOCK;
+            [column_array addObject:cell];
         }
-        [theArea addObject:column_array];
+        [theCells addObject:column_array];
     }
-    return theArea;
-}
--(NSMutableArray *)areaOfCorrect
-{
-    if (! _areaOfCorrect) _areaOfCorrect = [self areaByLazyInstance];
-    return _areaOfCorrect;
-}
--(NSMutableArray *)areaOfInput
-{
-    if (! _areaOfInput) _areaOfInput = [self areaByLazyInstance];
-    return _areaOfInput;
+    return theCells;
 }
 
--(NSMutableArray *)areaOfDisplay
+
+
+-(NSMutableArray *)cells
 {
-    if (! _areaOfDisplay) _areaOfDisplay = [self areaByLazyInstance];
-    return _areaOfDisplay;
+    if (! _cells) _cells = [self cellsByLazyInstance];
+    return _cells;
 }
 
 
@@ -92,7 +89,7 @@
     for (Word *aWord in self.words) {
         [self updateAreaOfDisplayByWord:aWord];
     }
-    return self.areaOfDisplay;
+    return self.cells;
 }
 
 /*判断该点是否能够点击*/
@@ -100,7 +97,8 @@
 -(BOOL)isClickableAtPoint:(CGPoint)point{
     int x = point.x;
     int y = point.y;
-    if ([self.areaOfCorrect[y][x] isEqualToString: BLOCK]) {
+    BoardCell *cell = self.cells[y][x];
+    if ([cell.correct isEqualToString: BLOCK]) {
         return NO;
     }else{
         return YES;
@@ -121,22 +119,62 @@
 }
 
 
-//在某个坐标上输入一个字母，修改areaOfInput
+//在某个坐标上输入一个字母，修改cell.Input
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point{
     int x = (int)point.x;
     int y = (int)point.y;
     
     //check坐标在方格内
     if (x>= 0 && x< self.width && y>= 0 && y <self.height ) {
-        
-        //if (![self.areaOfCorrect[y][x] isEqualToString:BLOCK] && ![self.areaOfInput[y][x] isEqualToString:self.areaOfCorrect[y][x]]) {
-        
 #warning check该坐标位置不是Block,暂时不检查是否已经是正确答案的情况
-        if (![self.areaOfCorrect[y][x] isEqualToString:BLOCK]) {
-            self.areaOfInput[y][x] = oneAlphabet;
+        BoardCell *cell = self.cells[y][x];
+        if (![cell.correct isEqualToString:BLOCK]) {
+            cell.input = oneAlphabet;
         }
     }
 }
+
+//将类转化成json数据
+-(NSData *)jsonDataDescription{
+    NSMutableArray *word_writable_array = [[NSMutableArray alloc]initWithCapacity:50];
+    
+    //将每一个单词写入json格式的数组
+    for (Word *aWord in self.words) {
+        NSDictionary *aWordDic = @{@"cap"       :aWord.answer_capital             == nil ? @"":aWord.answer_capital,
+                                   @"chi"       :aWord.answer_chinese_character   == nil ? @"":aWord.answer_chinese_character,
+                                   @"mask"      :aWord.mask                       == nil ? @"":aWord.mask,
+                                   @"desc"      :aWord.description                == nil ? @"":aWord.description,
+                                   @"tmp"       :aWord.tmp                        == nil ? @"":aWord.tmp,
+                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
+                                   @"x"         :[NSNumber numberWithInt:aWord.start_x],
+                                   @"y"         :[NSNumber numberWithInt:aWord.start_y],
+                                   @"len"       :[NSNumber numberWithInt:aWord.length]
+                                   };
+        [word_writable_array addObject:aWordDic];
+    }
+    //局面写入一个字典
+    NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
+                                 @"category"    :self.category                    == nil ? @"":self.category,
+                                 @"date"        :self.date                        == nil ? @"":self.date,
+                                 @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
+                                 @"author"      :self.author                      == nil ? @"":self.author,
+                                 @"score"       :[NSNumber numberWithInt:self.score],
+                                 @"percent"     :[NSNumber numberWithInt:self.percent],
+                                 @"level"       :[NSNumber numberWithInt:self.level],
+                                 @"width"       :[NSNumber numberWithInt:self.width],
+                                 @"height"      :[NSNumber numberWithInt:self.height],
+                                 @"words"       :word_writable_array
+                                 };
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) {
+        NSLog(@"dic->%@",error);
+        return nil;
+    }else{
+        return jsonData;
+    }
+}
+
 
 /*指定的初始化函数*/
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData{
@@ -190,33 +228,31 @@
 {
     NSMutableString *retString = [[NSMutableString alloc]init];
     [retString appendString:@"\n[Correct]\n"];
-    for (NSArray *row_array in self.areaOfCorrect) {
-        for (NSString *columnString in row_array) {
-            [retString appendString:columnString];
+    for (NSArray *row_array in self.cells) {
+        for (BoardCell *cell in row_array) {
+            [retString appendString:cell.correct];
             [retString appendString:@" "];
         }
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\[Input]\n"];
-    for (NSArray *row_array in self.areaOfInput) {
-        for (NSString *columnString in row_array) {
-            [retString appendString:columnString];
+    [retString appendString:@"\n[Input]\n"];
+    for (NSArray *row_array in self.cells) {
+        for (BoardCell *cell in row_array) {
+            [retString appendString:cell.input];
             [retString appendString:@" "];
         }
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\[Display]\n"];
-    for (NSArray *row_array in self.areaOfDisplay) {
-        for (NSString *columnString in row_array) {
-            [retString appendString:columnString];
+    [retString appendString:@"\n[Display]\n"];
+    for (NSArray *row_array in self.cells) {
+        for (BoardCell *cell in row_array) {
+            [retString appendString:cell.display];
             [retString appendString:@" "];
         }
         [retString appendString:@"\n"];
     }
-    
-    
     return retString;
 }
 
@@ -237,22 +273,22 @@
             if (horizontal) {
                 if (y >= 0 && y < self.height && x+i >= 0 && x+i < self.width) {
                     //正确答案（首字母）
-                    self.areaOfCorrect[y][x+i] = [ans_cap substringWithRange:NSMakeRange(i,1)];
-                    
-                    //用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
-                    self.areaOfInput[y][x+i]   = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
+                    BoardCell *cell      = (BoardCell *)self.cells[y][x+i];
+                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];//用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
                 }
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
-                    self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
-                    self.areaOfInput[y+i][x] = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
+                    BoardCell *cell      = (BoardCell *)self.cells[y+i][x];
+                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
                 }
             }
         }
     }
 }
 
-//根据一个word更新areaOfDisplay
+//根据一个word更新cell的display
 -(void) updateAreaOfDisplayByWord:(Word *)word
 {
     //根据word的方向和该word是否bingo来确定显示的内容
@@ -263,17 +299,19 @@
     
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
+            BoardCell *cell = self.cells[y][x+i];
             if (bingo) {
-                self.areaOfDisplay[y][x+i] = [chi substringWithRange:NSMakeRange(i,1)];
+                cell.display = [chi substringWithRange:NSMakeRange(i,1)];
             } else {
-                self.areaOfDisplay[y][x+i] = self.areaOfInput[y][x+i];
+                cell.display = cell.input;
             }
         }
         else{
+            BoardCell *cell = self.cells[y+i][x];
             if (bingo) {
-                self.areaOfDisplay[y+i][x] = [chi substringWithRange:NSMakeRange(i,1)];
+                cell.display = [chi substringWithRange:NSMakeRange(i,1)];
             } else {
-                self.areaOfDisplay[y+i][x] = self.areaOfInput[y+i][x];
+                cell.display = cell.input;
             }
         }
     }
@@ -315,12 +353,14 @@
     
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
-            if (![self.areaOfCorrect[y][x+i] isEqualToString:self.areaOfInput[y][x+i]]) {
+            BoardCell *cell = self.cells[y][x+i];
+            if (![cell.correct isEqualToString:cell.input]) {
                 bingo = NO;
                 break;
             }
         } else {
-            if (![self.areaOfCorrect[y+i][x] isEqualToString:self.areaOfInput[y+i][x]]) {
+            BoardCell *cell = self.cells[y+i][x];
+            if (![cell.correct isEqualToString:cell.input]) {
                 bingo = NO;
                 break;
             }
@@ -343,46 +383,6 @@
         }else {
             NSLog(@"Save fail");
         }
-    }
-}
-//将类转化成json数据
--(NSData *)jsonDataDescription{
-    NSMutableArray *word_writable_array = [[NSMutableArray alloc]initWithCapacity:50];
-
-    //将每一个单词写入json格式的数组
-    for (Word *aWord in self.words) {
-        NSDictionary *aWordDic = @{@"cap"       :aWord.answer_capital             == nil ? @"":aWord.answer_capital,
-                                   @"chi"       :aWord.answer_chinese_character   == nil ? @"":aWord.answer_chinese_character,
-                                   @"mask"      :aWord.mask                       == nil ? @"":aWord.mask,
-                                   @"desc"      :aWord.description                == nil ? @"":aWord.description,
-                                   @"tmp"       :aWord.tmp                        == nil ? @"":aWord.tmp,
-                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
-                                   @"x"         :[NSNumber numberWithInt:aWord.start_x],
-                                   @"y"         :[NSNumber numberWithInt:aWord.start_y],
-                                   @"len"       :[NSNumber numberWithInt:aWord.length]
-                                   };
-        [word_writable_array addObject:aWordDic];
-    }
-    //局面写入一个字典
-    NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
-                                 @"category"    :self.category                    == nil ? @"":self.category,
-                                 @"date"        :self.date                        == nil ? @"":self.date,
-                                 @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
-                                 @"author"      :self.author                      == nil ? @"":self.author,
-                                 @"score"       :[NSNumber numberWithInt:self.score],
-                                 @"percent"     :[NSNumber numberWithInt:self.percent],
-                                 @"level"       :[NSNumber numberWithInt:self.level],
-                                 @"width"       :[NSNumber numberWithInt:self.width],
-                                 @"height"      :[NSNumber numberWithInt:self.height],
-                                 @"words"       :word_writable_array
-                                 };
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-    if (error) {
-        NSLog(@"dic->%@",error);
-        return nil;
-    }else{
-        return jsonData;
     }
 }
 

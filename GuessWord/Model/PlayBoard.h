@@ -51,7 +51,7 @@
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
 
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;//默认的初始化函数
--(NSArray *)current_state;//获取当前游戏显示状态：
+-(NSArray *)current_state;//of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//通过point获得指定方向的单词
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//判断某个点所在单词是否完成
 -(BOOL)isGameBoardCompleted;//是否闯关成功
