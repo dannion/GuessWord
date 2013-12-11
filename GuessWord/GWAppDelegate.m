@@ -10,6 +10,50 @@
 
 @implementation GWAppDelegate
 
+-(void)saveContext
+{
+    NSError *error;
+    NSManagedObjectContext *managedObjectContext=self.managedObjectContext;
+    if(managedObjectContext!=nil)
+    {
+        if([managedObjectContext hasChanges]&&![managedObjectContext save:&error])
+        {
+            NSLog(@"保存数据时出错了:%@",error);
+        }
+    }
+}
+
+-(NSManagedObjectContext *)managedObjectContext
+{
+    if(_managedObjectContext!=nil)
+    {
+        return _managedObjectContext;
+    }
+    NSPersistentStoreCoordinator *coordinator=[self persistentStoreCoordinator];
+    if(coordinator!=nil)
+    {
+        _managedObjectContext=[[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    return _managedObjectContext;
+}
+
+-(NSManagedObjectModel *)managedObjectModel
+{
+    if(_managedObjectModel!=nil)
+    {
+        return _managedObjectModel;
+    }
+    NSURL *storeURL=[[NSBundle mainBundle]URLForResource:@"NoteWithCoreData" withExtension:@"momd"];
+    return [[NSManagedObjectModel alloc] initWithContentsOfURL:storeURL];
+}
+
+-(NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager]URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.

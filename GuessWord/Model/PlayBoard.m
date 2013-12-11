@@ -48,7 +48,7 @@
             cell.input = BLOCK;
             cell.correct = BLOCK;
             cell.display = BLOCK;
-            cell.currentState = GWGridCellCurrentStateUnKnown;
+            cell.currentState = GWGridCellCurrentStateBlock;
             [column_array addObject:cell];
         }
         [theCells addObject:column_array];

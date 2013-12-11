@@ -11,7 +11,7 @@
 @implementation BoardCell
 
 -(void)setStateDoneWithChineseCharacter:(NSString *)chineseCharacter{
-    self.input = chineseCharacter;
+    self.display = chineseCharacter;
     self.currentState = GWGridCellCurrentStateDone;
 }
 
