@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PlayBoardHelper.h"
+#import "PlayBoard.h"
 
 
 @interface GWViewController : UIViewController<PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, strong) PlayBoard* playBoard;
 
 @end

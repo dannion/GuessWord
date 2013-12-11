@@ -12,15 +12,27 @@
 #import "PMCustomKeyboard.h"
 
 
-#define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 180
+#define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 100
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
-NSInteger gridRowNum = 10;//网格行数
-NSInteger gridColNum = 10; //网格列数
+//NSInteger gridRowNum = 10;//网格行数
+//NSInteger gridColNum = 10; //网格列数
+
+typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
+    GWGridCellCurrentStateBlock,
+    GWGridCellCurrentStateBlank,
+    GWGridCellCurrentStateGuessing,
+    GWGridCellCurrentStateDone,
+    GWGridCellCurrentStateUnKnown,
+};
+
 
 @interface GWViewController ()<PSUICollectionViewDelegateFlowLayout, UITextFieldDelegate>
 {
+    NSInteger gridRowNum;//网格行数
+    NSInteger gridColNum; //网格列数
+    
     NSInteger gridCellHeight;//网格单元的高度
     NSInteger gridCellWidth; //网格单元的宽度
     GWGridCell* selectedGridCell;
@@ -32,6 +44,7 @@ NSInteger gridColNum = 10; //网格列数
 @end
 
 @implementation GWViewController
+@synthesize playBoard = _playBoard;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -119,10 +132,21 @@ NSInteger gridColNum = 10; //网格列数
 #pragma mark LoadData
 - (void)loadData
 {
+    
+    
+    
     //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
     [self refetchDataFromNetWork];
+    
+    //however, now we get data.
+    [self playBoard];
+    NSLog(@"%@", self.playBoard.current_state);
+    
+    gridRowNum = self.playBoard.height;
+    gridColNum = self.playBoard.width;
+    
 }
 
 - (void)refetchDataFromLocalCache
@@ -152,6 +176,19 @@ NSInteger gridColNum = 10; //网格列数
     return _gridViewBackgroundImageView;
 }
 
+- (void)setPlayBoard:(PlayBoard *)playBoard
+{
+    _playBoard = playBoard;
+}
+
+- (PlayBoard *)playBoard
+{
+    if (!_playBoard) {
+        _playBoard = [PlayBoardHelper playBoardFromFile:@"td"];
+    }
+    return _playBoard;
+}
+
 
 #pragma mark -
 #pragma mark PSUICollectionViewDelegateFlowLayout
@@ -175,12 +212,43 @@ NSInteger gridColNum = 10; //网格列数
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GWGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
-    // set cell.text
-    cell.label.text = @"";
+    GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
     cell.label.delegate = self;
-
-    UIImage* aImage = [self createImageWithColor:[UIColor whiteColor]];
-    cell.imageView.image = aImage;
+    
+    
+    if (cellCurrentState == GWGridCellCurrentStateBlock) {
+        cell.label.text = @"";
+        UIImage* aImage = [self createImageWithColor:[UIColor brownColor]];
+        cell.imageView.image = aImage;
+    }
+    
+    switch (cellCurrentState) {
+        case GWGridCellCurrentStateBlock:
+            cell.label.text = @"";
+            cell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            break;
+        case GWGridCellCurrentStateBlank:
+            cell.label.text = @"";
+            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            break;
+        case GWGridCellCurrentStateGuessing:
+            cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            break;
+        case GWGridCellCurrentStateDone:
+            cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            break;
+        case GWGridCellCurrentStateUnKnown:
+            cell.label.text = @"";
+            cell.imageView.image = [self createImageWithColor:[UIColor redColor]];
+            break;
+        default:
+            cell.label.text = @"";
+            cell.imageView.image = [self createImageWithColor:[UIColor redColor]];
+            break;
+    }
+    
 
     return cell;
 }
@@ -215,24 +283,68 @@ NSInteger gridColNum = 10; //网格列数
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-    // change color
-    selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
     
-    //只有选中该cell,cell内的label才可交互。
-    selectedGridCell.label.userInteractionEnabled = YES;
-    // 弹起键盘
-    [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
-    [selectedGridCell.label becomeFirstResponder];
+    GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
+    
+    switch (cellCurrentState) {
+        case GWGridCellCurrentStateBlock:
+            selectedGridCell.label.userInteractionEnabled = NO;
+            
+            break;
+        case GWGridCellCurrentStateBlank:
+            // change color
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            
+            selectedGridCell.label.userInteractionEnabled = YES;
+            // 弹起键盘
+            [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
+            [selectedGridCell.label becomeFirstResponder];
+            break;
+        case GWGridCellCurrentStateGuessing:
+            // change color
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+
+            selectedGridCell.label.userInteractionEnabled = YES;
+            // 弹起键盘
+            [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
+            [selectedGridCell.label becomeFirstResponder];
+            break;
+        case GWGridCellCurrentStateDone:
+            // change color
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+
+            selectedGridCell.label.userInteractionEnabled = YES;
+            // 弹起键盘
+            [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
+            [selectedGridCell.label becomeFirstResponder];
+            break;
+        case GWGridCellCurrentStateUnKnown:
+            selectedGridCell.label.userInteractionEnabled = NO;
+
+            break;
+        default:
+            
+            break;
+    }
+//    
+//    //只有选中该cell,cell内的label才可交互。
+//    selectedGridCell.label.userInteractionEnabled = YES;
+//    // 弹起键盘
+//    [[PMCustomKeyboard shareInstance] setTextView:selectedGridCell.label];
+//    [selectedGridCell.label becomeFirstResponder];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : DESELECTED", [self formatIndexPath:indexPath]);
     GWGridCell* deselectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-    // change color
-    deselectedGridCell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
-    
-    deselectedGridCell.label.userInteractionEnabled = NO;
+
+    if (deselectedGridCell.label.userInteractionEnabled) {
+        // change color
+        selectedGridCell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+     
+        deselectedGridCell.label.userInteractionEnabled = NO;
+    }
 }
 
 //- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
@@ -350,7 +462,7 @@ NSInteger gridColNum = 10; //网格列数
 
 #pragma mark -
 #pragma mark Internal Method
-- (CGPoint)getLocationFromIndexPath:(NSIndexPath *)indexPath
+- (CGPoint)locationFromIndexPath:(NSIndexPath *)indexPath
 {
     CGPoint location = CGPointMake(0, 0);
     location.x = indexPath.row % gridColNum;
@@ -358,5 +470,44 @@ NSInteger gridColNum = 10; //网格列数
     
     return location;
 }
+
+- (NSString*)gridCellCurrentStringWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
+{
+    NSString* currentStateDescription;
+    if (aPlayboard.current_state) {
+        currentStateDescription = (NSString*)aPlayboard.current_state[(int)aLocation.y][(int)aLocation.x];
+    }
+    return currentStateDescription;
+}
+
+- (GWGridCellCurrentState)gridCellCurrentStateWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
+{
+    NSString* currentStateDescription = [self gridCellCurrentStringWithPlayBoard:aPlayboard andLocation:aLocation];
+    
+    if (currentStateDescription) {
+        if ([currentStateDescription isEqualToString:@"#"]) {
+            return GWGridCellCurrentStateBlock;
+        }
+        if ([currentStateDescription isEqualToString:@"-"]) {
+            return GWGridCellCurrentStateBlank;
+        }
+        
+        //这里需要一个方式来判断该网格单元是正在被猜还是得到正确答案了。
+        //当前返回 正在被猜状态
+        return GWGridCellCurrentStateGuessing;
+    }
+    return GWGridCellCurrentStateUnKnown;
+}
+
+- (NSString*)gridCellCurrentStringFromIndexPath:(NSIndexPath *)indexPath
+{
+    return [self gridCellCurrentStringWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
+}
+
+- (GWGridCellCurrentState)gridCellCurrentStateFromIndexPath:(NSIndexPath *)indexPath
+{
+    return [self gridCellCurrentStateWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
+}
+
 
 @end
