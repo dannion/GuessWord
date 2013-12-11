@@ -19,10 +19,10 @@
 
 /*********************************私有API*************************/
 
--(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP;//根据tmp信息初始化两个area数组
--(void)updateAreaOfDisplayByWord:(Word *)word;//根据一个word更新display
+-(void)initBoardCells;//根据tmp信息初始化两个area数组
+-(void)updateCellsDisplayByWord:(Word *)word;//根据一个word更新display
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
--(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
+//-(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
 
 //-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
 //-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
@@ -48,14 +48,13 @@
             cell.input = BLOCK;
             cell.correct = BLOCK;
             cell.display = BLOCK;
+            cell.currentState = GWGridCellCurrentStateUnKnown;
             [column_array addObject:cell];
         }
         [theCells addObject:column_array];
     }
     return theCells;
 }
-
-
 
 -(NSMutableArray *)cells
 {
@@ -68,9 +67,9 @@
 #pragma mark --
 
 //判断某个点所在单词是否完成
--(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal{
+-(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal{
     //先获取当前的点上对应的那两个词
-    Word *word = [self wordOfPoint:point inDirection:isHorizontal];
+    Word *word = [self wordOfPoint:point inHorizontalDirection:isHorizontal];
     //查看对应的单词是否完成
     if (!word) {
         return NO;
@@ -82,15 +81,24 @@
     }
 }
 
-//Lazy更新,返回得到当前应该显示的状态
+//返回得到当前应该显示的状态
 -(NSArray *)current_state
 {
-    //batch update
-    for (Word *aWord in self.words) {
-        [self updateAreaOfDisplayByWord:aWord];
-    }
     return self.cells;
 }
+
+//根据一个点周围cells的状态
+-(void)updateCellsDisplayByPoint:(CGPoint)point{
+    Word *h_word = [self wordOfPoint:point inHorizontalDirection:YES];
+    if (h_word) {
+        [self updateCellsDisplayByWord:h_word];
+    }
+    Word *v_word = [self wordOfPoint:point inHorizontalDirection:NO];
+    if (v_word) {
+        [self updateCellsDisplayByWord:v_word];
+    }
+}
+
 
 /*判断该点是否能够点击*/
 #warning 当前的实现方式看该位置是否是墙，而不考虑是不是有汉字，有待商榷
@@ -98,7 +106,7 @@
     int x = point.x;
     int y = point.y;
     BoardCell *cell = self.cells[y][x];
-    if ([cell.correct isEqualToString: BLOCK]) {
+    if ([cell isCellBlock]) {
         return NO;
     }else{
         return YES;
@@ -128,9 +136,11 @@
     if (x>= 0 && x< self.width && y>= 0 && y <self.height ) {
 #warning check该坐标位置不是Block,暂时不检查是否已经是正确答案的情况
         BoardCell *cell = self.cells[y][x];
-        if (![cell.correct isEqualToString:BLOCK]) {
+        if (![cell isCellBlock] && ![cell isCellDone]) {
             cell.input = oneAlphabet;
+            [self updateCellsDisplayByPoint:point];
         }
+
     }
 }
 
@@ -217,7 +227,7 @@
             self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
             self.width      = [(NSNumber *)[playBoardDic objectForKey:@"width"] intValue];
             self.height     = [(NSNumber *)[playBoardDic objectForKey:@"height"] intValue];
-            [self initAreaOfInputAndAreaOfCorrectBasedOnTMP];
+            [self initBoardCells];
         }
     }
     return self;
@@ -261,7 +271,8 @@
 #pragma mark --
 
 //根据tmp信息初始化两个area数组，只在最初调用
--(void)initAreaOfInputAndAreaOfCorrectBasedOnTMP{
+-(void)initBoardCells{
+    //初始化correct和input
     for (Word *aWord in self.words) {
         NSString *tmp       = aWord.tmp;
         NSString *ans_cap   = aWord.answer_capital;
@@ -286,10 +297,16 @@
             }
         }
     }
+    
+    //初始化display
+    for (Word *aWord in self.words) {
+        [self updateCellsDisplayByWord:aWord];
+    }
+    
 }
 
-//根据一个word更新cell的display
--(void) updateAreaOfDisplayByWord:(Word *)word
+//根据一个word更新一些cells的display
+-(void)updateCellsDisplayByWord:(Word *)word
 {
     //根据word的方向和该word是否bingo来确定显示的内容
     BOOL bingo      = [self isBingoOfWord:word];
@@ -300,25 +317,32 @@
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
             BoardCell *cell = self.cells[y][x+i];
-            if (bingo) {
-                cell.display = [chi substringWithRange:NSMakeRange(i,1)];
-            } else {
-                cell.display = cell.input;
+            if (cell.currentState != GWGridCellCurrentStateDone) {
+                if (bingo) {
+                    [cell setStateDoneWithChineseCharacter:[chi substringWithRange:NSMakeRange(i,1)]];
+                } else {
+                    cell.display = cell.input;
+                    cell.currentState = [cell isCellInputBlank] ? GWGridCellCurrentStateBlank : GWGridCellCurrentStateGuessing;
+                }
             }
+
         }
         else{
             BoardCell *cell = self.cells[y+i][x];
-            if (bingo) {
-                cell.display = [chi substringWithRange:NSMakeRange(i,1)];
-            } else {
-                cell.display = cell.input;
+            if (cell.currentState != GWGridCellCurrentStateDone) {
+                if (bingo) {
+                    [cell setStateDoneWithChineseCharacter:[chi substringWithRange:NSMakeRange(i,1)]];
+                } else {
+                    cell.display = cell.input;
+                    cell.currentState = [cell isCellInputBlank] ? GWGridCellCurrentStateBlank : GWGridCellCurrentStateGuessing;
+                }
             }
         }
     }
 }
 
 //获得该point该方向上的单词
--(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal
+-(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal
 {
     //如果该点该方向上有单词，返回该单词，如果没有，返回nil
     Word *retWord = nil;
@@ -354,13 +378,13 @@
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
             BoardCell *cell = self.cells[y][x+i];
-            if (![cell.correct isEqualToString:cell.input]) {
+            if (![cell isCellCorrect]) {
                 bingo = NO;
                 break;
             }
         } else {
             BoardCell *cell = self.cells[y+i][x];
-            if (![cell.correct isEqualToString:cell.input]) {
+            if (![cell isCellCorrect]) {
                 bingo = NO;
                 break;
             }
