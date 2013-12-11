@@ -2,7 +2,7 @@
 //  CDPlayBoard.h
 //  GuessWord
 //
-//  Created by WangJZ on 12/10/13.
+//  Created by WangJZ on 12/11/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
@@ -15,5 +15,6 @@
 @property (nonatomic, retain) NSString * category;
 @property (nonatomic, retain) NSData * jsonData;
 @property (nonatomic, retain) NSNumber * level;
+@property (nonatomic, retain) NSNumber * uniqueid;
 
 @end

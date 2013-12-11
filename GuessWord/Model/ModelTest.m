@@ -14,17 +14,11 @@
 +(void)testFunction{
     PlayBoard *pb = [PlayBoardHelper playBoardFromFile:@"td"];
     NSLog(@"%@",pb);
-    NSArray *a = [pb current_state];
-    
-    NSLog(@"%@",pb);
-    
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
-    [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(1, 1)];
-    
-    BOOL bingo = [pb isBingoOfWordAtPoint:CGPointMake(2, 2) inHorizontalDirection:NO];
-    
-    a = [pb current_state];
-    NSLog(@"%@",pb);
+    [PlayBoardHelper insertPlayBoardToDatabase:pb];
+
+    PlayBoard * newPB = [PlayBoardHelper playBoardFromLocalDatabaseByUniqueID:[NSNumber numberWithInt:123456]];
+    NSLog(@"===new PB ====%@",newPB);
     NSLog(@"------------------------------Model测试结束------------------------");
 
 }

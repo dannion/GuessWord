@@ -12,12 +12,11 @@
 
 /************************API************************/
 
-+(PlayBoard *)playBoardFromCoreDataByBoardNumber:(NSNumber *)BoardNumber;   //通过BoardNumber生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;   //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
 
 //将PlayBoard保存到数据库
-+(void)savePlayBoardToDatabase:(PlayBoard *)thePlayBoard
-        inManagedObjectContext:(NSManagedObjectContext *)context;
++(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard;
 
 @end

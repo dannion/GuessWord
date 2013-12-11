@@ -16,9 +16,8 @@
 +(CDPlayBoard *)CDPlayBoardConvertFromPlayBoard:(PlayBoard *)thePlayBoard;//通过PlayBoard获取CDPlayBoard
 
 //将PlayBoard插入到数据库中
-+(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
-             inManagedObjectContext:(NSManagedObjectContext *)context;
++(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard;
 
-+(CDPlayBoard *)CDPlayBoardByNumber:(NSNumber *)number;//通过id获取CDPlayBoard
++(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;//通过id获取CDPlayBoard
 
 @end

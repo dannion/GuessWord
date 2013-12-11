@@ -23,6 +23,24 @@
     }
 }
 
+-(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if(_persistentStoreCoordinator!=nil)
+    {
+        return _persistentStoreCoordinator;
+    }
+    NSURL *storeURL=[[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NoteWithCoreData.sqlite"];
+    
+    NSError *error;
+    _persistentStoreCoordinator=[[NSPersistentStoreCoordinator alloc]initWithManagedObjectModel:[self managedObjectModel]];
+    if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    {
+        NSLog(@"创建存储协调器错误了：%@",error);
+    }
+    return _persistentStoreCoordinator;
+}
+
+
 -(NSManagedObjectContext *)managedObjectContext
 {
     if(_managedObjectContext!=nil)
@@ -44,7 +62,7 @@
     {
         return _managedObjectModel;
     }
-    NSURL *storeURL=[[NSBundle mainBundle]URLForResource:@"NoteWithCoreData" withExtension:@"momd"];
+    NSURL *storeURL=[[NSBundle mainBundle]URLForResource:@"CoreDataModel" withExtension:@"momd"];
     return [[NSManagedObjectModel alloc] initWithContentsOfURL:storeURL];
 }
 

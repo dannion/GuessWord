@@ -12,19 +12,23 @@
 @implementation PlayBoardHelper
 
 //通过BoardNumber生成一个PlayBoard
-+(PlayBoard *)playBoardFromCoreDataByBoardNumber:(NSNumber *)BoardNumber{
-    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByNumber:BoardNumber];
-    return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID{
+    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID];
+    if (cdpb) {
+        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+    }else{
+        return nil;
+    }
 }
+    
 
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData{
     return [[PlayBoard alloc]initWithJsonData:jsonData];
 }
 
-+(void)savePlayBoardToDatabase:(PlayBoard *)thePlayBoard
-        inManagedObjectContext:(NSManagedObjectContext *)context
++(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
 {
-    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard inManagedObjectContext:context];
+    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard];
     //[thePlayBoard saveToFile:@"tg.json"];
 }
 

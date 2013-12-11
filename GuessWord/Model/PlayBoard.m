@@ -182,6 +182,8 @@
     //局面写入一个字典
     NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
+                                 @"uniqueid"    :self.uniqueid,
+                                 @"vol"         :self.vol,
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
@@ -231,14 +233,15 @@
             }
             
             self.words      = output_words;
-            
+                        
             /*********解析基础数据*********/
             self.file       = [playBoardDic objectForKey:@"file"];
+            self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
+            self.vol        = [playBoardDic objectForKey:@"vol"];
             self.category   = [playBoardDic objectForKey:@"category"];
             self.date       = [playBoardDic objectForKey:@"date"];
             self.gamename   = [playBoardDic objectForKey:@"gamename"];
             self.author     = [playBoardDic objectForKey:@"author"];
-            
             self.score      = [(NSNumber *)[playBoardDic objectForKey:@"score"] intValue];
             self.percent    = [(NSNumber *)[playBoardDic objectForKey:@"percent"] intValue];
             self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
