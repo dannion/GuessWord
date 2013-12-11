@@ -75,6 +75,9 @@
     //先获取当前的点上对应的那两个词
     Word *word = [self wordOfPoint:point inDirection:isHorizontal];
     //查看对应的单词是否完成
+    if (!word) {
+        return NO;
+    }
     if ([self isBingoOfWord:word]) {
         return YES;
     }else{
@@ -303,6 +306,9 @@
 //查看某个单词是否完成
 -(BOOL)isBingoOfWord:(Word *)word{
     //根据word的坐标和横纵方向来从correct和input中确定它是否已经完成
+    if (!word) {
+        return NO;
+    }
     BOOL bingo = YES;
     int x = word.start_x;
     int y = word.start_y;

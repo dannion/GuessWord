@@ -16,6 +16,7 @@
     CDPlayBoard *cdpb = nil;
     return cdpb;
 }
+
 //将PlayBoard插入到数据库中
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context

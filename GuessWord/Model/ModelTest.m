@@ -17,6 +17,8 @@
     NSLog(@"%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(1, 1)];
+    BOOL bingo = [pb isBingoOfWordAtPoint:CGPointMake(2, 2) inDirection:NO];
+    
     a = [pb current_state];
     
     [pb updateBoardWithInputValue:@"h" atPoint:CGPointMake(1, 2)];
