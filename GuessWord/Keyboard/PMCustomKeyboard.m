@@ -76,7 +76,7 @@ enum {
 	int i = 0;
 	for (UIButton *b in self.characterKeys) {
 		[b setTitle:[a objectAtIndex:i] forState:UIControlStateNormal];
-		if ([b.titleLabel.text characterAtIndex:0] < 128 && ![[b.titleLabel.text substringToIndex:1] isEqualToString:@"◌"])
+		if ([b.titleLabel.text characterAtIndex:0] < 128)
 			[b.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
 		else
 			[b.titleLabel setFont:kFont];

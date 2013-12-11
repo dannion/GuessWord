@@ -12,6 +12,7 @@
 #import "PMCustomKeyboard.h"
 
 
+
 #define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 100
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
@@ -41,6 +42,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
+@property (nonatomic, weak) IBOutlet UILabel* descriptionLabel;
 @property (nonatomic, strong) UIImageView* gridViewBackgroundImageView; //网格背景页面
 
 @end
@@ -144,7 +146,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     //however, now we get data.
     [self playBoard];
-    NSLog(@"%@", self.playBoard.current_state);
+    NSLog(@"%@", self.playBoard);
     
     gridRowNum = self.playBoard.height;
     gridColNum = self.playBoard.width;
@@ -218,16 +220,10 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     cell.label.delegate = self;
     
     
-    if (cellCurrentState == GWGridCellCurrentStateBlock) {
-        cell.label.text = @"";
-        UIImage* aImage = [self createImageWithColor:[UIColor brownColor]];
-        cell.imageView.image = aImage;
-    }
-    
     switch (cellCurrentState) {
         case GWGridCellCurrentStateBlock:
             cell.label.text = @"";
-            cell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            cell.imageView.image = [self createImageWithColor:[UIColor blackColor]];
             break;
         case GWGridCellCurrentStateBlank:
             cell.label.text = @"";
@@ -289,6 +285,44 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
     
+    if (cellCurrentState != GWGridCellCurrentStateBlock) {
+        NSString* descriptionString = nil;
+        
+        CGPoint currentLocation = [self locationFromIndexPath:indexPath];
+        Word* currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:YES];
+        if (currentWord) {
+            descriptionString = currentWord.description;
+            
+            int length = currentWord.length;
+            
+            for (int i=0; i<length; i++) {
+                CGPoint cellLocation = CGPointMake(currentWord.start_x+i, currentWord.start_y);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            }
+        }
+        
+        currentWord = [self.playBoard wordOfPoint:currentLocation inDirection:NO];
+        if (currentWord) {
+            descriptionString = currentWord.description;
+            
+            int length = currentWord.length;
+            
+            for (int i=0; i<length; i++) {
+                CGPoint cellLocation = CGPointMake(currentWord.start_x, currentWord.start_y+i);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            }
+        }
+        
+        
+    }
+    
+
+    
+    
     switch (cellCurrentState) {
         case GWGridCellCurrentStateBlock:
             selectedGridCell.label.userInteractionEnabled = NO;
@@ -296,7 +330,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             break;
         case GWGridCellCurrentStateBlank:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
             
             selectedGridCell.label.userInteractionEnabled = YES;
             // 弹起键盘
@@ -305,7 +339,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             break;
         case GWGridCellCurrentStateGuessing:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
             selectedGridCell.label.userInteractionEnabled = YES;
             // 弹起键盘
@@ -314,7 +348,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             break;
         case GWGridCellCurrentStateDone:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
             selectedGridCell.label.userInteractionEnabled = YES;
             // 弹起键盘
@@ -348,6 +382,36 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
      
         deselectedGridCell.label.userInteractionEnabled = NO;
     }
+    
+    
+    CGPoint deselectLocation = [self locationFromIndexPath:indexPath];
+    Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:YES];
+//    BOOL guessWordBingo = [self.playBoard isBingoOfWordAtPoint:deselectLocation inDirection:YES];
+    
+    if (deselectWord) {
+        int length = deselectWord.length;
+        
+        for (int i=0; i<length; i++) {
+            CGPoint cellLocation = CGPointMake(deselectWord.start_x+i, deselectWord.start_y);
+            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+            gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+        }
+    }
+    
+    deselectWord = [self.playBoard wordOfPoint:deselectLocation inDirection:NO];
+    if (deselectWord) {
+        int length = deselectWord.length;
+        
+        for (int i=0; i<length; i++) {
+            CGPoint cellLocation = CGPointMake(deselectWord.start_x, deselectWord.start_y+i);
+            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+            gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+        }
+    }
+
+    
 }
 
 //- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
@@ -409,11 +473,38 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     //检查用户是否答对了
 //    -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//判断某个点所在单词是否完成
     NSLog(@"%d %d",[self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES], [self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO]);
-    NSLog(@"%@", self.playBoard.current_state);
+    NSLog(@"%@", self.playBoard);
     
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES]|[self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO])
+    //先判断垂直，再判断水平
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO])
     {
-        [_gridView setNeedsDisplay];
+        //答对了，将对应单词转换为汉字结果。
+        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:NO];
+        
+        int length = correctWord.length;
+        
+        for (int i=0; i<length; i++) {
+            //可以做动画
+            CGPoint cellLocation = CGPointMake(correctWord.start_x, correctWord.start_y+i);
+            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+            gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+        }
+    };
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES])
+    {
+        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:YES];
+        
+        int length = correctWord.length;
+        
+        for (int i=0; i<length; i++) {
+            //可以做动画
+            CGPoint cellLocation = CGPointMake(correctWord.start_x+i, correctWord.start_y);
+            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+            gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+        }
+
     };
 }
 
