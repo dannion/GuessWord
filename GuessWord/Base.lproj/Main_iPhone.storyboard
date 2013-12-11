@@ -91,7 +91,7 @@
             </objects>
             <point key="canvasLocation" x="-943" y="268"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - 往期回顾-->
         <scene sceneID="SMz-ib-nYy">
             <objects>
                 <viewController id="82W-Sp-yVi" sceneMemberID="viewController">
@@ -100,7 +100,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="qZh-oU-Yyg"/>
+                    <navigationItem key="navigationItem" title="往期回顾" id="qZh-oU-Yyg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Plp-UW-6AK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -189,7 +189,7 @@
             </objects>
             <point key="canvasLocation" x="802" y="596"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - 现场直播-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="GWViewController" sceneMemberID="viewController">
@@ -198,7 +198,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="X15-d7-3Yk" customClass="PSUICollectionView">
-                                <rect key="frame" x="10" y="129" width="300" height="300"/>
+                                <rect key="frame" x="15" y="120" width="290" height="290"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="cmD-ne-ztG">
                                     <size key="itemSize" width="50" height="50"/>
@@ -219,7 +219,7 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D4v-u4-Dxp">
-                                <rect key="frame" x="20" y="69" width="290" height="52"/>
+                                <rect key="frame" x="15" y="69" width="290" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -227,7 +227,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Cql-in-p5O"/>
+                    <navigationItem key="navigationItem" title="现场直播" id="Cql-in-p5O"/>
                     <connections>
                         <outlet property="descriptionLabel" destination="D4v-u4-Dxp" id="pXU-0P-Rdu"/>
                         <outlet property="gridView" destination="X15-d7-3Yk" id="1T9-5w-fXi"/>

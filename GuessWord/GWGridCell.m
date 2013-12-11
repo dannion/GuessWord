@@ -27,9 +27,6 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         _imageView = [[UIImageView alloc] init];
         _imageView.contentMode = UIViewContentModeScaleToFill;
         
-        
-        
-        
         _label = [[UITextField alloc] init];
         _label.textColor = [UIColor blackColor];
         _label.textAlignment = NSTextAlignmentCenter;
@@ -52,7 +49,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
 - (void)setHighlighted:(BOOL)highlighted {
     NSLog(@"Cell %@ highlight: %@", _label.text, highlighted ? @"ON" : @"OFF");
     if (highlighted) {
-        _label.backgroundColor = [UIColor redColor];
+        _label.backgroundColor = [UIColor brownColor];
     }
     else {
         _label.backgroundColor = [UIColor clearColor];

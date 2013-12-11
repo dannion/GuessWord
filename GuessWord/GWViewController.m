@@ -469,24 +469,28 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     
     //检查用户是否答对了
     
-    //先判断垂直，再判断水平
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO])
-    {
+    //先判断垂直，再判断水平，最后判断是否整个网格都答对了
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:NO]){
         //答对了，将对应单词转换为汉字结果。
         Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:NO];
         
         int length = correctWord.length;
         
         for (int i=0; i<length; i++) {
-            //可以做动画
             CGPoint cellLocation = CGPointMake(correctWord.start_x, correctWord.start_y+i);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
             GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
             gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            //可以做动画
+//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//                
+//            } completion:^(BOOL finished){
+//                
+//            }];
+
         }
     };
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES])
-    {
+    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inDirection:YES]){
         Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inDirection:YES];
         
         int length = correctWord.length;
@@ -498,8 +502,12 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
             GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
             gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
         }
-
     };
+    
+    if ([self.playBoard isGameBoardCompleted]) {
+        NSLog(@"闯关成功！！！！你真厉害！！");
+    }
+    
 }
 
 #pragma mark -
