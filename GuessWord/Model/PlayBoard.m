@@ -146,15 +146,32 @@
 
 //将类转化成json数据
 -(NSData *)jsonDataDescription{
+    //重点是考虑input的内容写入到tmp字段！！
+    
     NSMutableArray *word_writable_array = [[NSMutableArray alloc]initWithCapacity:50];
     
     //将每一个单词写入json格式的数组
     for (Word *aWord in self.words) {
+        //从cells中重新构建tmpString
+        NSMutableString *tmpString = [[NSMutableString alloc]init];
+        int x = aWord.start_x;
+        int y = aWord.start_y;
+        BOOL isHorizontal = aWord.horizontal;
+        for (int i = 0; i< aWord.length; i++) {
+            if (isHorizontal) {
+                BoardCell *boarCell = self.cells[y][x+i];
+                [tmpString appendString:boarCell.input];
+            }else{
+                BoardCell *boarCell = self.cells[y+i][x];
+                [tmpString appendString:boarCell.input];
+            }
+        }
+
         NSDictionary *aWordDic = @{@"cap"       :aWord.answer_capital             == nil ? @"":aWord.answer_capital,
                                    @"chi"       :aWord.answer_chinese_character   == nil ? @"":aWord.answer_chinese_character,
                                    @"mask"      :aWord.mask                       == nil ? @"":aWord.mask,
                                    @"desc"      :aWord.description                == nil ? @"":aWord.description,
-                                   @"tmp"       :aWord.tmp                        == nil ? @"":aWord.tmp,
+                                   @"tmp"       :tmpString,
                                    @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
                                    @"x"         :[NSNumber numberWithInt:aWord.start_x],
                                    @"y"         :[NSNumber numberWithInt:aWord.start_y],
@@ -325,7 +342,6 @@
                     cell.currentState = [cell isCellInputBlank] ? GWGridCellCurrentStateBlank : GWGridCellCurrentStateGuessing;
                 }
             }
-
         }
         else{
             BoardCell *cell = self.cells[y+i][x];
@@ -350,15 +366,17 @@
     int y = (int)point.y;
     
     for (Word *aWrod in self.words) {
-        if (isHorizontal) {
-            //满足三个条件 1）纵坐标一致， 2）横坐标在起始和终止范围内
-            if (y == aWrod.start_y && x >= aWrod.start_x && x <= aWrod.start_x + aWrod.length) {
-                retWord = aWrod;
-                break;
-            }
-        } else {
-            if (x == aWrod.start_x && y >= aWrod.start_y && y <= aWrod.start_y + aWrod.length) {
-                retWord = aWrod;
+        if (aWrod.horizontal == isHorizontal) {
+            if (isHorizontal) {
+                //满足三个条件 1）纵坐标一致， 2）横坐标在起始和终止范围内
+                if (y == aWrod.start_y && x >= aWrod.start_x && x <= aWrod.start_x + aWrod.length) {
+                    retWord = aWrod;
+                    break;
+                }
+            } else {
+                if (x == aWrod.start_x && y >= aWrod.start_y && y <= aWrod.start_y + aWrod.length) {
+                    retWord = aWrod;
+                }
             }
         }
     }

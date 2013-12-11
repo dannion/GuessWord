@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
             endingLineNumber = "44"
-            landmarkName = "gridViewBackgroundImageView"
+            landmarkName = "gridView"
             landmarkType = "19">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,74 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408435439.708274"
+            timestampString = "408439287.648763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-initBoardCells"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[PlayBoard initAreaOfInputAndAreaOfCorrectBasedOnTMP]"
-                  moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/developer/DMT_PROJ/GuessWord/GuessWord/Model/PlayBoard.m"
-                  timestampString = "408429259.229576"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "57">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[PlayBoard initAreaOfInputAndAreaOfCorrectBasedOnTMP]"
-                  moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/developer/DMT_PROJ/GuessWord/GuessWord/Model/PlayBoard.m"
-                  timestampString = "408429259.230115"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "2635">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408435439.708274"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
-            landmarkName = "-initBoardCells"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408435439.708274"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
-            landmarkName = "-isBingoOfWord:"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "-wordOfPoint:inHorizontalDirection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -205,7 +143,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "182"
             endingLineNumber = "182"
-            landmarkName = "-initWithJsonData:"
+            landmarkName = "-jsonDataDescription"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
