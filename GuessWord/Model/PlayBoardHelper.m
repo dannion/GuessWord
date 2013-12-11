@@ -26,10 +26,11 @@
     return [[PlayBoard alloc]initWithJsonData:jsonData];
 }
 
+
 +(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
+                    withUniqueID:(NSNumber *)uniqueID
 {
-    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard];
-    //[thePlayBoard saveToFile:@"tg.json"];
+    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard withUniqueID:thePlayBoard.uniqueid];
 }
 
 +(PlayBoard *)playBoardFromFile:(NSString *)file{

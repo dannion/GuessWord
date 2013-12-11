@@ -12,13 +12,14 @@
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard *pb = [PlayBoardHelper playBoardFromFile:@"td"];
+    PlayBoard * pb = [PlayBoardHelper playBoardFromFile:@"td"];
     NSLog(@"%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
-    [PlayBoardHelper insertPlayBoardToDatabase:pb];
+    pb.level = 2;
+    [PlayBoardHelper insertPlayBoardToDatabase:pb withUniqueID:pb.uniqueid];
 
-    PlayBoard * newPB = [PlayBoardHelper playBoardFromLocalDatabaseByUniqueID:[NSNumber numberWithInt:123456]];
-    NSLog(@"===new PB ====%@",newPB);
+
+    NSLog(@"===new PB ====%@",pb);
     NSLog(@"------------------------------Model测试结束------------------------");
 
 }

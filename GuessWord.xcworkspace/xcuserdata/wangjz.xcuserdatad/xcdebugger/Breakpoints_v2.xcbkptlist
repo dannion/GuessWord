@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/ModelTest.m"
-            timestampString = "408455351.287023"
+            timestampString = "408461807.446046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
@@ -169,28 +169,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/ModelTest.m"
-            timestampString = "408458262.463141"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "+testFunction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "408457144.370605"
+            timestampString = "408461572.39287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "+CDPlayBoardByUniqueID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,28 +186,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "408457267.799492"
+            timestampString = "408461572.39287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "+inserToDatabaseWithPlayBoard:"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "+CDPlayBoardByUniqueID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "408458031.813908"
+            timestampString = "408461507.107572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "+CDPlayBoardByUniqueID:"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "+inserToDatabaseWithPlayBoard:withUniqueID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

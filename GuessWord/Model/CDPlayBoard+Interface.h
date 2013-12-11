@@ -15,9 +15,12 @@
 
 +(CDPlayBoard *)CDPlayBoardConvertFromPlayBoard:(PlayBoard *)thePlayBoard;//通过PlayBoard获取CDPlayBoard
 
-//将PlayBoard插入到数据库中
-+(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard;
 
-+(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;//通过id获取CDPlayBoard
+//将PlayBoard插入到数据库中
++(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
+                       withUniqueID:(NSNumber *)uniqueID;
+
+//通过id获取CDPlayBoard
++(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;
 
 @end
