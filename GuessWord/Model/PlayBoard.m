@@ -240,12 +240,12 @@
                     self.areaOfCorrect[y][x+i] = [ans_cap substringWithRange:NSMakeRange(i,1)];
                     
                     //用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
-                    self.areaOfInput[y][x+i]   = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                    self.areaOfInput[y][x+i]   = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
                 }
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
                     self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
-                    self.areaOfInput[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                    self.areaOfInput[y+i][x] = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
                 }
             }
         }
