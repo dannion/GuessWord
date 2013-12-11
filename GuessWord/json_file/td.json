@@ -6,13 +6,13 @@
     "words" : [
                {
                "desc" : "时来运转",
-               "tmp" : "h-l",
+               "tmp" : "---",
                "horiz" : 1,
                "x" : 1,
                "y" : 2,
                "len" : 3,
                "chi" : "好运来",
-               "cap" : "hyl",
+               "cap" : "HYL",
                "mask" : "100"
                },
                {
@@ -23,7 +23,7 @@
                "y" : 1,
                "len" : 3,
                "chi" : "大好人",
-               "cap" : "dhr",
+               "cap" : "DHR",
                "mask" : "000"
                }
                ],

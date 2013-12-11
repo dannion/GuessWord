@@ -245,7 +245,7 @@
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
                     self.areaOfCorrect[y+i][x] = [ans_cap substringWithRange:NSMakeRange(i,1)];
-                    self.areaOfCorrect[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
+                    self.areaOfInput[y+i][x] = [tmp isEqualToString:@""] ? [ans_cap substringWithRange:NSMakeRange(i,1)] : BLANK;
                 }
             }
         }

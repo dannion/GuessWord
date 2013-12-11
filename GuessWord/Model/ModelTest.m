@@ -14,7 +14,7 @@
 +(void)testFunction{
     PlayBoard *pb = [PlayBoardHelper playBoardFromFile:@"td"];
     NSArray *a = [pb current_state];
-    NSLog(@"%@",pb);
+    NSLog(@"%@",a);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(1, 1)];
     BOOL bingo = [pb isBingoOfWordAtPoint:CGPointMake(2, 2) inDirection:NO];
