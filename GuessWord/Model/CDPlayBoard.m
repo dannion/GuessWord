@@ -7,6 +7,7 @@
 //
 
 #import "CDPlayBoard.h"
+#import "CDEpisode.h"
 
 
 @implementation CDPlayBoard
@@ -15,5 +16,6 @@
 @dynamic jsonData;
 @dynamic level;
 @dynamic uniqueid;
+@dynamic belongToWhich;
 
 @end

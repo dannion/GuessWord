@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="CDEpisodes" syncable="YES">
+    <entity name="CDEpisode" representedClassName="CDEpisode" syncable="YES">
         <attribute name="episodeID" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfLevels" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="open_date" attributeType="Date" syncable="YES"/>
+        <relationship name="boards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPlayBoard" inverseName="belongToWhich" inverseEntity="CDPlayBoard" syncable="YES"/>
     </entity>
     <entity name="CDPlayBoard" representedClassName="CDPlayBoard" syncable="YES">
         <attribute name="category" attributeType="String" syncable="YES"/>
         <attribute name="jsonData" attributeType="Binary" syncable="YES"/>
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uniqueid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <relationship name="belongToWhich" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDEpisode" inverseName="boards" inverseEntity="CDEpisode" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDPlayBoard" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CDEpisodes" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDEpisode" positionX="-1260" positionY="-972" width="128" height="118"/>
+        <element name="CDPlayBoard" positionX="-1523" positionY="-873" width="128" height="118"/>
     </elements>
 </model>

@@ -8,17 +8,17 @@
 
 #import "ModelTest.h"
 #import "PlayBoard.h"
-#import "PlayBoardHelper.h"
+
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard * pb = [PlayBoardHelper playBoardFromFile:@"td"];
-    NSLog(@"%@",pb);
+    PlayBoard * pb = [PlayBoard playBoardFromFile:@"puz1"];
+    NSLog(@"-----init PB ---%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     pb.level = 2;
-    [PlayBoardHelper insertPlayBoardToDatabase:pb withUniqueID:pb.uniqueid];
-
-
+    [PlayBoard insertPlayBoardToDatabase:pb withUniqueID:pb.uniqueid];
+    
+    
     NSLog(@"===new PB ====%@",pb);
     NSLog(@"------------------------------Model测试结束------------------------");
 

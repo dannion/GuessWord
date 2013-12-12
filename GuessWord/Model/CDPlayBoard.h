@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class CDEpisode;
 
 @interface CDPlayBoard : NSManagedObject
 
@@ -16,5 +17,6 @@
 @property (nonatomic, retain) NSData * jsonData;
 @property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * uniqueid;
+@property (nonatomic, retain) CDEpisode *belongToWhich;
 
 @end

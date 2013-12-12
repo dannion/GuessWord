@@ -7,17 +7,63 @@
 //
 
 #import "CDPlayBoard+Interface.h"
-#import "PlayBoardHelper.h"
 #import "GWAppDelegate.h"
 
 @implementation CDPlayBoard (Interface)
 
-//通过PlayBoard获取CDPlayBoard
-+(CDPlayBoard *)CDPlayBoardConvertFromPlayBoard:(PlayBoard *)thePlayBoard{
-    //TO DO:
-    CDPlayBoard *cdpb = nil;
-    return cdpb;
++(void)documentIsReady:(UIManagedDocument *)document{
+//    if (document.documentState == UIDocumentStateNormal) {
+//        //start using document
+//        NSManagedObjectContext *context = document.managedObjectContext;
+//        //插入 context is the hook
+//        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
+//                                                              inManagedObjectContext:context];
+//        //目前cdpb中的所有peoperty都是nil的，可以通过字典的形式设置每个字段的值
+//        //[cdpb setValue:@"" forKey:@""];
+//        //当然，使用字典的方式有时候很丑陋，我们愿意使用@property的方式，怎么办呢？创建NSManagedObject的子类
+//        cdpb.level = [NSNumber numberWithInt:1];
+//        
+//        //也可以为relationship赋值，而且强大的是你只要设置reletionship的单方向即可
+//        
+//        //所有以上的操作只会在内存中，不会保存到实际的数据库中，直到你调用save
+//        
+//        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@""];
+//        request.fetchBatchSize = 20;
+//        request.fetchLimit = 100;
+//        request.sortDescriptors = ;
+//        request.predicate = ;
+//    }
 }
+
++(void)openCoreDataBase{
+    //获取文件url
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentationDirectory inDomains:NSUserDomainMask] firstObject];
+    NSString *documentName = @"MyDocument";
+    NSURL *url = [documentsDirectory URLByAppendingPathComponent:documentName];
+    
+    //通过url获取文件
+    UIManagedDocument *document = [[UIManagedDocument alloc]initWithFileURL:url];
+    
+    //查看文件是否存在
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[url path]];
+    if (fileExists) {
+        [document openWithCompletionHandler:^(BOOL success){
+        //TO DO:处理打开成功，因为打开和创建是异步的，所以需要用completionHandler
+            if (success) {[self documentIsReady:document];}
+            if (!success) {NSLog(@"不能在 %@ 创建文件",url);}
+        }];
+    }else{
+        [document saveToURL:url
+           forSaveOperation:UIDocumentSaveForCreating
+          completionHandler:^(BOOL success){
+          //TO DO:处理创建成功
+              if (success) {[self documentIsReady:document];}
+              if (!success) {NSLog(@"不能在 %@ 创建文件",url);}
+          }];
+    }
+}
+
 
 //将PlayBoard插入到数据库中
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
@@ -36,31 +82,43 @@
     [request setSortDescriptors:@[sortDescriptor]];
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
-    if (array == nil) {
-        NSLog(@"【error】读取数据库操作");
+    if (array == nil || [array count] > 1) {
+        NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }
     if ([array count] != 0) {
-        [context deleteObject:[array firstObject]];
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,删除",uniqueID);
+        CDPlayBoard *cdpb = [array firstObject];
+        cdpb.uniqueid   = thePlayBoard.uniqueid;
+        cdpb.category   = thePlayBoard.category;
+        cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
+        cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        
+        BOOL isSaveSuccess = [context save:&error];
+        if (!isSaveSuccess) {
+            NSLog(@"Error: %@,%@",error,[error userInfo]);
+        }else {
+            NSLog(@"插入新的uniqueid = %@ 的棋盘格",uniqueID);
+        }
+        [appDelegate saveContext];
+        
     }else{
-        NSLog(@"数据库中没有uniqueid = %@ 的棋盘格",uniqueID);
+        NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",uniqueID);
+        /**************再插入**************/
+        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
+                                                          inManagedObjectContext:context];
+        cdpb.uniqueid   = thePlayBoard.uniqueid;
+        cdpb.category   = thePlayBoard.category;
+        cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
+        cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        
+        BOOL isSaveSuccess = [context save:&error];
+        if (!isSaveSuccess) {
+            NSLog(@"Error: %@,%@",error,[error userInfo]);
+        }else {
+            NSLog(@"插入新的uniqueid = %@ 的棋盘格",uniqueID);
+        }
+        [appDelegate saveContext];
     }
-
-    /**************再插入**************/
-    CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
-                                                      inManagedObjectContext:context];
-    cdpb.uniqueid   = thePlayBoard.uniqueid;
-    cdpb.category   = thePlayBoard.category;
-    cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
-    cdpb.jsonData   = [thePlayBoard jsonDataDescription];
-
-    BOOL isSaveSuccess = [context save:&error];
-    if (!isSaveSuccess) {
-        NSLog(@"Error: %@,%@",error,[error userInfo]);
-    }else {
-        NSLog(@"插入新的uniqueid = %@ 的棋盘格",uniqueID);
-    }
-    [appDelegate saveContext];
 }
 
 //通过id获取CDPlayBoard
@@ -85,7 +143,9 @@
     {
         NSLog(@"%@",array);
     }
-    return [array firstObject];
+#warning 应该是这样写吧？
+    CDPlayBoard *copyPlayBoard = [[array firstObject] copy];
+    return copyPlayBoard;
 }
 
 @end

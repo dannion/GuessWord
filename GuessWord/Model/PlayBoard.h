@@ -18,7 +18,14 @@
 
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
+/************************构造类实例的方法************************/
 
++(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
+                    withUniqueID:(NSNumber *)uniqueID;
+
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
++(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
++(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
 
 /************************************************公有变量***************************************/
 @property(nonatomic,strong) NSArray *words;//包含了全部的单词

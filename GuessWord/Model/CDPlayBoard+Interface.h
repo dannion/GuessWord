@@ -13,8 +13,6 @@
 
 @interface CDPlayBoard (Interface)
 
-+(CDPlayBoard *)CDPlayBoardConvertFromPlayBoard:(PlayBoard *)thePlayBoard;//通过PlayBoard获取CDPlayBoard
-
 
 //将PlayBoard插入到数据库中
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard

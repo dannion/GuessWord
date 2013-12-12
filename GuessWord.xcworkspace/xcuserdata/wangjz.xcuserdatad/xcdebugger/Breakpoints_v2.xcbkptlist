@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408507569.965895"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "-isBingoOfWordAtPoint:inHorizontalDirection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408507569.965895"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "-initWithJsonData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408507569.965895"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "-jsonDataDescription"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408507569.965895"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "-updateBoardWithInputValue:atPoint:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "408507569.965895"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "-updateBoardWithInputValue:atPoint:"
             landmarkType = "5">
          </BreakpointContent>
@@ -121,22 +121,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/ModelTest.m"
-            timestampString = "408461807.446046"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "+testFunction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "GuessWord/GWAppDelegate.m"
             timestampString = "408456503.755573"
             startingColumnNumber = "9223372036854775807"
@@ -153,29 +137,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "408461572.39287"
+            filePath = "GuessWord/Model/PlayBoard.m"
+            timestampString = "408534390.694758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "+CDPlayBoardByUniqueID:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "408461507.107572"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "+inserToDatabaseWithPlayBoard:withUniqueID:"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
+            landmarkName = "-updateCellsDisplayByWord:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

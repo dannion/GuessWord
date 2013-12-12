@@ -9,7 +9,7 @@
 
 #import "PlayBoard.h"
 #import "BoardCell.h"
-
+#import "CDPlayBoard+Interface.h"
 @interface PlayBoard()
 
 /*********************************私有变量*************************/
@@ -31,6 +31,37 @@
 @end
 
 @implementation PlayBoard
+
+#pragma mark 构造方法
+#pragma mark --
+
+//通过BoardNumber生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
+{
+    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID];
+    if (cdpb) {
+        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+    }else{
+        return nil;
+    }
+}
+
++(PlayBoard *)playBoardFromData:(NSData *)jsonData{
+    return [[PlayBoard alloc]initWithJsonData:jsonData];
+}
+
+
++(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
+                    withUniqueID:(NSNumber *)uniqueID
+{
+    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard withUniqueID:thePlayBoard.uniqueid];
+}
+
++(PlayBoard *)playBoardFromFile:(NSString *)file{
+    NSString *js_file_path = [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
+    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:js_file_path];
+    return [PlayBoard playBoardFromData:jsonData];
+}
 
 #pragma mark LAZY-INSTANCE
 #pragma mark --
