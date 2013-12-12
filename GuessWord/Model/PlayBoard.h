@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Word.h"
+@class BoardCell;
 
 #define VERTICAL_DIRECTION YES;
 #define HORIZONTAL_DERECTION NO;
@@ -28,6 +29,7 @@
 @property(nonatomic) NSDate *date; // 游戏的日期
 @property(nonatomic,strong) NSString *gamename; // 游戏名字
 @property(nonatomic,strong) NSString *author; // 作者
+@property(nonatomic) int degree; // 难度
 @property(nonatomic) int score;//得分
 @property(nonatomic) int percent;//完成度
 @property(nonatomic) int level;//游戏等级
@@ -45,15 +47,13 @@
 #warning 没啥用吧
 -(void)saveToFile:(NSString *)saveFile;
 
-
+-(BoardCell *)cellAtPoint:(CGPoint)point;//获取某个坐标上的boardcell
 //测试用
 -(NSString*)description;
 
 
 -(NSData *)jsonDataDescription;//返回对象的json数据
-
 -(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;//必须调用！每次用户输入一个字母
-
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;//默认的初始化函数
 -(NSArray *)current_state;//of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;//通过point获得指定方向的单词

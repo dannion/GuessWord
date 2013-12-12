@@ -66,6 +66,13 @@
 #pragma mark PUBLIC-API
 #pragma mark --
 
+/*获取某个坐标上的boardcel*/
+-(BoardCell *)cellAtPoint:(CGPoint)point{
+    int x = (int)point.x;
+    int y = (int)point.y;
+    return self.cells[y][x];
+}
+
 //判断某个点所在单词是否完成
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal{
     //先获取当前的点上对应的那两个词
@@ -103,8 +110,8 @@
 /*判断该点是否能够点击*/
 #warning 当前的实现方式看该位置是否是墙，而不考虑是不是有汉字，有待商榷
 -(BOOL)isClickableAtPoint:(CGPoint)point{
-    int x = point.x;
-    int y = point.y;
+    int x = (int)point.x;
+    int y = (int)point.y;
     BoardCell *cell = self.cells[y][x];
     if ([cell isCellBlock]) {
         return NO;
@@ -187,6 +194,7 @@
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
+                                 @"degree"      :[NSNumber numberWithInt:self.degree],
                                  @"score"       :[NSNumber numberWithInt:self.score],
                                  @"percent"     :[NSNumber numberWithInt:self.percent],
                                  @"level"       :[NSNumber numberWithInt:self.level],
@@ -205,7 +213,7 @@
 }
 
 
-/*指定的初始化函数*/
+/*指定的初始化函数,通过json的二进制数据来构造对象*/
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData{
     self = [super init];
     if (self) {
@@ -242,6 +250,7 @@
             self.date       = [playBoardDic objectForKey:@"date"];
             self.gamename   = [playBoardDic objectForKey:@"gamename"];
             self.author     = [playBoardDic objectForKey:@"author"];
+            self.degree     = [(NSNumber *)[playBoardDic objectForKey:@"degree"] intValue];
             self.score      = [(NSNumber *)[playBoardDic objectForKey:@"score"] intValue];
             self.percent    = [(NSNumber *)[playBoardDic objectForKey:@"percent"] intValue];
             self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
