@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>Pods-PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -42,7 +47,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>96B24571510C4441BC14C842</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>983AA1ECFC904215A7C0C9AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9917BED11A914421B18CCD6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BFDD957BDB4E474AA9787C5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

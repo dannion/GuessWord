@@ -51,10 +51,10 @@
 }
 
 
-+(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
-                    withUniqueID:(NSNumber *)uniqueID
+-(void)insertToDatabaseWithUniqueID:(NSNumber *)uniqueID
 {
-    [CDPlayBoard inserToDatabaseWithPlayBoard:thePlayBoard withUniqueID:thePlayBoard.uniqueid];
+#warning 应该这样写吧?把自己传给了数据库会不会有问题
+    [CDPlayBoard inserToDatabaseWithPlayBoard:self withUniqueID:self.uniqueid];
 }
 
 +(PlayBoard *)playBoardFromFile:(NSString *)file{

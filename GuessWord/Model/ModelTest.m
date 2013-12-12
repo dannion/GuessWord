@@ -16,7 +16,7 @@
     NSLog(@"-----init PB ---%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     pb.level = 2;
-    [PlayBoard insertPlayBoardToDatabase:pb withUniqueID:pb.uniqueid];
+    [pb insertToDatabaseWithUniqueID:pb.uniqueid];
     
     
     NSLog(@"===new PB ====%@",pb);

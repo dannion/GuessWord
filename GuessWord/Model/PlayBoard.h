@@ -20,8 +20,7 @@
 
 /************************构造类实例的方法************************/
 
-+(void)insertPlayBoardToDatabase:(PlayBoard *)thePlayBoard
-                    withUniqueID:(NSNumber *)uniqueID;
+-(void)insertToDatabaseWithUniqueID:(NSNumber *)uniqueID;
 
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
