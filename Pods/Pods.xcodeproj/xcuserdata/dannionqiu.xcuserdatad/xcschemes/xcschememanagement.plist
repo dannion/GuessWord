@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-PSTCollectionView.xcscheme</key>
+		<key>Pods-AFNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SBJson.xcscheme</key>
+		<key>Pods-PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,17 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4A58E00AE9844FC09CCEA8D5</key>
+		<key>96B24571510C4441BC14C842</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8E983126187F40D7842E0F79</key>
+		<key>9917BED11A914421B18CCD6D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>983AA1ECFC904215A7C0C9AC</key>
+		<key>BFDD957BDB4E474AA9787C5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

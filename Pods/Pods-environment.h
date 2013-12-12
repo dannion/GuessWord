@@ -6,15 +6,15 @@
 // project.
 
 
+// AFNetworking
+#define COCOAPODS_POD_AVAILABLE_AFNetworking
+#define COCOAPODS_VERSION_MAJOR_AFNetworking 1
+#define COCOAPODS_VERSION_MINOR_AFNetworking 3
+#define COCOAPODS_VERSION_PATCH_AFNetworking 3
+
 // PSTCollectionView
 #define COCOAPODS_POD_AVAILABLE_PSTCollectionView
 #define COCOAPODS_VERSION_MAJOR_PSTCollectionView 1
 #define COCOAPODS_VERSION_MINOR_PSTCollectionView 2
 #define COCOAPODS_VERSION_PATCH_PSTCollectionView 0
-
-// SBJson
-#define COCOAPODS_POD_AVAILABLE_SBJson
-#define COCOAPODS_VERSION_MAJOR_SBJson 3
-#define COCOAPODS_VERSION_MINOR_SBJson 2
-#define COCOAPODS_VERSION_PATCH_SBJson 0
 

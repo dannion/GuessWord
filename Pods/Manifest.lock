@@ -1,13 +1,13 @@
 PODS:
+  - AFNetworking (1.3.3)
   - PSTCollectionView (1.2.0)
-  - SBJson (3.2)
 
 DEPENDENCIES:
+  - AFNetworking (~> 1.3.3)
   - PSTCollectionView (~> 1.2.0)
-  - SBJson (~> 3.2)
 
 SPEC CHECKSUMS:
+  AFNetworking: 0700ec7a58c36ad217173e167f6e4df7270df66b
   PSTCollectionView: fb2ad2790c6efa306b2caf10315b2c1464d1f5c6
-  SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861
 
 COCOAPODS: 0.26.2
