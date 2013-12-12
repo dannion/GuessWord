@@ -5,17 +5,15 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfLevels" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="open_date" attributeType="Date" syncable="YES"/>
-        <relationship name="boards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPlayBoard" inverseName="belongToWhich" inverseEntity="CDPlayBoard" syncable="YES"/>
     </entity>
     <entity name="CDPlayBoard" representedClassName="CDPlayBoard" syncable="YES">
         <attribute name="category" attributeType="String" syncable="YES"/>
         <attribute name="jsonData" attributeType="Binary" syncable="YES"/>
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uniqueid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <relationship name="belongToWhich" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDEpisode" inverseName="boards" inverseEntity="CDEpisode" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDEpisode" positionX="-1260" positionY="-972" width="128" height="118"/>
-        <element name="CDPlayBoard" positionX="-1523" positionY="-873" width="128" height="118"/>
+        <element name="CDPlayBoard" positionX="-63" positionY="-54" width="128" height="103"/>
+        <element name="CDEpisode" positionX="234" positionY="-135" width="128" height="103"/>
     </elements>
 </model>

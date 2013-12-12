@@ -86,7 +86,7 @@
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }
     if ([array count] != 0) {
-        NSLog(@"数据库有uniqueid = %@ 的棋盘格,删除",uniqueID);
+        NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",uniqueID);
         CDPlayBoard *cdpb = [array firstObject];
         cdpb.uniqueid   = thePlayBoard.uniqueid;
         cdpb.category   = thePlayBoard.category;
@@ -97,7 +97,7 @@
         if (!isSaveSuccess) {
             NSLog(@"Error: %@,%@",error,[error userInfo]);
         }else {
-            NSLog(@"插入新的uniqueid = %@ 的棋盘格",uniqueID);
+            NSLog(@"修改 uniqueid = %@ 的棋盘格成功",uniqueID);
         }
         [appDelegate saveContext];
         

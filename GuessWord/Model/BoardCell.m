@@ -7,7 +7,7 @@
 //
 
 #import "BoardCell.h"
-
+#import "PlayBoard.h"
 @implementation BoardCell
 
 -(void)setStateDoneWithChineseCharacter:(NSString *)chineseCharacter{

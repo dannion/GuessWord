@@ -51,16 +51,24 @@
 }
 
 
--(void)insertToDatabaseWithUniqueID:(NSNumber *)uniqueID
-{
-#warning 应该这样写吧?把自己传给了数据库会不会有问题
-    [CDPlayBoard inserToDatabaseWithPlayBoard:self withUniqueID:self.uniqueid];
-}
+
 
 +(PlayBoard *)playBoardFromFile:(NSString *)file{
     NSString *js_file_path = [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:js_file_path];
     return [PlayBoard playBoardFromData:jsonData];
+}
+
+
+/*保存到数据库*/
+-(void)saveToDataBase{
+    [self insertToDatabase];
+}
+
+-(void)insertToDatabase
+{
+#warning 应该这样写吧?把自己传给了数据库会不会有问题
+    [CDPlayBoard inserToDatabaseWithPlayBoard:self withUniqueID:self.uniqueid];
 }
 
 #pragma mark LAZY-INSTANCE

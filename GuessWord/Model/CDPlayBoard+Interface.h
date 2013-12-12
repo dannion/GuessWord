@@ -13,12 +13,8 @@
 
 @interface CDPlayBoard (Interface)
 
-
-//将PlayBoard插入到数据库中
-+(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
++(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard           //将PlayBoard插入到数据库中
                        withUniqueID:(NSNumber *)uniqueID;
-
-//通过id获取CDPlayBoard
-+(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;
++(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;             //通过id获取CDPlayBoard
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PlayBoard.h"
+//#import "PlayBoard.h"
 @interface BoardCell : NSObject
 
 typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {

@@ -12,14 +12,12 @@
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard * pb = [PlayBoard playBoardFromFile:@"puz1"];
+    PlayBoard * pb = [PlayBoard playBoardFromFile:@"td"];
     NSLog(@"-----init PB ---%@",pb);
     [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     pb.level = 2;
-    [pb insertToDatabaseWithUniqueID:pb.uniqueid];
-    
-    
-    NSLog(@"===new PB ====%@",pb);
+    [pb saveToDataBase];
+
     NSLog(@"------------------------------Model测试结束------------------------");
 
 }
