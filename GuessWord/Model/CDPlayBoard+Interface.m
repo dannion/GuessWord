@@ -73,7 +73,7 @@
 
     [request setEntity:entity];
     
-    // Set example predicate and sort orderings...
+    /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [uniqueID intValue]];
     [request setPredicate:predicate];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];

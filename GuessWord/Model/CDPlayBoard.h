@@ -2,7 +2,7 @@
 //  CDPlayBoard.h
 //  GuessWord
 //
-//  Created by WangJZ on 12/11/13.
+//  Created by WangJZ on 12/12/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 

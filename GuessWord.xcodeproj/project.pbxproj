@@ -34,7 +34,7 @@
 		64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E047E818570547008A137A /* PMCustomKeyboard.m */; };
 		64E047F218570547008A137A /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64E047E918570547008A137A /* PMCustomKeyboard.xib */; };
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
-		834658A8185890DF00EBB248 /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 834658A7185890DF00EBB248 /* CDPlayBoard.m */; };
+		83545A6518594CAA00C91C77 /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 83545A6418594CAA00C91C77 /* CDPlayBoard.m */; };
 		8373AB5C1857040500931677 /* testdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* testdata.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
@@ -88,8 +88,8 @@
 		64E047E918570547008A137A /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
 		831A3C061856BF76005CEF99 /* ModelTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTest.h; sourceTree = "<group>"; };
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
-		834658A6185890DF00EBB248 /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
-		834658A7185890DF00EBB248 /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
+		83545A6318594CAA00C91C77 /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
+		83545A6418594CAA00C91C77 /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* testdata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testdata.json; path = json_file/testdata.json; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -131,9 +131,9 @@
 		64AF28BE1856A48E0046D43A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				83545A6318594CAA00C91C77 /* CDPlayBoard.h */,
+				83545A6418594CAA00C91C77 /* CDPlayBoard.m */,
 				8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */,
-				834658A6185890DF00EBB248 /* CDPlayBoard.h */,
-				834658A7185890DF00EBB248 /* CDPlayBoard.m */,
 				83B43A2B18574274007E58C2 /* CDPlayBoard+Interface.h */,
 				83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */,
 				8373AB671857357E00931677 /* PlayBoardHelper.h */,
@@ -393,7 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				839288CA185831F000F6ADCD /* BoardCell.m in Sources */,
-				834658A8185890DF00EBB248 /* CDPlayBoard.m in Sources */,
+				83545A6518594CAA00C91C77 /* CDPlayBoard.m in Sources */,
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
 				64D09A58185594AB0054E807 /* GWViewController.m in Sources */,
 				64D09A4B185594AB0054E807 /* main.m in Sources */,
