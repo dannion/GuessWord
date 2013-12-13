@@ -239,13 +239,12 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     }
     
     if (selectedGridCell) {
+        if ([self cellWithIndexPath:indexPath belongsToSelectedHorizontalWord:selectedHorizontalWord orSelectedVerticalWord:selectedVerticalWord]){//添加判断
+            cell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+        }
         CGPoint cellLocation = [self locationFromIndexPath:indexPath];
         if (cellLocation.x == selectedLocation.x && cellLocation.y == selectedLocation.y) {
             cell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
-        }
-        
-        if ([self cellWithIndexPath:indexPath belongsToSelectedHorizontalWord:selectedHorizontalWord orSelectedVerticalWord:selectedVerticalWord]){//添加判断
-            cell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
         }
     }
     
@@ -350,7 +349,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     
     switch (cellCurrentState) {
         case GWGridCellCurrentStateBlock:
-//            selectedGridCell.label.userInteractionEnabled = NO;
+            
             if ([PMCustomKeyboard shareInstance].isShowing) {
                 [[PMCustomKeyboard shareInstance] removeFromSuperview];
             }
@@ -359,32 +358,29 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
         case GWGridCellCurrentStateBlank:
             // change color
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
-            
-//            selectedGridCell.label.userInteractionEnabled = YES;
+
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view];
-//            [selectedGridCell.label becomeFirstResponder];
+
             break;
         case GWGridCellCurrentStateGuessing:
             // change color
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
-//            selectedGridCell.label.userInteractionEnabled = YES;
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view];
-//            [selectedGridCell.label becomeFirstResponder];
+
             break;
         case GWGridCellCurrentStateDone:
             // change color
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
-//            selectedGridCell.label.userInteractionEnabled = YES;
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view];
-//            [selectedGridCell.label becomeFirstResponder];
+
             break;
         case GWGridCellCurrentStateUnKnown:
-//            selectedGridCell.label.userInteractionEnabled = NO;
+
             if ([PMCustomKeyboard shareInstance].isShowing) {
                 [[PMCustomKeyboard shareInstance] removeFromSuperview];
             }
@@ -405,8 +401,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     if (deselectedGridCell.label.userInteractionEnabled) {
         // change color
         selectedGridCell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
-     
-//        deselectedGridCell.label.userInteractionEnabled = NO;
     }
     
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
@@ -541,16 +535,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 //弹出键盘时的动画
 - (void)keyboardWillShowNotification:(NSNotification *)notification
 {
-//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        CGRect newFrame = self.gridViewBackgroundImageView.frame;
-//        newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
-//        self.gridViewBackgroundImageView.frame = newFrame;
-//       
-//    } completion:^(BOOL finished){
-//        CGRect newFrame = self.gridView.frame;
-//        newFrame.size.height -= kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide;
-//        self.gridView.frame = newFrame;
-//    }];
     
     CGFloat keyboardHeight = ((UIView*)notification.object).bounds.size.height;
     
@@ -563,10 +547,10 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     newFrame = self.gridView.frame;
     newFrame.size.height -= changeHeight;
     self.gridView.frame = newFrame;
-    
-    CGPoint newContentOffset = self.gridView.contentOffset;
-    newContentOffset.y += changeHeight;
-    self.gridView.contentOffset = newContentOffset;
+
+//    CGPoint newContentOffset = self.gridView.contentOffset;
+//    newContentOffset.y += changeHeight;
+//    self.gridView.contentOffset = newContentOffset;
 }
 
 //收起键盘时的动画
@@ -584,9 +568,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     newFrame.size.height += changeHeight;
     self.gridView.frame = newFrame;
     
-//    CGPoint newContentOffset = self.gridView.contentOffset;
-//    newContentOffset.y -= changeHeight;
-//    self.gridView.contentOffset = newContentOffset;
+
 }
 
 #pragma mark -
