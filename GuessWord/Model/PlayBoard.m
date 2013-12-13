@@ -112,6 +112,21 @@
     return self.cells[y][x];
 }
 
+//判断某个点所在单词是否全部输入（不一定正确）
+-(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal{
+    //先获取当前的点上对应的那两个词
+    Word *word = [self wordOfPoint:point inHorizontalDirection:isHorizontal];
+    //查看对应的单词是否完成
+    if (!word) {
+        return NO;
+    }
+    if ([self isFullFillOfWord:word]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
 //判断某个点所在单词是否完成
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal{
     //先获取当前的点上对应的那两个词
@@ -432,6 +447,34 @@
         }
     }
     return retWord;
+}
+
+
+//根据word的坐标和横纵方向从input重确定它是否已经全部填充了
+-(BOOL)isFullFillOfWord:(Word *)word{
+    
+    if (!word) {
+        return NO;
+    }
+    BOOL bingo = YES;
+    int x = word.start_x;
+    int y = word.start_y;
+    for (int i = 0 ; i < word.length; i++) {
+        if (word.horizontal) {
+            BoardCell *cell = self.cells[y][x+i];
+            if ([cell isCellInputBlank]) {
+                bingo = NO;
+                break;
+            }
+        }else{
+            BoardCell *cell = self.cells[y+i][x];
+            if ([cell isCellInputBlank]) {
+                bingo = NO;
+                break;
+            }
+        }
+    }
+    return bingo;
 }
 
 //查看某个单词是否完成

@@ -53,9 +53,12 @@
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词
--(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成
+
 -(BOOL)isGameBoardCompleted;                                                            //是否闯关成功
 -(BOOL)isClickableAtPoint:(CGPoint)point;                                               //判断该点是否能够点击
+
+-(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成
+-(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal; //判断某个点所在单词是否全部输入（不一定正确）
 
 
 @end

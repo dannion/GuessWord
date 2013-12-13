@@ -92,6 +92,9 @@
         cdpb.category   = thePlayBoard.category;
         cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
         cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        cdpb.vol        = thePlayBoard.vol;
+#warning 这里要把whoTook加上
+        //先根据vol查询CDVol,得到后加上它
         
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
@@ -103,13 +106,13 @@
         
     }else{
         NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",uniqueID);
-        /**************再插入**************/
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
         cdpb.uniqueid   = thePlayBoard.uniqueid;
         cdpb.category   = thePlayBoard.category;
         cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
         cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        cdpb.vol        = thePlayBoard.vol;
         
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
