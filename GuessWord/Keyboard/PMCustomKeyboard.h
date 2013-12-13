@@ -29,6 +29,8 @@
 
 
 - (void)showInView:(UIView*)view;
+- (void)showInView:(UIView *)view animated:(BOOL)animated;
 - (void)removeFromSuperview;
+- (void)removeFromSuperview:(BOOL)animated;
 
 @end

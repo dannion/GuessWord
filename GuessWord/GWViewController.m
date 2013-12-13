@@ -58,6 +58,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [super viewDidLoad];
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
+
     
     [self addViewBackgroundView];
     
@@ -68,6 +69,11 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [self calculateCollectionViewCellSize];
     [self addGridViewBackgroundImage];
 }
+
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [[PMCustomKeyboard shareInstance] removeFromSuperview];
+//}
 
 - (void)addViewBackgroundView
 {
@@ -151,7 +157,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 - (void)refetchDataFromNetWork
 {
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -351,7 +357,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
         case GWGridCellCurrentStateBlock:
             
             if ([PMCustomKeyboard shareInstance].isShowing) {
-                [[PMCustomKeyboard shareInstance] removeFromSuperview];
+                [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
             }
             
             break;
@@ -360,7 +366,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
             // 弹起键盘
-            [[PMCustomKeyboard shareInstance] showInView:self.view];
+            [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
 
             break;
         case GWGridCellCurrentStateGuessing:
@@ -368,7 +374,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
             // 弹起键盘
-            [[PMCustomKeyboard shareInstance] showInView:self.view];
+            [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
 
             break;
         case GWGridCellCurrentStateDone:
@@ -376,13 +382,13 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
 
             // 弹起键盘
-            [[PMCustomKeyboard shareInstance] showInView:self.view];
+            [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
 
             break;
         case GWGridCellCurrentStateUnKnown:
 
             if ([PMCustomKeyboard shareInstance].isShowing) {
-                [[PMCustomKeyboard shareInstance] removeFromSuperview];
+                [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
             }
 
             break;

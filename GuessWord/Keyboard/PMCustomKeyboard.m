@@ -59,7 +59,7 @@ enum {
 	return self;
 }
 
-- (void)showInView:(UIView *)view
+- (void)showInView:(UIView *)view animated:(BOOL)animated
 {
     if (self.isShowing) {
         return;
@@ -72,21 +72,29 @@ enum {
     frame.origin.y = view.frame.size.height - self.frame.size.height;
     frame.origin.x = self.frame.origin.x;
     self.frame = frame;
-    
-    
-    
-    self.alpha = 0.0;
     [view addSubview:self];
     
-    [UIView animateWithDuration:.5 animations:^{
-        self.alpha = 1.0;
-    } completion:^(BOOL finished) {
-       self.isShowing = YES;
-    }];
+    
+    if (animated) {
+        self.alpha = 0.0;
+        [UIView animateWithDuration:.5 animations:^{
+            self.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            self.isShowing = YES;
+        }];
+    }else{
+        self.isShowing = YES;
+    }
+    
     
 }
 
-- (void)removeFromSuperview
+- (void)showInView:(UIView*)view
+{
+    [self showInView:view animated:NO];
+}
+
+- (void)removeFromSuperview:(BOOL)animated
 {
     if (!self.isShowing) {
         return;
@@ -94,14 +102,23 @@ enum {
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardWillHideNotification object:self];
     
-    self.alpha = 1.0;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.alpha = 0.0;
-    } completion:^(BOOL finished) {
+    if (animated) {
+        self.alpha = 1.0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [super removeFromSuperview];
+            self.isShowing = NO;
+        }];
+    }else{
         [super removeFromSuperview];
         self.isShowing = NO;
-    }];
+    }
+}
 
+- (void)removeFromSuperview
+{
+    [self removeFromSuperview:NO];
 }
 
 -(void)loadCharactersWithArray:(NSArray *)a {
