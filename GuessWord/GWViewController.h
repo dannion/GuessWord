@@ -12,6 +12,6 @@
 
 @interface GWViewController : UIViewController<PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) PlayBoard* playBoard;
+@property (nonatomic, strong, readonly) PlayBoard* playBoard;
 
 @end

@@ -18,7 +18,7 @@
 
 NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
-@interface GWViewController ()<PSUICollectionViewDelegateFlowLayout, UITextFieldDelegate>
+@interface GWViewController ()<PSUICollectionViewDelegateFlowLayout>
 {
     NSInteger gridRowNum;//网格行数
     NSInteger gridColNum; //网格列数
@@ -58,22 +58,32 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [super viewDidLoad];
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
-
     
+    
+    
+    // init GUI elements
+    [self createGridView];
     [self addViewBackgroundView];
     
+    //load Data
     [self loadData];
-    
-    //now we have data already, draw the actual grid.
-    [self createGridView];
-    [self calculateCollectionViewCellSize];
-    [self addGridViewBackgroundImage];
 }
 
-//- (void)viewWillDisappear:(BOOL)animated
-//{
-//    [[PMCustomKeyboard shareInstance] removeFromSuperview];
-//}
+- (void)refreshWithNewData
+{
+    
+    gridRowNum = self.playBoard.height;
+    gridColNum = self.playBoard.width;
+    
+    selectedGridCell = nil;
+    selectedHorizontalWord = nil;
+    selectedVerticalWord = nil;
+    
+    [self calculateCollectionViewCellSize];
+    [self addGridViewBackgroundImage];
+    [self.gridView reloadData];
+}
+
 
 - (void)addViewBackgroundView
 {
@@ -133,7 +143,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 #pragma mark LoadData
 - (void)loadData
 {
-    
+    //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
     
     
     //从本地数据库取
@@ -141,24 +151,65 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     //从网络取
     [self refetchDataFromNetWork];
     
-    //however, now we get data.
-    [self playBoard];
-    NSLog(@"%@", self.playBoard);
-    
-    gridRowNum = self.playBoard.height;
-    gridColNum = self.playBoard.width;
-    
 }
 
 - (void)refetchDataFromLocalCache
 {
-    
+    //从数据库里获取网格
+    if (1) {
+        _playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+        
+        if (_playBoard) {
+            //now we have data already, draw the actual grid.
+            [self refreshWithNewData];
+        }
+        
+    }
+
 }
 
 - (void)refetchDataFromNetWork
 {
+//    //本地有数据，则不发送网络请求
+//    if (_playBoard) {
+//        return;
+//    }
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.105.54.95/quiz.php"]];
+    
+    AFURLConnectionOperation *operation = [[AFURLConnectionOperation alloc] initWithRequest:request];
+    
+    __weak AFURLConnectionOperation* weakOperation;
+    weakOperation.completionBlock = ^ {
+        
+        NSLog(@"NewData!");
+        PlayBoard* playBoard = [PlayBoard playBoardFromData:weakOperation.responseData];
+        _playBoard = playBoard;
+        //now we have data already, draw the actual grid.
+        [self refreshWithNewData];
+    };
+    [operation start];
+    
+/************     test code   begin     *************/
+#warning code for test begin
+    //模拟2秒后收到数据，因为不知道目前为什么总是收不到服务器的数据
+    [NSTimer scheduledTimerWithTimeInterval:2
+                                           target:self
+                                         selector:@selector(getResults)
+                                         userInfo:nil
+                                          repeats:NO];
+/************     test code   done     *************/
+}
+/************     test code   begin    *************/
+- (void)getResults
+{
+    PlayBoard* playBoard = [PlayBoard playBoardFromFile:@"td"];
+    _playBoard = playBoard;
+    [self refreshWithNewData];
 
 }
+/************     test code   done     *************/
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -177,18 +228,18 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     return _gridViewBackgroundImageView;
 }
 
-- (void)setPlayBoard:(PlayBoard *)playBoard
-{
-    _playBoard = playBoard;
-}
-
-- (PlayBoard *)playBoard
-{
-    if (!_playBoard) {
-        _playBoard = [PlayBoard playBoardFromFile:@"td"];
-    }
-    return _playBoard;
-}
+//- (void)setPlayBoard:(PlayBoard *)playBoard
+//{
+//    _playBoard = playBoard;
+//}
+//
+//- (PlayBoard *)playBoard
+//{
+//    if (!_playBoard) {
+//        _playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+//    }
+//    return _playBoard;
+//}
 
 
 #pragma mark -
@@ -253,7 +304,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             cell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
         }
     }
-    
     
     return cell;
 }
@@ -472,14 +522,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 
 #pragma mark -
-#pragma mark UITextFieldDelegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
- 
-    return YES;
-}
-
-#pragma mark -
 #pragma mark UITextFieldTextDidChangeNotification
 - (void)textFieldTextDidChangeNotification:(NSNotification *)notification
 {
@@ -530,10 +572,22 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     };
     
     if ([self.playBoard isGameBoardCompleted]) {
-        NSLog(@"闯关成功！！！！你真厉害！！");
+
+        [self hasCompletedTheGame];
     }
-    
 }
+
+- (void)hasCompletedTheGame
+{
+    NSLog(@"闯关成功！！！！你真厉害！！");
+    MBProgressHUD* aProgressHud = [[MBProgressHUD alloc] initWithView:self.view];
+    aProgressHud.labelText = @"闯关成功！";
+    aProgressHud.detailsLabelText = @"你真厉害！不过为什么你要玩这么无聊的游戏！";
+    
+    [aProgressHud show:YES];
+    [aProgressHud hide:YES afterDelay:2];
+}
+
 
 #pragma mark -
 #pragma mark keyboardNotification
@@ -594,7 +648,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 }
 
 #pragma mark -
-#pragma mark Internal Method
+#pragma mark Internal Method to do with indexPath,location and gridcell state
 - (CGPoint)locationFromIndexPath:(NSIndexPath *)indexPath
 {
     CGPoint location = CGPointMake(0, 0);
@@ -647,7 +701,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     }else if(verticalDescription){
         finalString = [NSString stringWithFormat:@" 竖:%@",verticalDescription];
     }
-    
     
     return finalString;
 }
