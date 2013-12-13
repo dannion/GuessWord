@@ -526,65 +526,77 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     NSString* inputChar = notification.object;
     selectedGridCell.label.text = inputChar;
     
-
     //用户已输入，调用playboard相应接口
-    [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
+    CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
     
+    //调用playboard接口 1.检查用户是否填完了 2.检查用户是否答对了
+    // a 未填完 无提示
+    // b 填完 答错 提示错误
+    // c 填完 答对 显示正确汉字答案
     
-    
-    //调用playboard接口 检查用户是否答对了
-    
-    //先判断垂直，再判断水平，最后判断是否整个网格都答对了
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
-        //答对了，将对应单词转换为汉字结果。
-        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
+    //先判断垂直方向，再判断水平方向
+    if ([self.playBoard isFullFillOfWordAtPoint:selectedLocation inHorizontalDirection:NO]) {
         
-        int length = correctWord.length;
+        if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
+            //答错了，弹出错误提示
+            [self showErrorToast];
+        }else{
+            //答对了，将对应单词转换为汉字结果。
+            Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
+            
+            int length = correctWord.length;
+            
+            for (int i=0; i<length; i++) {
+                CGPoint cellLocation = CGPointMake(correctWord.start_x, correctWord.start_y+i);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+                //可以做动画
+                //            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                //
+                //            } completion:^(BOOL finished){
+                //
+                //            }];
+            }
+            
+        }
+    }
+    
+    //水平方向
+    if ([self.playBoard isFullFillOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
         
-        for (int i=0; i<length; i++) {
-            CGPoint cellLocation = CGPointMake(correctWord.start_x, correctWord.start_y+i);
-            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-            gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-            //可以做动画
-//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//                
-//            } completion:^(BOOL finished){
-//                
-//            }];
+        if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
+            //答错了，弹出错误提示
+            [self showErrorToast];
+        }else{
+            //答对了，将对应单词转换为汉字结果。
+            Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
+            
+            int length = correctWord.length;
+            
+            for (int i=0; i<length; i++) {
+                CGPoint cellLocation = CGPointMake(correctWord.start_x+i, correctWord.start_y);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            }
 
         }
-    };
-    if ([self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]){
-        Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
-        
-        int length = correctWord.length;
-        
-        for (int i=0; i<length; i++) {
-            //可以做动画
-            CGPoint cellLocation = CGPointMake(correctWord.start_x+i, correctWord.start_y);
-            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-            gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-        }
-    };
-    
+    }
+
+    //判断游戏是否已经结束
     if ([self.playBoard isGameBoardCompleted]) {
 
         [self hasCompletedTheGame];
+        
+    }else{
+        //输入焦点自动跳到下一个位置
+        if (1) {//这里需要加入判断nextpoint是否存在的逻辑
+            [self collectionView:self.gridView didSelectItemAtIndexPath:[self indexPathFromLocation:nextPoint]];
+        }
     }
 }
 
-- (void)hasCompletedTheGame
-{
-    NSLog(@"闯关成功！！！！你真厉害！！");
-    MBProgressHUD* aProgressHud = [[MBProgressHUD alloc] initWithView:self.view];
-    aProgressHud.labelText = @"闯关成功！";
-    aProgressHud.detailsLabelText = @"你真厉害！不过为什么你要玩这么无聊的游戏！";
-    
-    [aProgressHud show:YES];
-    [aProgressHud hide:YES afterDelay:2];
-}
 
 
 #pragma mark -
@@ -644,6 +656,35 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     UIGraphicsEndImageContext();
     return theImage;
 }
+
+#pragma mark -
+#pragma mark Internal Method
+- (void)showErrorToast
+{
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor whiteColor];
+    hud.labelTextColor = [UIColor blueColor];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = @"猜错了！";
+    [hud hide:YES afterDelay:1.0];
+}
+
+- (void)hasCompletedTheGame
+{
+    NSLog(@"闯关成功！！！！你真厉害！！");
+    //答错了，弹出错误提示
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.color = [UIColor whiteColor];
+    
+    hud.labelText = @"闯关成功！";
+    hud.labelTextColor = [UIColor blueColor];
+    
+    hud.detailsLabelText = @"你真厉害！不过为什么你要玩这么无聊的游戏！";
+    hud.detailsLabelTextColor = [UIColor blackColor];
+    [hud hide:YES afterDelay:3.0];
+}
+
 
 #pragma mark -
 #pragma mark Internal Method to do with indexPath,location and gridcell state

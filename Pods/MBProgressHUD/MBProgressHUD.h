@@ -310,12 +310,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (copy) NSString *labelText;
 
+@property (copy) UIColor *labelTextColor;
 /** 
  * An optional details message displayed below the labelText message. This message is displayed only if the labelText
  * property is also set and is different from an empty string (@""). The details text can span multiple lines. 
  */
 @property (copy) NSString *detailsLabelText;
 
+@property (copy) UIColor *detailsLabelTextColor;
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
@@ -480,5 +482,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Defaults to white [UIColor whiteColor].
  */
 @property (nonatomic, MB_STRONG) UIColor *progressColor;
+
 
 @end
