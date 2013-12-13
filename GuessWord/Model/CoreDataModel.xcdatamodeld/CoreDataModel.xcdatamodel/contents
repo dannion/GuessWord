@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="CDEpisodes" syncable="YES">
+    <entity name="CDEpisode" representedClassName="CDEpisode" syncable="YES">
         <attribute name="episodeID" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfLevels" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -13,7 +13,7 @@
         <attribute name="uniqueid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDPlayBoard" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CDEpisodes" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDPlayBoard" positionX="-63" positionY="-54" width="128" height="103"/>
+        <element name="CDEpisode" positionX="234" positionY="-135" width="128" height="103"/>
     </elements>
 </model>

@@ -179,7 +179,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 - (PlayBoard *)playBoard
 {
     if (!_playBoard) {
-        _playBoard = [PlayBoardHelper playBoardFromFile:@"td"];
+        _playBoard = [PlayBoard playBoardFromFile:@"td"];
     }
     return _playBoard;
 }
