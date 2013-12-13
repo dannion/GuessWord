@@ -5,7 +5,7 @@
         <attribute name="jsonData" attributeType="Binary" syncable="YES"/>
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uniqueid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="vol" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="volNumber" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="belongToWhom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDVol" inverseName="hasBoards" inverseEntity="CDVol" syncable="YES"/>
     </entity>
     <entity name="CDVol" representedClassName="CDVol" syncable="YES">
@@ -16,7 +16,7 @@
         <relationship name="hasBoards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPlayBoard" inverseName="belongToWhom" inverseEntity="CDPlayBoard" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDVol" positionX="-2988" positionY="-774" width="128" height="118"/>
-        <element name="CDPlayBoard" positionX="-2781" positionY="-918" width="128" height="133"/>
+        <element name="CDPlayBoard" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDVol" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

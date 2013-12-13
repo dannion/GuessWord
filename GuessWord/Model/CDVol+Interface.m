@@ -11,19 +11,30 @@
 
 @implementation CDVol (Interface)
 
-//+(CDVol *)CDVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber{
-//    CDVol *vol = nil;
-//    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
-//    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CDVol"];
-//    NSError *error;
-//    NSArray *matches = [context executeFetchRequest:request error:&error];
-//    if (!matches || ([matches count] > 1))  {
-//        //handle error
-//    }else if (![matches count]){
-//        vol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
-//                                            inManagedObjectContext:context];
-//        vol.uniqueVolNumber = uniqueVolNumber;
-//    }
-//}
++(CDVol *)CDVolWithVolDictionary:(NSDictionary *)VolDictionary
+          inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    CDVol *vol = nil;
+    return vol;
+}
+
++(CDVol *)CDVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
+            inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    CDVol *vol = nil;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CDVol"];
+    NSError *error;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || ([matches count] > 1))  {
+        //handle error
+    }else if (![matches count]){
+        vol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
+                                            inManagedObjectContext:context];
+        vol.uniqueVolNumber = uniqueVolNumber;
+    }else{
+        vol = [matches firstObject];
+    }
+    return vol;
+}
 @end

@@ -16,7 +16,7 @@
 @dynamic jsonData;
 @dynamic level;
 @dynamic uniqueid;
-@dynamic vol;
+@dynamic volNumber;
 @dynamic belongToWhom;
 
 @end

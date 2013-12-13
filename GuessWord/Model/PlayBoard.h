@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @property(nonatomic,strong) NSArray *words;         //包含了全部的单词
 @property(nonatomic,strong) NSString *category;     //包含了全部的单词
 @property(nonatomic) NSNumber *uniqueid;            //board的id
-@property(nonatomic) NSNumber *vol;                 //对应的第几集
+@property(nonatomic) NSNumber *volNumber;           //对应的第几集
 @property(nonatomic,strong) NSString *file;         //对应的文件
 @property(nonatomic) NSDate *date;                  //游戏的日期
 @property(nonatomic,strong) NSString *gamename;     //游戏名字

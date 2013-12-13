@@ -13,10 +13,10 @@
 
 @interface CDVol : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * uniqueVolNumber;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * numberOfLevels;
 @property (nonatomic, retain) NSDate * open_date;
+@property (nonatomic, retain) NSNumber * uniqueVolNumber;
 @property (nonatomic, retain) NSSet *hasBoards;
 @end
 

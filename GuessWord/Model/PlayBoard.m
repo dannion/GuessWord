@@ -242,7 +242,7 @@
     NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
                                  @"uniqueid"    :self.uniqueid,
-                                 @"vol"         :self.vol,
+                                 @"volNumber"   :self.volNumber,
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
@@ -297,7 +297,7 @@
             /*********解析基础数据*********/
             self.file       = [playBoardDic objectForKey:@"file"];
             self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
-            self.vol        = [playBoardDic objectForKey:@"vol"];
+            self.volNumber  = [playBoardDic objectForKey:@"volNumber"];
             self.category   = [playBoardDic objectForKey:@"category"];
             self.date       = [playBoardDic objectForKey:@"date"];
             self.gamename   = [playBoardDic objectForKey:@"gamename"];

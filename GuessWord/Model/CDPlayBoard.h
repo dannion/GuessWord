@@ -17,7 +17,7 @@
 @property (nonatomic, retain) NSData * jsonData;
 @property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * uniqueid;
-@property (nonatomic, retain) NSNumber * vol;
+@property (nonatomic, retain) NSNumber * volNumber;
 @property (nonatomic, retain) CDVol *belongToWhom;
 
 @end

@@ -12,10 +12,10 @@
 
 @implementation CDVol
 
-@dynamic uniqueVolNumber;
 @dynamic name;
 @dynamic numberOfLevels;
 @dynamic open_date;
+@dynamic uniqueVolNumber;
 @dynamic hasBoards;
 
 @end
