@@ -8,6 +8,7 @@
 
 #import "CDPlayBoard+Interface.h"
 #import "GWAppDelegate.h"
+#import "CDVol+Interface.h"
 
 @implementation CDPlayBoard (Interface)
 
@@ -88,10 +89,12 @@
     if ([array count] != 0) {
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",uniqueID);
         CDPlayBoard *cdpb = [array firstObject];
-        cdpb.uniqueid   = thePlayBoard.uniqueid;
-        cdpb.category   = thePlayBoard.category;
-        cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
-        cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        cdpb.uniqueid       = thePlayBoard.uniqueid;
+        cdpb.category       = thePlayBoard.category;
+        cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
+        cdpb.jsonData       = [thePlayBoard jsonDataDescription];
+        cdpb.volNumber      = thePlayBoard.volNumber;
+        //如果库中已经有了，就不需要修改了belongToWhom了
         
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
@@ -103,13 +106,15 @@
         
     }else{
         NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",uniqueID);
-        /**************再插入**************/
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
-        cdpb.uniqueid   = thePlayBoard.uniqueid;
-        cdpb.category   = thePlayBoard.category;
-        cdpb.level      = [NSNumber numberWithInt:thePlayBoard.level];
-        cdpb.jsonData   = [thePlayBoard jsonDataDescription];
+        cdpb.uniqueid       = thePlayBoard.uniqueid;
+        cdpb.category       = thePlayBoard.category;
+        cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
+        cdpb.jsonData       = [thePlayBoard jsonDataDescription];
+        cdpb.volNumber      = thePlayBoard.volNumber;
+        CDVol *belongVol    = [CDVol CDVolWithUniqueVolNumber:thePlayBoard.volNumber inManagedObjectContext:context];
+        cdpb.belongToWhom   = belongVol;
         
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {

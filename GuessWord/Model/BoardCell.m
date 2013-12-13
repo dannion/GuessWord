@@ -15,6 +15,14 @@
     self.currentState = GWGridCellCurrentStateDone;
 }
 
+-(BOOL)isCellCanInput{
+    if (![self isCellDone] && [self isCellBlock]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
 -(BOOL)isCellDone{
     if (self.currentState == GWGridCellCurrentStateDone) {
         return YES;

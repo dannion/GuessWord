@@ -34,7 +34,9 @@
 		64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E047E818570547008A137A /* PMCustomKeyboard.m */; };
 		64E047F218570547008A137A /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64E047E918570547008A137A /* PMCustomKeyboard.xib */; };
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
-		83652EF61859D82700795F56 /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 83652EF51859D82700795F56 /* CDPlayBoard.m */; };
+		83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83479626185AE71000D67FFC /* CDVol+Interface.m */; };
+		8347963C185B072600D67FFC /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8347963B185B072600D67FFC /* CDPlayBoard.m */; };
+		8347963F185B072700D67FFC /* CDVol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8347963E185B072700D67FFC /* CDVol.m */; };
 		8373AB5C1857040500931677 /* td的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* td的说明.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
@@ -89,8 +91,12 @@
 		64E047E918570547008A137A /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
 		831A3C061856BF76005CEF99 /* ModelTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTest.h; sourceTree = "<group>"; };
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
-		83652EF41859D82700795F56 /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
-		83652EF51859D82700795F56 /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
+		83479625185AE71000D67FFC /* CDVol+Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVol+Interface.h"; sourceTree = "<group>"; };
+		83479626185AE71000D67FFC /* CDVol+Interface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDVol+Interface.m"; sourceTree = "<group>"; };
+		8347963A185B072600D67FFC /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
+		8347963B185B072600D67FFC /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
+		8347963D185B072700D67FFC /* CDVol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVol.h; sourceTree = "<group>"; };
+		8347963E185B072700D67FFC /* CDVol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVol.m; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* td的说明.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "td的说明.json"; path = "json_file/td的说明.json"; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -133,8 +139,12 @@
 			isa = PBXGroup;
 			children = (
 				8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */,
-				83652EF41859D82700795F56 /* CDPlayBoard.h */,
-				83652EF51859D82700795F56 /* CDPlayBoard.m */,
+				8347963A185B072600D67FFC /* CDPlayBoard.h */,
+				8347963B185B072600D67FFC /* CDPlayBoard.m */,
+				8347963D185B072700D67FFC /* CDVol.h */,
+				8347963E185B072700D67FFC /* CDVol.m */,
+				83479625185AE71000D67FFC /* CDVol+Interface.h */,
+				83479626185AE71000D67FFC /* CDVol+Interface.m */,
 				83B43A2B18574274007E58C2 /* CDPlayBoard+Interface.h */,
 				83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */,
 				64AF28BF1856A48E0046D43A /* PlayBoard.h */,
@@ -402,10 +412,12 @@
 				64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */,
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
 				8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */,
+				8347963C185B072600D67FFC /* CDPlayBoard.m in Sources */,
+				83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
-				83652EF61859D82700795F56 /* CDPlayBoard.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,
+				8347963F185B072700D67FFC /* CDVol.m in Sources */,
 				83B43A2D18574274007E58C2 /* CDPlayBoard+Interface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

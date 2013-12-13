@@ -2,11 +2,12 @@
 //  CDPlayBoard.m
 //  GuessWord
 //
-//  Created by WangJZ on 12/12/13.
+//  Created by WangJZ on 12/13/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
 #import "CDPlayBoard.h"
+#import "CDVol.h"
 
 
 @implementation CDPlayBoard
@@ -15,5 +16,7 @@
 @dynamic jsonData;
 @dynamic level;
 @dynamic uniqueid;
+@dynamic volNumber;
+@dynamic belongToWhom;
 
 @end

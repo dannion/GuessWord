@@ -15,6 +15,9 @@
 
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard           //将PlayBoard插入到数据库中
                        withUniqueID:(NSNumber *)uniqueID;
+
 +(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID;             //通过id获取CDPlayBoard
+
++(NSArray *)CDPlayBoardsByVolNumber:(NSNumber *)volNumber;              //通过volNumber来获取一堆PlayBoards
 
 @end
