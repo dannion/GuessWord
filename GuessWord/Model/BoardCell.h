@@ -24,9 +24,11 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 @property(nonatomic)GWGridCellCurrentState currentState;
 
 -(void)setStateDoneWithChineseCharacter:(NSString *)chineseCharacter;//完成该cell,修改状态，设置汉字
--(BOOL)isCellCorrect;//该cell的输入是正确的
--(BOOL)isCellInputBlank;//该cell的input是否为控？
--(BOOL)isCellBlock;//该cell是否是Block的？
--(BOOL)isCellDone;//该cell是否是汉字的？
+
+-(BOOL)isCellCorrect;       //该cell的输入是正确的
+-(BOOL)isCellInputBlank;    //该cell的input是否为控？
+-(BOOL)isCellBlock;         //该cell是否是Block的
+-(BOOL)isCellDone;          //该cell是否是汉字的？
+-(BOOL)isCellCanInput;      //该cell可以输入
 
 @end

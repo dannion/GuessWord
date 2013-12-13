@@ -10,8 +10,10 @@
 #import "Word.h"
 @class BoardCell;
 
-#define VERTICAL_DIRECTION YES;
-#define HORIZONTAL_DERECTION NO;
+typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
+    VERTICAL_DIRECTION,
+    HORIZONTAL_DERECTION,
+};
 
 #define BLOCK @"#"  //不能填写的位置
 #define BLANK @"-"  //空着的位置
@@ -39,7 +41,10 @@
 @property(nonatomic) int level;                     //游戏等级
 @property(nonatomic) int width;                     //横向有多少个格子
 @property(nonatomic) int height;                    //纵向有多少个格子
-@property(nonatomic) CGPoint current_point;         //当前坐标
+
+@property(nonatomic) GWPlayBoardCurrentDirection current_direction;//当前方向
+
+@property(nonatomic) CGPoint last_point;            //上一次的坐标
 
 /**************************************************API******************************************/
 
@@ -49,7 +54,9 @@
 -(BoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
 -(NSString*)description;
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据
--(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point;        //必须调用！每次用户输入一个字母
+
+-(CGPoint)NextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
+                                         atPoint:(CGPoint)point;
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词

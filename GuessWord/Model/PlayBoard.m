@@ -24,7 +24,7 @@
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
 //-(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
 
-//-(CGPoint)nextPointFromPoint:(CGPoint)fromPoint;//找到一个点的下一个点
+-(CGPoint)nextPointFromCurrentPoint:(CGPoint)fromPoint;//找到一个点的下一个点
 //-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
 
     
@@ -189,20 +189,18 @@
 
 
 //在某个坐标上输入一个字母，修改cell.Input
--(void)updateBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point{
+-(CGPoint)NextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point
+{
     int x = (int)point.x;
     int y = (int)point.y;
-    
-    //check坐标在方格内
-    if (x>= 0 && x< self.width && y>= 0 && y <self.height ) {
-#warning check该坐标位置不是Block,暂时不检查是否已经是正确答案的情况
-        BoardCell *cell = self.cells[y][x];
-        if (![cell isCellBlock] && ![cell isCellDone]) {
-            cell.input = oneAlphabet;
-            [self updateCellsDisplayByPoint:point];
-        }
-
+ 
+    //更新cells的状态
+    BoardCell *cell = self.cells[y][x];
+    if (![cell isCellBlock] && ![cell isCellDone]) {
+        cell.input = oneAlphabet;
+        [self updateCellsDisplayByPoint:point];
     }
+    return [self nextPointFromCurrentPoint:point];
 }
 
 //将类转化成json数据
@@ -353,6 +351,42 @@
 #pragma mark PRIVATE-API
 #pragma mark --
 
+#warning 实现策略有待商榷
+//找到一个点的下一个点
+-(CGPoint)nextPointFromCurrentPoint:(CGPoint)fromPoint
+{
+    //根据当前点的坐标找到下一个点的坐标，实现的策略是：找到用户输入的方向，根据放下找到下一个位置，如果下一个位置可以输入，就跳转到这个位置，如果不能，就原地不动
+    CGPoint retPoint = fromPoint;
+    int last_x = (int)self.last_point.x;
+    int last_y = (int)self.last_point.y;
+    int cur_x = (int)fromPoint.x;
+    int cur_y = (int)fromPoint.y;
+    
+    //更新上一次的坐标
+    self.last_point = fromPoint;
+    
+    //更新方向，如果上次的x与本次一样，那么方向设为
+    if (last_x == cur_x && last_y+1 == cur_y) {
+        self.current_direction = VERTICAL_DIRECTION;
+    }else {
+        self.current_direction = HORIZONTAL_DERECTION;
+    }
+    //根据方向给出下一个点
+    if (self.current_direction == VERTICAL_DIRECTION && cur_y+1 < self.height ) {
+        BoardCell *bcell = self.cells[cur_y+1][cur_x];
+        if ([bcell isCellCanInput]) {
+            retPoint = CGPointMake(cur_x,cur_y+1);
+        }
+    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 >= self.width){
+        BoardCell *bcell = self.cells[cur_y][cur_x+1];
+        if ([bcell isCellCanInput]) {
+            retPoint = CGPointMake(cur_x+1,cur_y);
+        }
+    }
+
+    return retPoint;
+
+}
 //根据tmp信息初始化两个area数组，只在最初调用
 -(void)initBoardCells{
     //初始化correct和input
