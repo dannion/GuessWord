@@ -22,7 +22,7 @@ enum {
 @end
 
 @implementation PMCustomKeyboard
-@synthesize textView = _textView;
+
 
 
 
@@ -44,7 +44,7 @@ enum {
 	if(UIDeviceOrientationIsLandscape(orientation))
         frame = CGRectMake(0, 0, 480, 162);
     else
-        frame = CGRectMake(0, 0, 320, 160);
+        frame = CGRectMake(0, 0, 320, 130);
 	
 	self = [super initWithFrame:frame];
 	
@@ -55,21 +55,53 @@ enum {
     }
 
 	[self loadCharactersWithArray:kChar];
+    self.isShowing = NO;
 	return self;
 }
 
--(void)setTextView:(id<UITextInput>)textView {
-	
-	if ([textView isKindOfClass:[UITextView class]])
-        [(UITextView *)textView setInputView:self];
-    else if ([textView isKindOfClass:[UITextField class]])
-        [(UITextField *)textView setInputView:self];
+- (void)showInView:(UIView *)view
+{
+    if (self.isShowing) {
+        return;
+    }
     
-    _textView = textView;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardWillShowNotification object:self];
+    
+    CGRect frame;
+    frame.size = self.frame.size;
+    frame.origin.y = view.frame.size.height - self.frame.size.height;
+    frame.origin.x = self.frame.origin.x;
+    self.frame = frame;
+    
+    
+    
+    self.alpha = 0.0;
+    [view addSubview:self];
+    
+    [UIView animateWithDuration:.5 animations:^{
+        self.alpha = 1.0;
+    } completion:^(BOOL finished) {
+       self.isShowing = YES;
+    }];
+    
 }
 
--(id<UITextInput>)textView {
-	return _textView;
+- (void)removeFromSuperview
+{
+    if (!self.isShowing) {
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardWillHideNotification object:self];
+    
+    self.alpha = 1.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [super removeFromSuperview];
+        self.isShowing = NO;
+    }];
+
 }
 
 -(void)loadCharactersWithArray:(NSArray *)a {
@@ -95,13 +127,8 @@ enum {
 - (IBAction)characterPressed:(id)sender {
 	UIButton *button = (UIButton *)sender;
 	NSString *character = [NSString stringWithString:button.titleLabel.text];
-	
-	[self.textView insertText:character];
     
-	if ([self.textView isKindOfClass:[UITextView class]])
-		[[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self.textView];
-	else if ([self.textView isKindOfClass:[UITextField class]])
-		[[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self.textView];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardDidEnterACharacterNotification object:character];
 }
 
 - (void)addPopupToButton:(UIButton *)b {

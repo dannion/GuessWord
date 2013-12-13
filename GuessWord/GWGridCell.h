@@ -11,6 +11,6 @@
 @interface GWGridCell : PSUICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UITextField *label;
+@property (strong, nonatomic) UILabel *label;
 
 @end
