@@ -189,7 +189,7 @@
 
 
 //在某个坐标上输入一个字母，修改cell.Input
--(CGPoint)NextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point
+-(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point
 {
     int x = (int)point.x;
     int y = (int)point.y;

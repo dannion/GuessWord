@@ -14,7 +14,7 @@
 +(void)testFunction{
     PlayBoard * pb = [PlayBoard playBoardFromFile:@"td"];
     NSLog(@"-----init PB ---%@",pb);
-    [pb updateBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
+    [pb nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     pb.level = 2;
     [pb saveToDataBase];
 

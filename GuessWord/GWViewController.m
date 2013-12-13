@@ -59,8 +59,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
     
-    
-    
     // init GUI elements
     [self createGridView];
     [self addViewBackgroundView];
@@ -528,9 +526,9 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     NSString* inputChar = notification.object;
     selectedGridCell.label.text = inputChar;
     
-    
+
     //用户已输入，调用playboard相应接口
-    [self.playBoard updateBoardWithInputValue:inputChar atPoint:selectedLocation];
+    [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
     
     
     

@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 -(NSString*)description;
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据
 
--(CGPoint)NextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
+-(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
                                          atPoint:(CGPoint)point;
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
