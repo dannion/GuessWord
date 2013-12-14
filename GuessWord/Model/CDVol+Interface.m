@@ -28,6 +28,7 @@
         
         vol.uniqueVolNumber     = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
         vol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
+#warning 这里open_date是一个NSDate类型的变量
         vol.open_date           = [volDictionary objectForKey:KEY_FOR_OPENDATE];
         vol.numberOfLevels      = [volDictionary objectForKey:KEY_FOR_NUMBERLEVELS];
         

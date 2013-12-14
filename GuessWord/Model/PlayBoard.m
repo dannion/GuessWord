@@ -39,7 +39,9 @@
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
 {
-    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID];
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID inManagedObjectContext:context];
     if (cdpb) {
         return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
     }else{
