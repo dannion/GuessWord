@@ -68,16 +68,13 @@
 
 //将PlayBoard插入到数据库中
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
-                       withUniqueID:(NSNumber *)uniqueID
+             inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    
     /************先查询，删除************/
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
     NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
     [request setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [uniqueID intValue]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [thePlayBoard.uniqueid intValue]];
     [request setPredicate:predicate];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
@@ -87,7 +84,7 @@
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }
     if ([array count] != 0) {
-        NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",uniqueID);
+        NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [array firstObject];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
@@ -100,12 +97,10 @@
         if (!isSaveSuccess) {
             NSLog(@"Error: %@,%@",error,[error userInfo]);
         }else {
-            NSLog(@"修改 uniqueid = %@ 的棋盘格成功",uniqueID);
+            NSLog(@"修改 uniqueid = %@ 的棋盘格成功",thePlayBoard.uniqueid);
         }
-        [appDelegate saveContext];
-        
     }else{
-        NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",uniqueID);
+        NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
@@ -120,19 +115,18 @@
         if (!isSaveSuccess) {
             NSLog(@"Error: %@,%@",error,[error userInfo]);
         }else {
-            NSLog(@"插入新的uniqueid = %@ 的棋盘格",uniqueID);
+            NSLog(@"插入新的uniqueid = %@ 的棋盘格",thePlayBoard.uniqueid);
         }
-        [appDelegate saveContext];
+        //[appDelegate saveContext];
     }
 }
 
 //通过id获取CDPlayBoard
 +(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID
+               inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
-    NSManagedObjectContext *managedObjectContext=appDelegate.managedObjectContext;
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
-    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:managedObjectContext];
+    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
 
     [request setEntity:entity];
     
@@ -143,7 +137,7 @@
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
-    NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil)
     {
         NSLog(@"%@",array);

@@ -10,6 +10,7 @@
 #import "PlayBoard.h"
 #import "BoardCell.h"
 #import "CDPlayBoard+Interface.h"
+#import "GWAppDelegate.h"
 @interface PlayBoard()
 
 /*********************************私有变量*************************/
@@ -68,7 +69,9 @@
 -(void)insertToDatabase
 {
 #warning 应该这样写吧?把自己传给了数据库会不会有问题
-    [CDPlayBoard inserToDatabaseWithPlayBoard:self withUniqueID:self.uniqueid];
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
 }
 
 #pragma mark LAZY-INSTANCE

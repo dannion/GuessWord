@@ -16,6 +16,7 @@
     NSLog(@"-----init PB ---%@",pb);
     [pb nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
     pb.level = 2;
+    
     [pb saveToDataBase];
 
     NSLog(@"------------------------------Model测试结束------------------------");

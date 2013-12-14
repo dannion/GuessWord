@@ -6,6 +6,13 @@
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
+
+#define KEY_FOR_UNIQUENUMBER    @"vol_no"
+#define KEY_FOR_NAME            @"name"
+#define KEY_FOR_NUMBERLEVELS    @"levels_no"
+#define KEY_FOR_OPENDATE        @"opendate"
+
+
 #import "CDVol.h"
 
 @interface CDVol (Interface)
