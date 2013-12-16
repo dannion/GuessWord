@@ -2,7 +2,7 @@
 //  CDPlayBoard.h
 //  GuessWord
 //
-//  Created by WangJZ on 12/13/13.
+//  Created by WangJZ on 12/16/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * uniqueid;
 @property (nonatomic, retain) NSNumber * volNumber;
+@property (nonatomic, retain) NSNumber * islocked;
 @property (nonatomic, retain) CDVol *belongToWhom;
 
 @end

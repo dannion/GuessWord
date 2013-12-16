@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
 /************************构造类实例的方法************************/
-
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
@@ -41,6 +41,9 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @property(nonatomic) int level;                     //游戏等级
 @property(nonatomic) int width;                     //横向有多少个格子
 @property(nonatomic) int height;                    //纵向有多少个格子
+
+#warning #warning 棋盘添加字段位置0
+@property(nonatomic) BOOL islocked;                 //该棋盘是否已经解锁
 
 @property(nonatomic) GWPlayBoardCurrentDirection current_direction;//当前方向
 

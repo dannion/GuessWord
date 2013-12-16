@@ -12,6 +12,31 @@
 
 @implementation CDPlayBoard (Interface)
 
+//通过volNumber来获取一堆PlayBoards
++(NSArray *)CDPlayBoardsByVolNumber:(NSNumber *)volNumber
+             inManagedObjectContext:(NSManagedObjectContext *)context;
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
+    
+    [request setEntity:entity];
+    
+    /****************设置数据库查询的条件**************/
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(volNumber = %d)", [volNumber intValue]];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    if (array == nil)
+    {
+        NSLog(@"没有volNumber == %@ 的CDPlayBoards",volNumber);
+        return nil;
+    }
+    return array;
+}
+
 +(void)documentIsReady:(UIManagedDocument *)document{
 //    if (document.documentState == UIDocumentStateNormal) {
 //        //start using document
@@ -84,8 +109,11 @@
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }
     if ([array count] != 0) {
+        
+#warning 棋盘添加字段位置5
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [array firstObject];
+        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
@@ -103,6 +131,9 @@
         NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
+        
+#warning 棋盘添加字段位置4
+        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];

@@ -36,6 +36,24 @@
 #pragma mark 构造方法
 #pragma mark --
 
+//在数据库中找到所有该volNumber的 playBoards
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber{
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    NSArray *cdpbs = [CDPlayBoard CDPlayBoardsByVolNumber:volNumber inManagedObjectContext:context];
+    if (cdpbs == nil) {
+        return nil;
+    }else{
+        NSMutableArray *playBoardsArray = [[NSMutableArray alloc]initWithCapacity:40];
+        for (CDPlayBoard *onecdpb in cdpbs) {
+            PlayBoard *pb = [[PlayBoard alloc]initWithJsonData:onecdpb.jsonData];
+            [playBoardsArray addObject:pb];
+        }
+        return playBoardsArray;
+    }
+}
+
+
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
 {
@@ -236,18 +254,21 @@
                                    @"mask"      :aWord.mask                       == nil ? @"":aWord.mask,
                                    @"desc"      :aWord.description                == nil ? @"":aWord.description,
                                    @"tmp"       :tmpString,
-                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
+                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithBool:YES]:[NSNumber numberWithBool:NO],
                                    @"x"         :[NSNumber numberWithInt:aWord.start_x],
                                    @"y"         :[NSNumber numberWithInt:aWord.start_y],
                                    @"len"       :[NSNumber numberWithInt:aWord.length]
                                    };
         [word_writable_array addObject:aWordDic];
     }
+
+#warning 棋盘添加字段位置2
     //局面写入一个字典
     NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
                                  @"uniqueid"    :self.uniqueid,
                                  @"volNumber"   :self.volNumber,
+                                 @"islocked"        :[NSNumber  numberWithBool:self.islocked],
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
@@ -296,10 +317,11 @@
                 tmpWord.length                      = [(NSNumber *)[aWordDic objectForKey:@"len"] intValue];
                 [output_words addObject:tmpWord];
             }
-            
             self.words      = output_words;
-                        
+            
+#warning 棋盘添加字段位置1
             /*********解析基础数据*********/
+            self.islocked   = [[playBoardDic objectForKey:@"islocked"] boolValue];//该棋盘是否已经解锁
             self.file       = [playBoardDic objectForKey:@"file"];
             self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
             self.volNumber  = [playBoardDic objectForKey:@"volNumber"];
@@ -323,7 +345,11 @@
 -(NSString*)description
 {
     NSMutableString *retString = [[NSMutableString alloc]init];
-    [retString appendString:@"\n[Correct]\n"];
+    [retString appendString:[NSString stringWithFormat:@"\n[PlayBoard]\ncategory = %@\n",self.category]];
+    [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
+    [retString appendString:[NSString stringWithFormat:@"score = %d\n",self.score]];
+    
+    [retString appendString:@"[Correct]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.correct];
@@ -332,7 +358,7 @@
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\n[Input]\n"];
+    [retString appendString:@"[Input]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.input];
@@ -341,7 +367,7 @@
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\n[Display]\n"];
+    [retString appendString:@"[Display]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.display];
@@ -382,7 +408,7 @@
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x,cur_y+1);
         }
-    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 >= self.width){
+    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 < self.width){
         BoardCell *bcell = self.cells[cur_y][cur_x+1];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x+1,cur_y);

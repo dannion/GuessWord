@@ -16,7 +16,7 @@
 }
 
 -(BOOL)isCellCanInput{
-    if (![self isCellDone] && [self isCellBlock]) {
+    if (![self isCellDone] && ![self isCellBlock]) {
         return YES;
     }else{
         return NO;

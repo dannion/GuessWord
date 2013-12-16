@@ -1,10 +1,10 @@
 {
-    "file" : "td.json",
-    "uniqueid" : 10001,
+    "file" : "td2.json",
+    "uniqueid" : 10002,
     "volNumber": 1,
-    "level" : 0,
-    "degree" : 5,
-    "category" : "诗词",
+    "level" : 1,
+    "degree" : 6,
+    "category" : "高效",
     "islocked" : 1,
     "words" : [
                {
@@ -33,7 +33,7 @@
     "score" : 10,
     "date" : "2013-12-12",
     "gamename" : "1",
-    "author" : "wangjz",
-    "width" : 5,
-    "height" : 5
+    "author" : "jz",
+    "width" : 10,
+    "height" : 10
 }
