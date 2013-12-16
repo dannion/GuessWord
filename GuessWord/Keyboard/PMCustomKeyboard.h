@@ -11,7 +11,7 @@
 
 #define kFont [UIFont fontWithName:@"GurmukhiMN" size:20]
 
-#define kChar @[ @"Q", @"W", @"E", @"R", @"T", @"Y", @"U", @"I", @"O", @"P", @"A", @"S", @"D", @"F", @"G", @"H", @"J", @"K", @"L", @"Z", @"X", @"C", @"V", @"B", @"N", @"M" ]
+#define kChar @[ @"A", @"W", @"E", @"R", @"T", @"Y", @"U", @"I", @"O", @"P", @"A", @"S", @"D", @"F", @"G", @"H", @"J", @"K", @"L", @"Z", @"X", @"C", @"V", @"B", @"N", @"M" ]
 
 #define kCustomKeyboardWillShowNotification @"CustomKeyboardWillShowNotification"
 #define kCustomKeyboardWillHideNotification @"CustomKeyboardWillHideNotification"
