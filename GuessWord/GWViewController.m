@@ -76,6 +76,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 - (void)setupLabel
 {
     self.descriptionLabel.textColor = [self colorForDescriptionLabelText];
+    self.descriptionLabel.backgroundColor = [self colorForDescriptionLabelBackground];
 }
 
 - (void)refreshWithNewData
@@ -680,6 +681,12 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 #pragma mark -
 #pragma mark Image & Color Method
+
+- (UIColor*)colorForDescriptionLabelBackground
+{
+    UIColor* color = [UIColor colorWithRed:220.0/256 green:220.0/256 blue:220.0/256 alpha:1.0];
+    return color;
+}
 
 - (UIColor*)colorForBackgroundView
 {
