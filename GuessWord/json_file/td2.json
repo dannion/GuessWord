@@ -8,25 +8,25 @@
     "islocked" : 0,
     "words" : [
                {
-               "desc" : "时来运转",
+               "desc" : "百无聊赖",
                "tmp" : "HY-",
                "horiz" : 1,
                "x" : 1,
-               "y" : 2,
-               "len" : 3,
-               "chi" : "好运来",
-               "cap" : "HYL",
-               "mask" : "100"
+               "y" : 1,
+               "len" : 2,
+               "chi" : "单调",
+               "cap" : "DD",
+               "mask" : "00"
                },
                {
-               "desc" : "good boy",
+               "desc" : "阿猫",
                "tmp" : "D--",
                "horiz" : 0,
-               "x" : 1,
-               "y" : 1,
+               "x" : 2,
+               "y" : 0,
                "len" : 3,
-               "chi" : "大好人",
-               "cap" : "DHR",
+               "chi" : "解调器",
+               "cap" : "JTD",
                "mask" : "000"
                }
                ],

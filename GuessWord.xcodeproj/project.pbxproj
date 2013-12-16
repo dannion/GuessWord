@@ -49,7 +49,7 @@
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
 		839288CA185831F000F6ADCD /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 839288C9185831F000F6ADCD /* BoardCell.m */; };
-		83A31320185EEA6D0036420A /* MultiBoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A3131F185EEA6D0036420A /* MultiBoardCell.m */; };
+		83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A31322185EEE7A0036420A /* PowerBoardCell.m */; };
 		83B43A2D18574274007E58C2 /* CDPlayBoard+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */; };
 		83B43A3218574474007E58C2 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 83B43A3118574474007E58C2 /* Readme.txt */; };
 		83B460081859A53D00AAADBE /* bigdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 83B460071859A53D00AAADBE /* bigdata.json */; };
@@ -122,8 +122,8 @@
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		839288C8185831F000F6ADCD /* BoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardCell.h; sourceTree = "<group>"; };
 		839288C9185831F000F6ADCD /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCell.m; sourceTree = "<group>"; };
-		83A3131E185EEA6C0036420A /* MultiBoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiBoardCell.h; sourceTree = "<group>"; };
-		83A3131F185EEA6D0036420A /* MultiBoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiBoardCell.m; sourceTree = "<group>"; };
+		83A31321185EEE7A0036420A /* PowerBoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerBoardCell.h; sourceTree = "<group>"; };
+		83A31322185EEE7A0036420A /* PowerBoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerBoardCell.m; sourceTree = "<group>"; };
 		83B43A2B18574274007E58C2 /* CDPlayBoard+Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDPlayBoard+Interface.h"; sourceTree = "<group>"; };
 		83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDPlayBoard+Interface.m"; sourceTree = "<group>"; };
 		83B43A3118574474007E58C2 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
@@ -169,10 +169,10 @@
 				83479626185AE71000D67FFC /* CDVol+Interface.m */,
 				83B43A2B18574274007E58C2 /* CDPlayBoard+Interface.h */,
 				83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */,
+				83A31321185EEE7A0036420A /* PowerBoardCell.h */,
+				83A31322185EEE7A0036420A /* PowerBoardCell.m */,
 				64AF28BF1856A48E0046D43A /* PlayBoard.h */,
 				64AF28C01856A48E0046D43A /* PlayBoard.m */,
-				83A3131E185EEA6C0036420A /* MultiBoardCell.h */,
-				83A3131F185EEA6D0036420A /* MultiBoardCell.m */,
 				839288C8185831F000F6ADCD /* BoardCell.h */,
 				839288C9185831F000F6ADCD /* BoardCell.m */,
 				64AF28C11856A48E0046D43A /* Word.h */,
@@ -461,6 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */,
 				839288CA185831F000F6ADCD /* BoardCell.m in Sources */,
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
 				64D09A58185594AB0054E807 /* GWViewController.m in Sources */,
@@ -476,7 +477,6 @@
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
 				64BCEBE4185EF1C000573F82 /* GWNetWorkingWrapper.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,
-				83A31320185EEA6D0036420A /* MultiBoardCell.m in Sources */,
 				834D210D185EA970008CD57F /* CDVol.m in Sources */,
 				83B43A2D18574274007E58C2 /* CDPlayBoard+Interface.m in Sources */,
 			);
