@@ -80,13 +80,18 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [self calculateCollectionViewCellSize];
     [self addGridViewBackgroundImage];
     [self.gridView reloadData];
+    if ([PMCustomKeyboard shareInstance].isShowing) {
+        [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
+    }
 }
 
 
 - (void)addViewBackgroundView
 {
     UIView* backgroundAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    backgroundAllView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
     [self.view addSubview:backgroundAllView];
+    [self.view sendSubviewToBack:backgroundAllView];
     
     UIButton* backgroundButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     backgroundButton.isAccessibilityElement = NO;
@@ -102,7 +107,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     _gridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _gridView.delegate = self;
     _gridView.dataSource = self;
-    _gridView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.000 alpha:1.000];
+    _gridView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
     [_gridView registerClass:[GWGridCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
     
     [self.view addSubview:_gridView];
@@ -126,16 +131,22 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 - (void)addGridViewBackgroundImage
 {
-#warning 后期应该替换为 1像素点大小的黑色图片，伸展成合适大小。 而不是用色值来画图。
-    UIImage* backgroundImage = [self createImageWithColor:[UIColor blackColor]];
-    
+#warning 后期应该替换为 1像素点大小的图片，伸展成合适大小。 而不是用色值来画图。
+  
     self.gridViewBackgroundImageView.frame = CGRectMake(_gridView.frame.origin.x-1, _gridView.frame.origin.y-1, _gridView.frame.size.width+2, _gridView.frame.size.height+2);
     
-    self.gridViewBackgroundImageView.image = backgroundImage;
-    
+    self.gridViewBackgroundImageView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+
     [self.view addSubview:self.gridViewBackgroundImageView];
     [self.view bringSubviewToFront:_gridView];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 
 #pragma mark -
 #pragma mark LoadData
@@ -209,11 +220,6 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 /************     test code   done     *************/
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark -
 #pragma mark Getters & Setters
@@ -269,19 +275,19 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     switch (cellCurrentState) {
         case GWGridCellCurrentStateBlock:
             cell.label.text = @"";
-            cell.imageView.image = [self createImageWithColor:[UIColor blackColor]];
+            cell.imageView.image = [self imageForBlockCell];
             break;
         case GWGridCellCurrentStateBlank:
             cell.label.text = @"";
-            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateGuessing:
             cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateDone:
             cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-            cell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateUnKnown:
             cell.label.text = @"";
@@ -295,11 +301,11 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     
     if (selectedGridCell) {
         if ([self cellWithIndexPath:indexPath belongsToSelectedHorizontalWord:selectedHorizontalWord orSelectedVerticalWord:selectedVerticalWord]){//添加判断
-            cell.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+            cell.imageView.image = [self imageForRelatedCell];
         }
         CGPoint cellLocation = [self locationFromIndexPath:indexPath];
         if (cellLocation.x == selectedLocation.x && cellLocation.y == selectedLocation.y) {
-            cell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            cell.imageView.image = [self imageForSelectedCell];
         }
     }
     
@@ -376,7 +382,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
                 CGPoint cellLocation = CGPointMake(selectedHorizontalWord.start_x+i, selectedHorizontalWord.start_y);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-                gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+                gridCellWhichShouldShowAnswer.imageView.image = [self imageForRelatedCell];
             }
         }
         
@@ -390,7 +396,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
                 CGPoint cellLocation = CGPointMake(selectedVerticalWord.start_x, selectedVerticalWord.start_y+i);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-                gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor grayColor]];
+                gridCellWhichShouldShowAnswer.imageView.image = [self imageForRelatedCell];
             }
         }
   
@@ -411,7 +417,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             break;
         case GWGridCellCurrentStateBlank:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            selectedGridCell.imageView.image = [self imageForSelectedCell];
 
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
@@ -419,7 +425,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             break;
         case GWGridCellCurrentStateGuessing:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            selectedGridCell.imageView.image = [self imageForSelectedCell];
 
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
@@ -427,7 +433,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             break;
         case GWGridCellCurrentStateDone:
             // change color
-            selectedGridCell.imageView.image = [self createImageWithColor:[UIColor brownColor]];
+            selectedGridCell.imageView.image = [self imageForSelectedCell];
 
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
@@ -454,7 +460,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
     if (deselectedGridCell.label.userInteractionEnabled) {
         // change color
-        selectedGridCell.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+        selectedGridCell.imageView.image = [self imageForClickableCell];
     }
     
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
@@ -468,7 +474,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             CGPoint cellLocation = CGPointMake(deselectWord.start_x+i, deselectWord.start_y);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
             GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-            gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
         }
     }
     deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:NO];
@@ -479,11 +485,10 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
             CGPoint cellLocation = CGPointMake(deselectWord.start_x, deselectWord.start_y+i);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
             GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-            gridCellWhichShouldShowAnswer.imageView.image = [self createImageWithColor:[UIColor whiteColor]];
+            gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
         }
     }
 
-    
 }
 
 //- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
@@ -528,6 +533,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     
     //用户已输入，调用playboard相应接口
     CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
+    NSLog(@"nextPoint = %f, %f", nextPoint.x, nextPoint.y);
     
     //调用playboard接口 1.检查用户是否填完了 2.检查用户是否答对了
     // a 未填完 无提示
@@ -658,7 +664,44 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 }
 
 #pragma mark -
+#pragma mark Image Method
+
+- (UIImage*)imageForBackgroundView
+{
+    UIColor* color = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+    
+    return [self createImageWithColor:color];
+}
+
+- (UIImage*)imageForBlockCell
+{
+    UIColor* color = [UIColor colorWithRed:207.0/256 green:204.0/256 blue:204.0/256 alpha:1.0];
+    
+    return [self createImageWithColor:color];
+}
+
+- (UIImage*)imageForClickableCell
+{
+    UIColor* color = [UIColor whiteColor];
+    
+    return [self createImageWithColor:color];
+}
+
+- (UIImage*)imageForSelectedCell
+{
+    UIColor* color = [UIColor colorWithRed:127.0/256 green:184.0/256 blue:115.0/256 alpha:1.0];
+    
+    return [self createImageWithColor:color];
+}
+- (UIImage*)imageForRelatedCell
+{
+    UIColor* color = [UIColor colorWithRed:221.0/256 green:247.0/256 blue:215.0/256 alpha:1.0];
+    
+    return [self createImageWithColor:color];
+}
+#pragma mark -
 #pragma mark Internal Method
+
 - (void)showErrorToast
 {
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
