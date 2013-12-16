@@ -38,12 +38,21 @@
 
 //在数据库中找到所有该volNumber的 playBoards
 +(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber{
-    NSMutableArray *playBoards = [[NSMutableArray alloc]initWithCapacity:40];
-#warning TO DO
-    NSArray *pbs = [CDPlayBoard CDPlayBoardsByVolNumber:volNumber inManagedObjectContext:nil];
-    
-    return playBoards;
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    NSArray *cdpbs = [CDPlayBoard CDPlayBoardsByVolNumber:volNumber inManagedObjectContext:context];
+    if (cdpbs == nil) {
+        return nil;
+    }else{
+        NSMutableArray *playBoardsArray = [[NSMutableArray alloc]initWithCapacity:40];
+        for (CDPlayBoard *onecdpb in cdpbs) {
+            PlayBoard *pb = [[PlayBoard alloc]initWithJsonData:onecdpb.jsonData];
+            [playBoardsArray addObject:pb];
+        }
+        return playBoardsArray;
+    }
 }
+
 
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
@@ -332,7 +341,11 @@
 -(NSString*)description
 {
     NSMutableString *retString = [[NSMutableString alloc]init];
-    [retString appendString:@"\n[Correct]\n"];
+    [retString appendString:[NSString stringWithFormat:@"\n[PlayBoard]\ncategory = %@\n",self.category]];
+    [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
+    [retString appendString:[NSString stringWithFormat:@"score = %d\n",self.score]];
+    
+    [retString appendString:@"[Correct]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.correct];
@@ -341,7 +354,7 @@
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\n[Input]\n"];
+    [retString appendString:@"[Input]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.input];
@@ -350,7 +363,7 @@
         [retString appendString:@"\n"];
     }
     
-    [retString appendString:@"\n[Display]\n"];
+    [retString appendString:@"[Display]\n"];
     for (NSArray *row_array in self.cells) {
         for (BoardCell *cell in row_array) {
             [retString appendString:cell.display];
