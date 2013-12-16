@@ -346,6 +346,8 @@
 {
     NSMutableString *retString = [[NSMutableString alloc]init];
     [retString appendString:[NSString stringWithFormat:@"\n[PlayBoard]\ncategory = %@\n",self.category]];
+    [retString appendString:[NSString stringWithFormat:@"uniqueID = %@\n",self.uniqueid]];
+    [retString appendString:[NSString stringWithFormat:@"isLocked = %d\n",self.islocked]];
     [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
     [retString appendString:[NSString stringWithFormat:@"score = %d\n",self.score]];
     
