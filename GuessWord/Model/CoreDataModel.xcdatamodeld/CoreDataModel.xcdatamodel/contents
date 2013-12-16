@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CDPlayBoard" representedClassName="CDPlayBoard" syncable="YES">
         <attribute name="category" attributeType="String" syncable="YES"/>
+        <attribute name="islocked" attributeType="Boolean" syncable="YES"/>
         <attribute name="jsonData" attributeType="Binary" syncable="YES"/>
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uniqueid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>

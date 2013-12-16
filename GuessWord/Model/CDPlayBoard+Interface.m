@@ -109,8 +109,11 @@
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }
     if ([array count] != 0) {
+        
+#warning 棋盘添加字段位置5
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [array firstObject];
+        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
@@ -128,6 +131,9 @@
         NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
+        
+#warning 棋盘添加字段位置4
+        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];

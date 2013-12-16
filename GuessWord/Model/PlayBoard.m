@@ -254,18 +254,21 @@
                                    @"mask"      :aWord.mask                       == nil ? @"":aWord.mask,
                                    @"desc"      :aWord.description                == nil ? @"":aWord.description,
                                    @"tmp"       :tmpString,
-                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithInt:1]:[NSNumber numberWithInt:0],
+                                   @"horiz"     :aWord.horizontal                 == YES ? [NSNumber numberWithBool:YES]:[NSNumber numberWithBool:NO],
                                    @"x"         :[NSNumber numberWithInt:aWord.start_x],
                                    @"y"         :[NSNumber numberWithInt:aWord.start_y],
                                    @"len"       :[NSNumber numberWithInt:aWord.length]
                                    };
         [word_writable_array addObject:aWordDic];
     }
+
+#warning 棋盘添加字段位置2
     //局面写入一个字典
     NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
                                  @"uniqueid"    :self.uniqueid,
                                  @"volNumber"   :self.volNumber,
+                                 @"islocked"        :[NSNumber  numberWithBool:self.islocked],
                                  @"date"        :self.date                        == nil ? @"":self.date,
                                  @"gamename"    :self.gamename                    == nil ? @"":self.gamename,
                                  @"author"      :self.author                      == nil ? @"":self.author,
@@ -314,10 +317,11 @@
                 tmpWord.length                      = [(NSNumber *)[aWordDic objectForKey:@"len"] intValue];
                 [output_words addObject:tmpWord];
             }
-            
             self.words      = output_words;
-                        
+            
+#warning 棋盘添加字段位置1
             /*********解析基础数据*********/
+            self.islocked   = [[playBoardDic objectForKey:@"islocked"] boolValue];//该棋盘是否已经解锁
             self.file       = [playBoardDic objectForKey:@"file"];
             self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
             self.volNumber  = [playBoardDic objectForKey:@"volNumber"];

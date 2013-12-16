@@ -42,6 +42,9 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @property(nonatomic) int width;                     //横向有多少个格子
 @property(nonatomic) int height;                    //纵向有多少个格子
 
+#warning #warning 棋盘添加字段位置0
+@property(nonatomic) BOOL islocked;                 //该棋盘是否已经解锁
+
 @property(nonatomic) GWPlayBoardCurrentDirection current_direction;//当前方向
 
 @property(nonatomic) CGPoint last_point;            //上一次的坐标
