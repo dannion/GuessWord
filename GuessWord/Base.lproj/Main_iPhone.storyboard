@@ -240,7 +240,7 @@
         <!--Navigation Controller-->
         <scene sceneID="iok-4P-7LI">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rFH-k0-Bkw" sceneMemberID="viewController">
+                <navigationController id="rFH-k0-Bkw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kJT-34-tYn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

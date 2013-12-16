@@ -11,6 +11,7 @@
 #import "ModelTest.h"
 #import "PMCustomKeyboard.h"
 #import "BoardCell.h"
+#import "GWNetWorkingWrapper.h"
 
 
 
@@ -58,8 +59,8 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [super viewDidLoad];
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
-    
-    [self setupBackBarItem];
+
+    self.uniqueID = [NSNumber numberWithInt:10002];
     
     // init GUI elements
     [self createGridView];
@@ -70,11 +71,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [self loadData];
 }
 
-- (void)setupBackBarItem
-{
-//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_backbutton.png"] style:UIBarButtonItemStylePlain target:nil action:nil];
-//    self.navigationItem.backBarButtonItem = btn;
-}
+
 
 - (void)setupLabel
 {
@@ -179,8 +176,9 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 - (void)refetchDataFromLocalCache
 {
     //从数据库里获取网格
-    if (1) {
-        _playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+    if (self.uniqueID) {
+        //_playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+        _playBoard = [PlayBoard playBoardFromLocalDatabaseByUniqueID:self.uniqueID];
         
         if (_playBoard) {
             //now we have data already, draw the actual grid.
@@ -193,45 +191,48 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 - (void)refetchDataFromNetWork
 {
-//    //本地有数据，则不发送网络请求
-//    if (_playBoard) {
-//        return;
-//    }
+    //本地有数据，则不发送网络请求
+    if (_playBoard) {
+        return;
+    }
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.105.54.95/quiz.php"]];
-    
-    AFURLConnectionOperation *operation = [[AFURLConnectionOperation alloc] initWithRequest:request];
-    
-    __weak AFURLConnectionOperation* weakOperation;
-    weakOperation.completionBlock = ^ {
-        
+    NSDictionary* parameterDictionary = [NSDictionary dictionaryWithObject:self.uniqueID forKey:@"uid"];
+    [GWNetWorkingWrapper getPath:@"quiz.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");
-        PlayBoard* playBoard = [PlayBoard playBoardFromData:weakOperation.responseData];
+        PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
-    };
-    [operation start];
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor whiteColor];
+        hud.labelTextColor = [UIColor blueColor];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"无法连接服务器，请检查网络是否处于工作状态！";
+        [hud hide:YES afterDelay:2.0];
+    }];
     
-/************     test code   begin     *************/
-#warning code for test begin
-    //模拟2秒后收到数据，因为不知道目前为什么总是收不到服务器的数据
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                           target:self
-                                         selector:@selector(getResults)
-                                         userInfo:nil
-                                          repeats:NO];
-/************     test code   done     *************/
+    
 }
-/************     test code   begin    *************/
-- (void)getResults
-{
-    PlayBoard* playBoard = [PlayBoard playBoardFromFile:@"td"];
-    _playBoard = playBoard;
-    [self refreshWithNewData];
 
-}
+/************     test code   begin     *************/
+//    //模拟2秒后收到数据，因为不知道目前为什么总是收不到服务器的数据
+//    [NSTimer scheduledTimerWithTimeInterval:2
+//                                           target:self
+//                                         selector:@selector(getResults)
+//                                         userInfo:nil
+//                                          repeats:NO];
 /************     test code   done     *************/
+//}
+/************     test code   begin    *************/
+//- (void)getResults
+//{
+//    PlayBoard* playBoard = [PlayBoard playBoardFromFile:@"td"];
+//    _playBoard = playBoard;
+//    [self refreshWithNewData];
+//
+//}
+///************     test code   done     *************/
 
 
 

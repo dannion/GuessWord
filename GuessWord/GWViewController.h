@@ -14,4 +14,7 @@
 
 @property (nonatomic, strong, readonly) PlayBoard* playBoard;
 
+//页面跳转的上级页面需要将uniqueID传给该VC。
+@property (nonatomic, strong) NSNumber* uniqueID;
+
 @end
