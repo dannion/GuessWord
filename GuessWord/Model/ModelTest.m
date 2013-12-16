@@ -12,7 +12,8 @@
 @implementation ModelTest
 
 +(void)testFunction{
-    PlayBoard * pb = [PlayBoard playBoardFromFile:@"td"];
+
+    PlayBoard * pb = [PlayBoard playBoardFromFile:@"td2"];
 
 //    NSLog(@"-----init PB ---%@",pb);
     [pb nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];

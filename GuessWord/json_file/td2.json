@@ -5,7 +5,7 @@
     "level" : 1,
     "degree" : 6,
     "category" : "高效",
-    "islocked" : 1,
+    "islocked" : 0,
     "words" : [
                {
                "desc" : "时来运转",
