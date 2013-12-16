@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Word.h"
-@class PowerBoardCell;
+@class BoardCell;
 
 typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
     VERTICAL_DIRECTION,
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 -(void)saveToFile:(NSString *)saveFile;
 -(void)saveToDataBase;                                                                  //保存到数据库
 -(void)insertToDatabase;                                                                //插入到数据库
--(PowerBoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
+-(BoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
 -(NSString*)description;
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据
 
