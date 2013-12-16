@@ -12,6 +12,31 @@
 
 @implementation CDPlayBoard (Interface)
 
+//通过volNumber来获取一堆PlayBoards
++(NSArray *)CDPlayBoardsByVolNumber:(NSNumber *)volNumber
+             inManagedObjectContext:(NSManagedObjectContext *)context;
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
+    
+    [request setEntity:entity];
+    
+    /****************设置数据库查询的条件**************/
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(volNumber = %d)", [volNumber intValue]];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    if (array == nil)
+    {
+        NSLog(@"没有volNumber == %@ 的CDPlayBoards",volNumber);
+        return nil;
+    }
+    return array;
+}
+
 +(void)documentIsReady:(UIManagedDocument *)document{
 //    if (document.documentState == UIDocumentStateNormal) {
 //        //start using document

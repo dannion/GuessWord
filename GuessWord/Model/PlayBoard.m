@@ -36,6 +36,15 @@
 #pragma mark 构造方法
 #pragma mark --
 
+//在数据库中找到所有该volNumber的 playBoards
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber{
+    NSMutableArray *playBoards = [[NSMutableArray alloc]initWithCapacity:40];
+#warning TO DO
+    NSArray *pbs = [CDPlayBoard CDPlayBoardsByVolNumber:volNumber inManagedObjectContext:nil];
+    
+    return playBoards;
+}
+
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
 {
@@ -382,7 +391,7 @@
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x,cur_y+1);
         }
-    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 >= self.width){
+    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 < self.width){
         BoardCell *bcell = self.cells[cur_y][cur_x+1];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x+1,cur_y);

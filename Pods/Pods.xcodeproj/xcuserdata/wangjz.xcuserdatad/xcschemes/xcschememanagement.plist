@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>Pods-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>Pods-PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -27,6 +32,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>47E2FC552A0846F6A35F7937</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4A58E00AE9844FC09CCEA8D5</key>
 		<dict>
 			<key>primary</key>
@@ -38,6 +48,16 @@
 			<true/>
 		</dict>
 		<key>6C8C547D6060445CB5DBFB17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6F0AF20204624339BED386F8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77A773324CE24E119BE149F3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -58,6 +78,11 @@
 			<true/>
 		</dict>
 		<key>9917BED11A914421B18CCD6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ACFF94582FCE44F69BF91B37</key>
 		<dict>
 			<key>primary</key>
 			<true/>
