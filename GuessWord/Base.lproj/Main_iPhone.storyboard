@@ -91,10 +91,10 @@
             </objects>
             <point key="canvasLocation" x="-943" y="268"/>
         </scene>
-        <!--View Controller - 往期回顾-->
+        <!--Base View Controller - 往期回顾-->
         <scene sceneID="SMz-ib-nYy">
             <objects>
-                <viewController id="82W-Sp-yVi" sceneMemberID="viewController">
+                <viewController id="82W-Sp-yVi" customClass="GWBaseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pJL-7f-5tS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -106,10 +106,10 @@
             </objects>
             <point key="canvasLocation" x="-258" y="-747"/>
         </scene>
-        <!--View Controller-->
+        <!--Base View Controller-->
         <scene sceneID="zQG-qf-r0h">
             <objects>
-                <viewController id="XrM-7O-t4u" sceneMemberID="viewController">
+                <viewController id="XrM-7O-t4u" customClass="GWBaseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bc1-SU-m6T">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="794" y="-80"/>
         </scene>
-        <!--View Controller-->
+        <!--Base View Controller-->
         <scene sceneID="DSn-pV-6YO">
             <objects>
-                <viewController id="gys-1d-wv5" sceneMemberID="viewController">
+                <viewController id="gys-1d-wv5" customClass="GWBaseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VmQ-zy-yAo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -174,10 +174,10 @@
             </objects>
             <point key="canvasLocation" x="-250" y="1280"/>
         </scene>
-        <!--View Controller-->
+        <!--Base View Controller-->
         <scene sceneID="hcp-1E-wxp">
             <objects>
-                <viewController id="v8a-Qq-Bsx" sceneMemberID="viewController">
+                <viewController id="v8a-Qq-Bsx" customClass="GWBaseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZ9-2a-52B">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

@@ -59,6 +59,8 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
     
+    [self setupBackBarItem];
+    
     // init GUI elements
     [self createGridView];
     [self addViewBackgroundView];
@@ -68,9 +70,15 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [self loadData];
 }
 
+- (void)setupBackBarItem
+{
+//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_backbutton.png"] style:UIBarButtonItemStylePlain target:nil action:nil];
+//    self.navigationItem.backBarButtonItem = btn;
+}
+
 - (void)setupLabel
 {
-    self.descriptionLabel.textColor = [UIColor colorWithRed:112.0/256 green:110.0/256 blue:110.0/256 alpha:1.0];
+    self.descriptionLabel.textColor = [self colorForDescriptionLabelText];
 }
 
 - (void)refreshWithNewData
@@ -95,7 +103,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 - (void)addViewBackgroundView
 {
     UIView* backgroundAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    backgroundAllView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+    backgroundAllView.backgroundColor = [self colorForBackgroundView];
     [self.view addSubview:backgroundAllView];
     [self.view sendSubviewToBack:backgroundAllView];
     
@@ -113,7 +121,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     _gridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _gridView.delegate = self;
     _gridView.dataSource = self;
-    _gridView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+    _gridView.backgroundColor = [self colorForBackgroundView];
     [_gridView registerClass:[GWGridCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
     
     [self.view addSubview:_gridView];
@@ -141,7 +149,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
   
     self.gridViewBackgroundImageView.frame = CGRectMake(_gridView.frame.origin.x-1, _gridView.frame.origin.y-1, _gridView.frame.size.width+2, _gridView.frame.size.height+2);
     
-    self.gridViewBackgroundImageView.backgroundColor = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+    self.gridViewBackgroundImageView.backgroundColor = [self colorForBackgroundView];
 
     [self.view addSubview:self.gridViewBackgroundImageView];
     [self.view bringSubviewToFront:_gridView];
@@ -670,13 +678,18 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 }
 
 #pragma mark -
-#pragma mark Image Method
+#pragma mark Image & Color Method
 
-- (UIImage*)imageForBackgroundView
+- (UIColor*)colorForBackgroundView
 {
     UIColor* color = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
-    
-    return [self createImageWithColor:color];
+    return color;
+}
+
+- (UIColor*)colorForDescriptionLabelText
+{
+    UIColor* color = [UIColor colorWithRed:112.0/256 green:110.0/256 blue:110.0/256 alpha:1.0];
+    return color;
 }
 
 - (UIImage*)imageForBlockCell

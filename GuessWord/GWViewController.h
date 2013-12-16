@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PlayBoard.h"
+#import "GWBaseViewController.h"
 
-
-@interface GWViewController : UIViewController<PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface GWViewController : GWBaseViewController <PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong, readonly) PlayBoard* playBoard;
 
