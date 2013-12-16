@@ -16,6 +16,9 @@
 		64AF28C61856A48E0046D43A /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C21856A48E0046D43A /* Word.m */; };
 		64AF28C81856B9160046D43A /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 64AF28C71856B9160046D43A /* 1.jpeg */; };
 		64AF28C91856B9160046D43A /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 64AF28C71856B9160046D43A /* 1.jpeg */; };
+		64BCEBCE185EAEE000573F82 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 64BCEBCB185EAEE000573F82 /* back_button.png */; };
+		64BCEBCF185EAEE000573F82 /* keyboard_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 64BCEBCC185EAEE000573F82 /* keyboard_bg.png */; };
+		64BCEBD0185EAEE000573F82 /* keyboard_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 64BCEBCD185EAEE000573F82 /* keyboard_button.png */; };
 		64D09A3F185594AB0054E807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A3E185594AB0054E807 /* Foundation.framework */; };
 		64D09A41185594AB0054E807 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A40185594AB0054E807 /* CoreGraphics.framework */; };
 		64D09A43185594AB0054E807 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A42185594AB0054E807 /* UIKit.framework */; };
@@ -66,6 +69,9 @@
 		64AF28C11856A48E0046D43A /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
 		64AF28C21856A48E0046D43A /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
 		64AF28C71856B9160046D43A /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
+		64BCEBCB185EAEE000573F82 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_button.png; sourceTree = "<group>"; };
+		64BCEBCC185EAEE000573F82 /* keyboard_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keyboard_bg.png; sourceTree = "<group>"; };
+		64BCEBCD185EAEE000573F82 /* keyboard_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keyboard_button.png; sourceTree = "<group>"; };
 		64D09A3B185594AB0054E807 /* GuessWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D09A3E185594AB0054E807 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64D09A40185594AB0054E807 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -160,6 +166,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		64BCEBCA185EAEC900573F82 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				64BCEBCB185EAEE000573F82 /* back_button.png */,
+				64BCEBCC185EAEE000573F82 /* keyboard_bg.png */,
+				64BCEBCD185EAEE000573F82 /* keyboard_button.png */,
+				64AF28C71856B9160046D43A /* 1.jpeg */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
 		64D09A32185594AB0054E807 = {
 			isa = PBXGroup;
 			children = (
@@ -215,7 +232,7 @@
 		64D09A45185594AB0054E807 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				64AF28C71856B9160046D43A /* 1.jpeg */,
+				64BCEBCA185EAEC900573F82 /* Image */,
 				64D09A46185594AB0054E807 /* GuessWord-Info.plist */,
 				64D09A47185594AB0054E807 /* InfoPlist.strings */,
 				64D09A4A185594AB0054E807 /* main.m */,
@@ -349,9 +366,12 @@
 				8373AB5C1857040500931677 /* td的说明.json in Resources */,
 				8373AB5E18570CD100931677 /* td.json in Resources */,
 				64D09A5A185594AB0054E807 /* Images.xcassets in Resources */,
+				64BCEBD0185EAEE000573F82 /* keyboard_button.png in Resources */,
 				83B460081859A53D00AAADBE /* bigdata.json in Resources */,
+				64BCEBCE185EAEE000573F82 /* back_button.png in Resources */,
 				83B43A3218574474007E58C2 /* Readme.txt in Resources */,
 				64D09A52185594AB0054E807 /* Main_iPhone.storyboard in Resources */,
+				64BCEBCF185EAEE000573F82 /* keyboard_bg.png in Resources */,
 				64D09A49185594AB0054E807 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

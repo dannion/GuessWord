@@ -62,9 +62,15 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     // init GUI elements
     [self createGridView];
     [self addViewBackgroundView];
+    [self setupLabel];
     
     //load Data
     [self loadData];
+}
+
+- (void)setupLabel
+{
+    self.descriptionLabel.textColor = [UIColor colorWithRed:112.0/256 green:110.0/256 blue:110.0/256 alpha:1.0];
 }
 
 - (void)refreshWithNewData

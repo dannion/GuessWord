@@ -153,11 +153,11 @@ enum {
     UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 52, 60)];
 
     
-    if (b == [self.characterKeys objectAtIndex:0] || b == [self.characterKeys objectAtIndex:11]) {
+    if (b == [self.characterKeys objectAtIndex:0] || b == [self.characterKeys objectAtIndex:8] || b == [self.characterKeys objectAtIndex:16]) {
         keyPop = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:[self createKeytopImageWithKind:PKNumberPadViewImageRight] scale:[[UIScreen mainScreen] scale] orientation:UIImageOrientationDown]];
         keyPop.frame = CGRectMake(-16, -71, keyPop.frame.size.width, keyPop.frame.size.height);
     }
-    else if (b == [self.characterKeys objectAtIndex:10] || b == [self.characterKeys objectAtIndex:21]) {
+    else if (b == [self.characterKeys objectAtIndex:7] || b == [self.characterKeys objectAtIndex:15]|| b == [self.characterKeys objectAtIndex:23]) {
         keyPop = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:[self createKeytopImageWithKind:PKNumberPadViewImageLeft] scale:[[UIScreen mainScreen] scale] orientation:UIImageOrientationDown]];
         keyPop.frame = CGRectMake(-38, -71, keyPop.frame.size.width, keyPop.frame.size.height);
     }
@@ -166,7 +166,7 @@ enum {
         keyPop.frame = CGRectMake(-27, -71, keyPop.frame.size.width, keyPop.frame.size.height);
     }
     
-    if ([b.titleLabel.text characterAtIndex:0] < 128 && ![[b.titleLabel.text substringToIndex:1] isEqualToString:@"◌"])
+    if ([b.titleLabel.text characterAtIndex:0] < 128)
         [text setFont:[UIFont boldSystemFontOfSize:44]];
     else
         [text setFont:[UIFont fontWithName:kFont.fontName size:44]];
@@ -190,8 +190,8 @@ enum {
     CGPoint location = [[touches anyObject] locationInView:self];
     
     for (UIButton *b in self.characterKeys) {
-        if ([b subviews].count > 1) {
-            [[[b subviews] objectAtIndex:1] removeFromSuperview];
+        if ([b subviews].count > 2) {
+            [[[b subviews] objectAtIndex:2] removeFromSuperview];
         }
         if(CGRectContainsPoint(b.frame, location))
         {
@@ -205,8 +205,8 @@ enum {
     CGPoint location = [[touches anyObject] locationInView:self];
     
     for (UIButton *b in self.characterKeys) {
-        if ([b subviews].count > 1) {
-            [[[b subviews] objectAtIndex:1] removeFromSuperview];
+        if ([b subviews].count > 2) {
+            [[[b subviews] objectAtIndex:2] removeFromSuperview];
         }
         if(CGRectContainsPoint(b.frame, location))
         {
@@ -220,8 +220,8 @@ enum {
     CGPoint location = [[touches anyObject] locationInView:self];
     
     for (UIButton *b in self.characterKeys) {
-        if ([b subviews].count > 1) {
-            [[[b subviews] objectAtIndex:1] removeFromSuperview];
+        if ([b subviews].count > 2) {
+            [[[b subviews] objectAtIndex:2] removeFromSuperview];
         }
         if(CGRectContainsPoint(b.frame, location))
         {
