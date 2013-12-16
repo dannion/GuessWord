@@ -398,27 +398,33 @@
     //更新上一次的坐标
     self.last_point = fromPoint;
     
-    //更新方向，如果上次的x与本次一样，那么方向设为
-    if (last_x == cur_x && last_y+1 == cur_y) {
-        self.current_direction = VERTICAL_DIRECTION;
-    }else {
-        self.current_direction = HORIZONTAL_DERECTION;
-    }
-    //根据方向给出下一个点
-    if (self.current_direction == VERTICAL_DIRECTION && cur_y+1 < self.height ) {
+    if (last_x == cur_x && last_y+1 == cur_y && cur_y+1 < self.height) {        //1:如果方向是竖着的，并且下边还有格子
         BoardCell *bcell = self.cells[cur_y+1][cur_x];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x,cur_y+1);
         }
-    }else if(self.current_direction == HORIZONTAL_DERECTION && cur_x+1 < self.width){
+    }else if (last_y == cur_y && last_x+1 == cur_x && cur_x+1 < self.width){    //2:如果方向是横着的，并且右边还有有格子
         BoardCell *bcell = self.cells[cur_y][cur_x+1];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x+1,cur_y);
         }
+    }else{
+        if(cur_y+1 < self.height){                          //3.2:如果没有方向，并且下边有格子
+            BoardCell *bcell = self.cells[cur_y+1][cur_x];
+            if ([bcell isCellCanInput]) {
+                retPoint = CGPointMake(cur_x,cur_y+1);
+            }
+        }
+        
+        if(cur_x+1 < self.width){                           //3.1:如果没有方向，并且右边有格子
+            BoardCell *bcell = self.cells[cur_y][cur_x+1];
+            if ([bcell isCellCanInput]) {
+                retPoint = CGPointMake(cur_x+1,cur_y);
+            }
+        }
+
     }
-
     return retPoint;
-
 }
 //根据tmp信息初始化两个area数组，只在最初调用
 -(void)initBoardCells{

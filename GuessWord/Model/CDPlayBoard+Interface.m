@@ -173,8 +173,7 @@
     {
         NSLog(@"%@",array);
     }
-#warning 应该是这样写吧？
-    CDPlayBoard *copyPlayBoard = [[array firstObject] copy];
+    CDPlayBoard *copyPlayBoard = [array firstObject];
     return copyPlayBoard;
 }
 
