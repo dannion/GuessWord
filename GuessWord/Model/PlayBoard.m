@@ -8,9 +8,11 @@
 //
 
 #import "PlayBoard.h"
-#import "BoardCell.h"
+
 #import "CDPlayBoard+Interface.h"
 #import "GWAppDelegate.h"
+#import "PowerBoardCell.h"
+
 @interface PlayBoard()
 
 /*********************************私有变量*************************/
@@ -20,7 +22,7 @@
 
 /*********************************私有API*************************/
 
--(void)initBoardCells;//根据tmp信息初始化两个area数组
+-(void)initPowerBoardCells;//根据tmp信息初始化两个area数组
 -(void)updateCellsDisplayByWord:(Word *)word;//根据一个word更新display
 -(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
 //-(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
@@ -106,9 +108,10 @@
     for (j = 0; j < self.height; j++) {
         NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
         for (i = 0; i < self.width; i++) {
-            BoardCell *cell = [[BoardCell alloc]init];
+            PowerBoardCell *cell = [[PowerBoardCell alloc]init];
             cell.input = BLOCK;
-            cell.correct = BLOCK;
+//            cell.correct = BLOCK;
+//            [cell addCorrectAnswerWithOneAlphabet:BLOCK];
             cell.display = BLOCK;
             cell.currentState = GWGridCellCurrentStateBlock;
             [column_array addObject:cell];
@@ -129,7 +132,7 @@
 #pragma mark --
 
 /*获取某个坐标上的boardcel*/
--(BoardCell *)cellAtPoint:(CGPoint)point{
+-(PowerBoardCell *)cellAtPoint:(CGPoint)point{
     int x = (int)point.x;
     int y = (int)point.y;
     return self.cells[y][x];
@@ -189,7 +192,7 @@
 -(BOOL)isClickableAtPoint:(CGPoint)point{
     int x = (int)point.x;
     int y = (int)point.y;
-    BoardCell *cell = self.cells[y][x];
+    PowerBoardCell *cell = self.cells[y][x];
     if ([cell isCellBlock]) {
         return NO;
     }else{
@@ -218,7 +221,7 @@
     int y = (int)point.y;
  
     //更新cells的状态
-    BoardCell *cell = self.cells[y][x];
+    PowerBoardCell *cell = self.cells[y][x];
     if (![cell isCellBlock] && ![cell isCellDone]) {
         cell.input = oneAlphabet;
         [self updateCellsDisplayByPoint:point];
@@ -241,10 +244,10 @@
         BOOL isHorizontal = aWord.horizontal;
         for (int i = 0; i< aWord.length; i++) {
             if (isHorizontal) {
-                BoardCell *boarCell = self.cells[y][x+i];
+                PowerBoardCell *boarCell = self.cells[y][x+i];
                 [tmpString appendString:boarCell.input];
             }else{
-                BoardCell *boarCell = self.cells[y+i][x];
+                PowerBoardCell *boarCell = self.cells[y+i][x];
                 [tmpString appendString:boarCell.input];
             }
         }
@@ -335,7 +338,7 @@
             self.level      = [(NSNumber *)[playBoardDic objectForKey:@"level"] intValue];
             self.width      = [(NSNumber *)[playBoardDic objectForKey:@"width"] intValue];
             self.height     = [(NSNumber *)[playBoardDic objectForKey:@"height"] intValue];
-            [self initBoardCells];
+            [self initPowerBoardCells];
         }
     }
     return self;
@@ -353,8 +356,9 @@
     
     [retString appendString:@"[Correct]\n"];
     for (NSArray *row_array in self.cells) {
-        for (BoardCell *cell in row_array) {
-            [retString appendString:cell.correct];
+        for (PowerBoardCell *cell in row_array) {
+//            [retString appendString:cell.correct];
+            [retString appendString:[cell stringOfCorrectAnswers]];
             [retString appendString:@" "];
         }
         [retString appendString:@"\n"];
@@ -362,7 +366,7 @@
     
     [retString appendString:@"[Input]\n"];
     for (NSArray *row_array in self.cells) {
-        for (BoardCell *cell in row_array) {
+        for (PowerBoardCell *cell in row_array) {
             [retString appendString:cell.input];
             [retString appendString:@" "];
         }
@@ -371,7 +375,7 @@
     
     [retString appendString:@"[Display]\n"];
     for (NSArray *row_array in self.cells) {
-        for (BoardCell *cell in row_array) {
+        for (PowerBoardCell *cell in row_array) {
             [retString appendString:cell.display];
             [retString appendString:@" "];
         }
@@ -399,25 +403,25 @@
     self.last_point = fromPoint;
     
     if (last_x == cur_x && last_y+1 == cur_y && cur_y+1 < self.height) {        //1:如果方向是竖着的，并且下边还有格子
-        BoardCell *bcell = self.cells[cur_y+1][cur_x];
+        PowerBoardCell *bcell = self.cells[cur_y+1][cur_x];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x,cur_y+1);
         }
     }else if (last_y == cur_y && last_x+1 == cur_x && cur_x+1 < self.width){    //2:如果方向是横着的，并且右边还有有格子
-        BoardCell *bcell = self.cells[cur_y][cur_x+1];
+        PowerBoardCell *bcell = self.cells[cur_y][cur_x+1];
         if ([bcell isCellCanInput]) {
             retPoint = CGPointMake(cur_x+1,cur_y);
         }
     }else{
         if(cur_y+1 < self.height){                          //3.2:如果没有方向，并且下边有格子
-            BoardCell *bcell = self.cells[cur_y+1][cur_x];
+            PowerBoardCell *bcell = self.cells[cur_y+1][cur_x];
             if ([bcell isCellCanInput]) {
                 retPoint = CGPointMake(cur_x,cur_y+1);
             }
         }
         
         if(cur_x+1 < self.width){                           //3.1:如果没有方向，并且右边有格子
-            BoardCell *bcell = self.cells[cur_y][cur_x+1];
+            PowerBoardCell *bcell = self.cells[cur_y][cur_x+1];
             if ([bcell isCellCanInput]) {
                 retPoint = CGPointMake(cur_x+1,cur_y);
             }
@@ -427,7 +431,7 @@
     return retPoint;
 }
 //根据tmp信息初始化两个area数组，只在最初调用
--(void)initBoardCells{
+-(void)initPowerBoardCells{
     //初始化correct和input
     for (Word *aWord in self.words) {
         NSString *tmp       = aWord.tmp;
@@ -440,14 +444,16 @@
             if (horizontal) {
                 if (y >= 0 && y < self.height && x+i >= 0 && x+i < self.width) {
                     //正确答案（首字母）
-                    BoardCell *cell      = (BoardCell *)self.cells[y][x+i];
-                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    PowerBoardCell *cell      = (PowerBoardCell *)self.cells[y][x+i];
+//                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    [cell addCorrectAnswerWithOneAlphabet:[ans_cap substringWithRange:NSMakeRange(i,1)]];
                     cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];//用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
                 }
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
-                    BoardCell *cell      = (BoardCell *)self.cells[y+i][x];
-                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    PowerBoardCell *cell      = (PowerBoardCell *)self.cells[y+i][x];
+//                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
+                    [cell addCorrectAnswerWithOneAlphabet:[ans_cap substringWithRange:NSMakeRange(i,1)]];
                     cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
                 }
             }
@@ -472,7 +478,7 @@
     
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
-            BoardCell *cell = self.cells[y][x+i];
+            PowerBoardCell *cell = self.cells[y][x+i];
             if (cell.currentState != GWGridCellCurrentStateDone) {
                 if (bingo) {
                     [cell setStateDoneWithChineseCharacter:[chi substringWithRange:NSMakeRange(i,1)]];
@@ -483,7 +489,7 @@
             }
         }
         else{
-            BoardCell *cell = self.cells[y+i][x];
+            PowerBoardCell *cell = self.cells[y+i][x];
             if (cell.currentState != GWGridCellCurrentStateDone) {
                 if (bingo) {
                     [cell setStateDoneWithChineseCharacter:[chi substringWithRange:NSMakeRange(i,1)]];
@@ -534,13 +540,13 @@
     int y = word.start_y;
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
-            BoardCell *cell = self.cells[y][x+i];
+            PowerBoardCell *cell = self.cells[y][x+i];
             if ([cell isCellInputBlank]) {
                 bingo = NO;
                 break;
             }
         }else{
-            BoardCell *cell = self.cells[y+i][x];
+            PowerBoardCell *cell = self.cells[y+i][x];
             if ([cell isCellInputBlank]) {
                 bingo = NO;
                 break;
@@ -562,13 +568,13 @@
     
     for (int i = 0 ; i < word.length; i++) {
         if (word.horizontal) {
-            BoardCell *cell = self.cells[y][x+i];
+            PowerBoardCell *cell = self.cells[y][x+i];
             if (![cell isCellCorrect]) {
                 bingo = NO;
                 break;
             }
         } else {
-            BoardCell *cell = self.cells[y+i][x];
+            PowerBoardCell *cell = self.cells[y+i][x];
             if (![cell isCellCorrect]) {
                 bingo = NO;
                 break;
