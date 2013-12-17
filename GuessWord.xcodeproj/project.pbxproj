@@ -28,6 +28,10 @@
 		64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBF3185FEBD900573F82 /* GWVolCell.m */; };
 		64BCEBF7185FF40100573F82 /* GWLevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBF6185FF40100573F82 /* GWLevelViewController.m */; };
 		64BCEBFA185FF45400573F82 /* GWLevelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBF9185FF45400573F82 /* GWLevelCell.m */; };
+		64BCEBFD18602A4C00573F82 /* GWLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBFC18602A4C00573F82 /* GWLoginViewController.m */; };
+		64BCEC0018602E8700573F82 /* GWCatagoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBFF18602E8700573F82 /* GWCatagoryViewController.m */; };
+		64BCEC0318602F0B00573F82 /* GWCatagoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEC0218602F0B00573F82 /* GWCatagoryCell.m */; };
+		64BCEC061860336100573F82 /* GWHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEC051860336100573F82 /* GWHomeViewController.m */; };
 		64D09A3F185594AB0054E807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A3E185594AB0054E807 /* Foundation.framework */; };
 		64D09A41185594AB0054E807 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A40185594AB0054E807 /* CoreGraphics.framework */; };
 		64D09A43185594AB0054E807 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A42185594AB0054E807 /* UIKit.framework */; };
@@ -100,6 +104,14 @@
 		64BCEBF6185FF40100573F82 /* GWLevelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWLevelViewController.m; sourceTree = "<group>"; };
 		64BCEBF8185FF45400573F82 /* GWLevelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWLevelCell.h; sourceTree = "<group>"; };
 		64BCEBF9185FF45400573F82 /* GWLevelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWLevelCell.m; sourceTree = "<group>"; };
+		64BCEBFB18602A4C00573F82 /* GWLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWLoginViewController.h; sourceTree = "<group>"; };
+		64BCEBFC18602A4C00573F82 /* GWLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWLoginViewController.m; sourceTree = "<group>"; };
+		64BCEBFE18602E8700573F82 /* GWCatagoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWCatagoryViewController.h; sourceTree = "<group>"; };
+		64BCEBFF18602E8700573F82 /* GWCatagoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWCatagoryViewController.m; sourceTree = "<group>"; };
+		64BCEC0118602F0B00573F82 /* GWCatagoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWCatagoryCell.h; sourceTree = "<group>"; };
+		64BCEC0218602F0B00573F82 /* GWCatagoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWCatagoryCell.m; sourceTree = "<group>"; };
+		64BCEC041860336100573F82 /* GWHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWHomeViewController.h; sourceTree = "<group>"; };
+		64BCEC051860336100573F82 /* GWHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWHomeViewController.m; sourceTree = "<group>"; };
 		64D09A3B185594AB0054E807 /* GuessWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D09A3E185594AB0054E807 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64D09A40185594AB0054E807 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -216,12 +228,18 @@
 			children = (
 				64BCEBDB185ED31200573F82 /* GWBaseViewController.h */,
 				64BCEBDC185ED31200573F82 /* GWBaseViewController.m */,
+				64BCEBFB18602A4C00573F82 /* GWLoginViewController.h */,
+				64BCEBFC18602A4C00573F82 /* GWLoginViewController.m */,
 				64D09A56185594AB0054E807 /* GWGridViewController.h */,
 				64D09A57185594AB0054E807 /* GWGridViewController.m */,
+				64BCEBFE18602E8700573F82 /* GWCatagoryViewController.h */,
+				64BCEBFF18602E8700573F82 /* GWCatagoryViewController.m */,
 				64BCEBEE185FE5D400573F82 /* GWVolViewController.h */,
 				64BCEBEF185FE5D400573F82 /* GWVolViewController.m */,
 				64BCEBF5185FF40100573F82 /* GWLevelViewController.h */,
 				64BCEBF6185FF40100573F82 /* GWLevelViewController.m */,
+				64BCEC041860336100573F82 /* GWHomeViewController.h */,
+				64BCEC051860336100573F82 /* GWHomeViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -240,6 +258,8 @@
 		64BCEBF1185FEBA500573F82 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				64BCEC0118602F0B00573F82 /* GWCatagoryCell.h */,
+				64BCEC0218602F0B00573F82 /* GWCatagoryCell.m */,
 				64BCEBF2185FEBD900573F82 /* GWVolCell.h */,
 				64BCEBF3185FEBD900573F82 /* GWVolCell.m */,
 				64BCEBF8185FF45400573F82 /* GWLevelCell.h */,
@@ -502,6 +522,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64BCEBFD18602A4C00573F82 /* GWLoginViewController.m in Sources */,
+				64BCEC0318602F0B00573F82 /* GWCatagoryCell.m in Sources */,
 				83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */,
 				839288CA185831F000F6ADCD /* BoardCell.m in Sources */,
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
@@ -514,12 +536,14 @@
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
 				64BCEBF7185FF40100573F82 /* GWLevelViewController.m in Sources */,
 				8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */,
+				64BCEC0018602E8700573F82 /* GWCatagoryViewController.m in Sources */,
 				834D2110185EA999008CD57F /* CDPlayBoard.m in Sources */,
 				64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */,
 				83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
 				64BCEBDD185ED31200573F82 /* GWBaseViewController.m in Sources */,
 				64BCEBF0185FE5D400573F82 /* GWVolViewController.m in Sources */,
+				64BCEC061860336100573F82 /* GWHomeViewController.m in Sources */,
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
 				64BCEBE4185EF1C000573F82 /* GWNetWorkingWrapper.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,

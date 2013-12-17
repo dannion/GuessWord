@@ -14,7 +14,12 @@
 
 @property (nonatomic, strong, readonly) PlayBoard* playBoard;
 
-//页面跳转的上级页面需要将uniqueID传给该VC。
+
+//初始化该页面需要上级页面用以下两种方式之一传递必要数据
+//传递网格的UniqueID
 @property (nonatomic, strong) NSNumber* uniqueID;
+//或者传递网格的volNumber和level
+@property (nonatomic, strong) NSNumber* volNumber;
+@property (nonatomic, assign) int level;
 
 @end
