@@ -11,6 +11,83 @@
 
 @implementation CDVol (Interface)
 
+
+#warning 测试用，后期删掉
++(NSArray *)cdvolArray
+{
+    NSMutableArray *retArray = [[NSMutableArray alloc]init];
+    for (int i=0; i<3; i++) {
+        NSString *name = [NSString stringWithFormat:@"第%d期",i];
+        NSNumber *uniqueNumber = [NSNumber numberWithInt:100+i];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *opendata = [NSDate date];
+        NSString *formattedDateString = [dateFormatter stringFromDate:opendata];
+        
+        NSNumber *amount = [NSNumber numberWithInt:10+i];
+
+        NSDictionary *oneDic = @{KEY_FOR_UNIQUENUMBER:uniqueNumber,
+                                   KEY_FOR_NAME:name,
+                                   KEY_FOR_OPENDATE:formattedDateString,
+                                   KEY_FOR_AMOUNTLEVELS:amount};
+        [retArray addObject:oneDic];
+    }
+    return retArray;
+}
+#warning 测试用，后期删掉
++(void)saveArrayToFile:(NSString *)saveFile withArray:(NSArray *)array
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
+    
+    NSError *error = nil;
+    NSData *jsData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) {
+        NSLog(@"dic->%@",error);
+    }
+    if (jsData) {
+        BOOL succeed = [jsData writeToFile:file atomically:YES];
+        if (succeed) {
+            NSLog(@"Save succeed");
+        }else {
+            NSLog(@"Save fail");
+        }
+    }
+}
+
+-(void)saveToFile:(NSString *)saveFile{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
+
+    //生成时间
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
+    NSDate *opendata = [NSDate date];
+    NSString *formattedDateString = [dateFormatter stringFromDate:opendata];
+
+    NSDictionary *cdVolDic = @{KEY_FOR_UNIQUENUMBER:self.uniqueVolNumber,
+                              KEY_FOR_NAME:@"第一期",
+                               KEY_FOR_OPENDATE:formattedDateString,
+                              KEY_FOR_AMOUNTLEVELS:self.amountOfLevels};
+    NSError *error = nil;
+    NSData *jsData = [NSJSONSerialization dataWithJSONObject:cdVolDic options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) {
+        NSLog(@"dic->%@",error);
+    }
+    if (jsData) {
+        BOOL succeed = [jsData writeToFile:file atomically:YES];
+        if (succeed) {
+            NSLog(@"Save succeed");
+        }else {
+            NSLog(@"Save fail");
+        }
+    }
+}
+
 /*创建CDVol:根据Dictionary来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后的CDVol*/
 +(CDVol *)CDVolWithVolDictionary:(NSDictionary *)volDictionary
           inManagedObjectContext:(NSManagedObjectContext *)context
@@ -30,7 +107,7 @@
         vol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
 #warning 这里open_date是一个NSDate类型的变量
         vol.open_date           = [volDictionary objectForKey:KEY_FOR_OPENDATE];
-        vol.numberOfLevels      = [volDictionary objectForKey:KEY_FOR_NUMBERLEVELS];
+        vol.amountOfLevels      = [volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
         
     }else{
         vol = [matches firstObject];

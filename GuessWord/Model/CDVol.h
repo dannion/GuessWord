@@ -2,7 +2,7 @@
 //  CDVol.h
 //  GuessWord
 //
-//  Created by WangJZ on 12/16/13.
+//  Created by WangJZ on 12/17/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
@@ -14,7 +14,7 @@
 @interface CDVol : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * numberOfLevels;
+@property (nonatomic, retain) NSNumber * amountOfLevels;
 @property (nonatomic, retain) NSDate * open_date;
 @property (nonatomic, retain) NSNumber * uniqueVolNumber;
 @property (nonatomic, retain) NSSet *hasBoards;
