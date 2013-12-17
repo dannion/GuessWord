@@ -24,6 +24,8 @@
 		64BCEBE7185EF36B00573F82 /* navigationbar_backbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 64BCEBE5185EF36B00573F82 /* navigationbar_backbutton.png */; };
 		64BCEBE8185EF36B00573F82 /* navigationbar_backbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64BCEBE6185EF36B00573F82 /* navigationbar_backbutton@2x.png */; };
 		64BCEBEB185FE09A00573F82 /* InsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBEA185FE09A00573F82 /* InsetsLabel.m */; };
+		64BCEBF0185FE5D400573F82 /* GWVolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBEF185FE5D400573F82 /* GWVolViewController.m */; };
+		64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64BCEBF3185FEBD900573F82 /* GWVolCell.m */; };
 		64D09A3F185594AB0054E807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A3E185594AB0054E807 /* Foundation.framework */; };
 		64D09A41185594AB0054E807 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A40185594AB0054E807 /* CoreGraphics.framework */; };
 		64D09A43185594AB0054E807 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A42185594AB0054E807 /* UIKit.framework */; };
@@ -32,7 +34,7 @@
 		64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D09A4E185594AB0054E807 /* GWAppDelegate.m */; };
 		64D09A52185594AB0054E807 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64D09A50185594AB0054E807 /* Main_iPhone.storyboard */; };
 		64D09A55185594AB0054E807 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64D09A53185594AB0054E807 /* Main_iPad.storyboard */; };
-		64D09A58185594AB0054E807 /* GWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D09A57185594AB0054E807 /* GWViewController.m */; };
+		64D09A58185594AB0054E807 /* GWGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D09A57185594AB0054E807 /* GWGridViewController.m */; };
 		64D09A5A185594AB0054E807 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64D09A59185594AB0054E807 /* Images.xcassets */; };
 		64D09A61185594AB0054E807 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A60185594AB0054E807 /* XCTest.framework */; };
 		64D09A62185594AB0054E807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64D09A3E185594AB0054E807 /* Foundation.framework */; };
@@ -88,6 +90,10 @@
 		64BCEBE6185EF36B00573F82 /* navigationbar_backbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationbar_backbutton@2x.png"; sourceTree = "<group>"; };
 		64BCEBE9185FE09A00573F82 /* InsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetsLabel.h; sourceTree = "<group>"; };
 		64BCEBEA185FE09A00573F82 /* InsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetsLabel.m; sourceTree = "<group>"; };
+		64BCEBEE185FE5D400573F82 /* GWVolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWVolViewController.h; sourceTree = "<group>"; };
+		64BCEBEF185FE5D400573F82 /* GWVolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWVolViewController.m; sourceTree = "<group>"; };
+		64BCEBF2185FEBD900573F82 /* GWVolCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWVolCell.h; sourceTree = "<group>"; };
+		64BCEBF3185FEBD900573F82 /* GWVolCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWVolCell.m; sourceTree = "<group>"; };
 		64D09A3B185594AB0054E807 /* GuessWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D09A3E185594AB0054E807 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64D09A40185594AB0054E807 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -100,8 +106,8 @@
 		64D09A4E185594AB0054E807 /* GWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GWAppDelegate.m; sourceTree = "<group>"; };
 		64D09A51185594AB0054E807 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		64D09A54185594AB0054E807 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		64D09A56185594AB0054E807 /* GWViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GWViewController.h; sourceTree = "<group>"; };
-		64D09A57185594AB0054E807 /* GWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GWViewController.m; sourceTree = "<group>"; };
+		64D09A56185594AB0054E807 /* GWGridViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GWGridViewController.h; sourceTree = "<group>"; };
+		64D09A57185594AB0054E807 /* GWGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GWGridViewController.m; sourceTree = "<group>"; };
 		64D09A59185594AB0054E807 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		64D09A5F185594AB0054E807 /* GuessWordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GuessWordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D09A60185594AB0054E807 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -204,8 +210,10 @@
 			children = (
 				64BCEBDB185ED31200573F82 /* GWBaseViewController.h */,
 				64BCEBDC185ED31200573F82 /* GWBaseViewController.m */,
-				64D09A56185594AB0054E807 /* GWViewController.h */,
-				64D09A57185594AB0054E807 /* GWViewController.m */,
+				64D09A56185594AB0054E807 /* GWGridViewController.h */,
+				64D09A57185594AB0054E807 /* GWGridViewController.m */,
+				64BCEBEE185FE5D400573F82 /* GWVolViewController.h */,
+				64BCEBEF185FE5D400573F82 /* GWVolViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -219,6 +227,17 @@
 				64BCEBE0185EDB6D00573F82 /* UIImage+Stretch.m */,
 			);
 			name = Vendor;
+			sourceTree = "<group>";
+		};
+		64BCEBF1185FEBA500573F82 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				64BCEBF2185FEBD900573F82 /* GWVolCell.h */,
+				64BCEBF3185FEBD900573F82 /* GWVolCell.m */,
+				64AF28A718559ECD0046D43A /* GWGridCell.h */,
+				64AF28A818559ECD0046D43A /* GWGridCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		64D09A32185594AB0054E807 = {
@@ -265,8 +284,7 @@
 				64BCEBDE185ED8E300573F82 /* ViewController */,
 				64D09A50185594AB0054E807 /* Main_iPhone.storyboard */,
 				64D09A53185594AB0054E807 /* Main_iPad.storyboard */,
-				64AF28A718559ECD0046D43A /* GWGridCell.h */,
-				64AF28A818559ECD0046D43A /* GWGridCell.m */,
+				64BCEBF1185FEBA500573F82 /* Cell */,
 				64D09A59185594AB0054E807 /* Images.xcassets */,
 				64BCEBED185FE0AD00573F82 /* Vendor */,
 				64E047DE18570547008A137A /* Keyboard */,
@@ -477,7 +495,7 @@
 				83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */,
 				839288CA185831F000F6ADCD /* BoardCell.m in Sources */,
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
-				64D09A58185594AB0054E807 /* GWViewController.m in Sources */,
+				64D09A58185594AB0054E807 /* GWGridViewController.m in Sources */,
 				64D09A4B185594AB0054E807 /* main.m in Sources */,
 				64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */,
 				64BCEBE1185EDB6D00573F82 /* UIImage+Stretch.m in Sources */,
@@ -485,9 +503,11 @@
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
 				8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */,
 				834D2110185EA999008CD57F /* CDPlayBoard.m in Sources */,
+				64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */,
 				83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
 				64BCEBDD185ED31200573F82 /* GWBaseViewController.m in Sources */,
+				64BCEBF0185FE5D400573F82 /* GWVolViewController.m in Sources */,
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
 				64BCEBE4185EF1C000573F82 /* GWNetWorkingWrapper.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,

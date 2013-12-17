@@ -6,7 +6,7 @@
 //  Copyright (c) 2013年 BUPTMITC. All rights reserved.
 //
 
-#import "GWViewController.h"
+#import "GWGridViewController.h"
 #import "GWGridCell.h"
 #import "ModelTest.h"
 #import "PMCustomKeyboard.h"
@@ -16,11 +16,9 @@
 
 
 
-#define kGuessWordHeightChangeAmountWhenKeyBoardShowOrHide 100
+NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
-NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
-
-@interface GWViewController ()<PSUICollectionViewDelegateFlowLayout>
+@interface GWGridViewController ()<PSUICollectionViewDelegateFlowLayout>
 {
     NSInteger gridRowNum;//网格行数
     NSInteger gridColNum; //网格列数
@@ -40,7 +38,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 @end
 
-@implementation GWViewController
+@implementation GWGridViewController
 @synthesize playBoard = _playBoard;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -122,7 +120,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     _gridView.delegate = self;
     _gridView.dataSource = self;
     _gridView.backgroundColor = [self colorForBackgroundView];
-    [_gridView registerClass:[GWGridCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
+    [_gridView registerClass:[GWGridCell class] forCellWithReuseIdentifier:GWGridViewCellIdentifier];
     
     [self.view addSubview:_gridView];
 }
@@ -200,13 +198,24 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     }
     
     NSDictionary* parameterDictionary = [NSDictionary dictionaryWithObject:self.uniqueID forKey:@"uid"];
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor whiteColor];
+    hud.labelTextColor = [UIColor blueColor];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = @"加载中，请稍候！";
+    
     [GWNetWorkingWrapper getPath:@"quiz.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");
+        [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
+        
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
+        
         MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.color = [UIColor whiteColor];
         hud.labelTextColor = [UIColor blueColor];
@@ -247,6 +256,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     if (!_gridViewBackgroundImageView) {
         _gridViewBackgroundImageView = [[UIImageView alloc] init];
     }
+    
     return _gridViewBackgroundImageView;
 }
 
@@ -284,7 +294,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 }
 
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    GWGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
+    GWGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWGridViewCellIdentifier forIndexPath:indexPath];
     
     GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
 //    cell.label.delegate = self;
@@ -684,15 +694,15 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 #pragma mark -
 #pragma mark Image & Color Method
 
-- (UIColor*)colorForDescriptionLabelBackground
-{
-    UIColor* color = [UIColor colorWithRed:220.0/256 green:220.0/256 blue:220.0/256 alpha:1.0];
-    return color;
-}
-
 - (UIColor*)colorForBackgroundView
 {
     UIColor* color = [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+    return color;
+}
+
+- (UIColor*)colorForDescriptionLabelBackground
+{
+    UIColor* color = [UIColor colorWithRed:220.0/256 green:220.0/256 blue:220.0/256 alpha:1.0];
     return color;
 }
 
@@ -728,6 +738,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     
     return [self createImageWithColor:color];
 }
+
 #pragma mark -
 #pragma mark Internal Method
 

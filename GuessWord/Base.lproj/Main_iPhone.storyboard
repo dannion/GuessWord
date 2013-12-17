@@ -91,20 +91,46 @@
             </objects>
             <point key="canvasLocation" x="-943" y="268"/>
         </scene>
-        <!--Base View Controller - 往期回顾-->
+        <!--Vol View Controller - 往期回顾-->
         <scene sceneID="SMz-ib-nYy">
             <objects>
-                <viewController id="82W-Sp-yVi" customClass="GWBaseViewController" sceneMemberID="viewController">
+                <viewController id="82W-Sp-yVi" customClass="GWVolViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pJL-7f-5tS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="yoN-ZB-cEc" customClass="PSUICollectionView">
+                                <rect key="frame" x="20" y="14" width="280" height="466"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DL2-u5-CfR">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ldu-pL-nvm">
+                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="往期回顾" id="qZh-oU-Yyg"/>
+                    <connections>
+                        <outlet property="volView" destination="yoN-ZB-cEc" id="Vs3-l1-4JP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Plp-UW-6AK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-258" y="-747"/>
+            <point key="canvasLocation" x="-323" y="-731"/>
         </scene>
         <!--Base View Controller-->
         <scene sceneID="zQG-qf-r0h">
@@ -189,10 +215,10 @@
             </objects>
             <point key="canvasLocation" x="802" y="596"/>
         </scene>
-        <!--View Controller - 现场直播-->
+        <!--Grid View Controller - 现场直播-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="GWViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
