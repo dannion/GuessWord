@@ -58,7 +58,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     [super viewDidLoad];
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
-    self.uniqueID = [NSNumber numberWithInt:10002];//testCode
     
     
     // init GUI elements
@@ -77,7 +76,9 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     self.descriptionLabel.textColor = [self colorForDescriptionLabelText];
     self.descriptionLabel.backgroundColor = [self colorForDescriptionLabelBackground];
     self.descriptionLabel.insets = UIEdgeInsetsMake(0, 14, 0, 0);
+    self.descriptionLabel.text = @"点击网格中白色单元开始游戏\n输入所猜汉字的拼音首字母即可";
 }
+
 
 - (void)refreshWithNewData
 {
@@ -166,7 +167,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
     
-    
     //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
@@ -196,8 +196,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     if (_playBoard) {
         return;
     }
-    
-    NSDictionary* parameterDictionary = [NSDictionary dictionaryWithObject:self.uniqueID forKey:@"uid"];
+    NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
+    if (self.uniqueID) {
+        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
+    }
+    if (self.volNumber) {
+        [parameterDictionary setValue:self.volNumber forKey:@"vol_no"];
+        [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"level"];
+    }
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.color = [UIColor whiteColor];

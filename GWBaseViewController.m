@@ -27,7 +27,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self addDefaultBackBarItem];
+    if (self.navigationController.viewControllers.count >1) {
+        [self addDefaultBackBarItem];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
