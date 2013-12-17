@@ -98,12 +98,12 @@
 
 /*保存到数据库*/
 -(void)saveToDataBase{
+#warning 写入数据库前保证信息完整：包括star，得分等
     [self insertToDatabase];
 }
 
 -(void)insertToDatabase
 {
-#warning 应该这样写吧?把自己传给了数据库会不会有问题
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];

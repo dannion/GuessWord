@@ -17,19 +17,22 @@
 
 @interface CDVol (Interface)
 
+-(NSString *)description;
+
+//通过网络文件获取cdVols数组
++(NSArray *)cdVolsFromFile:(NSString *)file
+    inManagedObjectContext:(NSManagedObjectContext *)context;
+
 //通过VolDictionary创建CDVol
-+(CDVol *)CDVolWithVolDictionary:(NSDictionary *)VolDictionary
++(CDVol *)cdVolWithVolDictionary:(NSDictionary *)VolDictionary
           inManagedObjectContext:(NSManagedObjectContext *)context;
 
 //通过唯一的ID获取CDVol或者创建CDVol
-+(CDVol *)CDVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
++(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
             inManagedObjectContext:(NSManagedObjectContext *)context;
 
 /*将CDVol保存到本地下*/
--(void)saveToFile:(NSString *)saveFile;
+//-(void)saveToFile:(NSString *)saveFile;
 
-
-+(void)saveArrayToFile:(NSString *)saveFile withArray:(NSArray *)array;
-+(NSArray *)cdvolArray;
 
 @end
