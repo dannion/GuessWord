@@ -1,30 +1,28 @@
 //
-//  GWVolViewController.m
+//  GWLevelViewController.m
 //  GuessWord
 //
 //  Created by Dannion on 13-12-17.
 //  Copyright (c) 2013年 BUPTMITC. All rights reserved.
 //
 
-#import "GWVolViewController.h"
-#import "GWVolCell.h"
 #import "GWLevelViewController.h"
+#import "GWLevelCell.h"
+#import "GWGridViewController.h"
 
 
-NSString *GWVolViewCellIdentifier = @"GWVolViewCellIdentifier";
+NSString *GWLevelViewCellIdentifier = @"GWLevelViewCellIdentifier";
 
-NSInteger volRowNum = 3;//网格行数
-NSInteger volColNum = 3; //网格列数
+NSInteger levelRowNum = 3;//网格行数
+NSInteger levelColNum = 3; //网格列数
 
-@interface GWVolViewController ()<PSUICollectionViewDelegateFlowLayout>
+@interface GWLevelViewController ()<PSUICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, weak) IBOutlet PSUICollectionView* volView;
+@property (nonatomic, weak) IBOutlet PSUICollectionView* levelView;
 
 @end
 
-
-
-@implementation GWVolViewController
+@implementation GWLevelViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,29 +51,28 @@ NSInteger volColNum = 3; //网格列数
 - (void)createGridView
 {
     PSUICollectionViewFlowLayout *layout = [[PSUICollectionViewFlowLayout alloc] init];
-    _volView.collectionViewLayout = layout;
-    _volView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _volView.delegate = self;
-    _volView.dataSource = self;
-    _volView.backgroundColor = [self colorForBackground];
-    [_volView registerClass:[GWVolCell class] forCellWithReuseIdentifier:GWVolViewCellIdentifier];
+    _levelView.collectionViewLayout = layout;
+    _levelView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _levelView.delegate = self;
+    _levelView.dataSource = self;
+    _levelView.backgroundColor = [self colorForBackground];
+    [_levelView registerClass:[GWLevelCell class] forCellWithReuseIdentifier:GWLevelViewCellIdentifier];
     
-    [self.view addSubview:_volView];
+    [self.view addSubview:_levelView];
 }
 
 #pragma mark -
 #pragma mark Prepare For Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"VolToLevel"]) {
-        GWLevelViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setData:)])
+    if ([segue.identifier isEqualToString:@"LevelToGrid"]) {
+        GWGridViewController *destination = segue.destinationViewController;
+        if ([destination respondsToSelector:@selector(setUniqueID:)])
         {
-            //[destination setValue:@"这是要传递的数据" forKey:@"data"];
+            [destination setUniqueID:[NSNumber numberWithInt:10002]];
         }
     }
 }
-
 
 #pragma mark -
 #pragma mark PSUICollectionViewDelegateFlowLayout
@@ -97,7 +94,7 @@ NSInteger volColNum = 3; //网格列数
 }
 
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    GWVolCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWVolViewCellIdentifier forIndexPath:indexPath];
+    GWLevelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWLevelViewCellIdentifier forIndexPath:indexPath];
     
     cell.label.text = @"123";
     
@@ -106,15 +103,15 @@ NSInteger volColNum = 3; //网格列数
     UIImage *aImage = [UIImage imageNamed:imageToLoad];
     
     cell.imageView.image = aImage;
-  
+    
     return cell;
-
+    
 }
 
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _volView.bounds.size.width / 4;
+    int width = _levelView.bounds.size.width / 4;
     int height = width;
     return CGSizeMake(width, height);
 }
@@ -127,7 +124,7 @@ NSInteger volColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return volRowNum * volColNum;
+    return levelRowNum * levelColNum;
 }
 
 #pragma mark -
@@ -146,8 +143,8 @@ NSInteger volColNum = 3; //网格列数
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
+    [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
     
-    [self performSegueWithIdentifier:@"VolToLevel" sender:nil];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

@@ -11,7 +11,7 @@
 
 @implementation ModelTest
 
-+(void)testFunction{
++ (void)testFunction{
 
     PlayBoard * pb = [PlayBoard playBoardFromFile:@"td2"];
 //    PlayBoard *pb = [PlayBoard playBoardFromLocalDatabaseByUniqueID:[NSNumber numberWithInt:10002]];
