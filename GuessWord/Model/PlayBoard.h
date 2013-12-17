@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
+                                           andLevel:(NSNumber *)level;
 
 /************************************************公有变量***************************************/
 @property(nonatomic,strong) NSArray *words;         //包含了全部的单词

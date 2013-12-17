@@ -55,6 +55,19 @@
     }
 }
 
+/*通过X期和Y关来获取PlayBoard*/
++(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number
+                                           andLevel:(NSNumber *)level
+{
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
+    if (cdpb) {
+        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+    }else{
+        return nil;
+    }
+}
 
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
@@ -592,7 +605,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [paths objectAtIndex:0];
     NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
-    //目前保存的位置Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
+    //目前保存的位置/Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
     NSData *jsData = [self jsonDataDescription];
     if (jsData) {
         BOOL succeed = [jsData writeToFile:file atomically:YES];
