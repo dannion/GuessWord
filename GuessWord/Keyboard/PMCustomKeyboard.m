@@ -159,11 +159,11 @@ enum {
     }
     else if (b == [self.characterKeys objectAtIndex:7] || b == [self.characterKeys objectAtIndex:15]|| b == [self.characterKeys objectAtIndex:23]) {
         keyPop = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:[self createKeytopImageWithKind:PKNumberPadViewImageLeft] scale:[[UIScreen mainScreen] scale] orientation:UIImageOrientationDown]];
-        keyPop.frame = CGRectMake(-36, -81, keyPop.frame.size.width, keyPop.frame.size.height);
+        keyPop.frame = CGRectMake(-31, -81, keyPop.frame.size.width, keyPop.frame.size.height);
     }
     else {
         keyPop = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:[self createKeytopImageWithKind:PKNumberPadViewImageInner] scale:[[UIScreen mainScreen] scale] orientation:UIImageOrientationDown]];
-        keyPop.frame = CGRectMake(-23, -81, keyPop.frame.size.width, keyPop.frame.size.height);
+        keyPop.frame = CGRectMake(-21, -81, keyPop.frame.size.width, keyPop.frame.size.height);
     }
     
     if ([b.titleLabel.text characterAtIndex:0] < 128)

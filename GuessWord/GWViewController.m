@@ -12,6 +12,7 @@
 #import "PMCustomKeyboard.h"
 #import "BoardCell.h"
 #import "GWNetWorkingWrapper.h"
+#import "InsetsLabel.h"
 
 
 
@@ -34,7 +35,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
-@property (nonatomic, weak) IBOutlet UILabel* descriptionLabel;
+@property (nonatomic, weak) IBOutlet InsetsLabel* descriptionLabel;
 @property (nonatomic, strong) UIImageView* gridViewBackgroundImageView; //网格背景页面
 
 @end
@@ -59,8 +60,8 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
     [super viewDidLoad];
     #warning 测试用，后期应删掉
     [ModelTest testFunction];
-
-    self.uniqueID = [NSNumber numberWithInt:10002];
+    self.uniqueID = [NSNumber numberWithInt:10002];//testCode
+    
     
     // init GUI elements
     [self createGridView];
@@ -77,6 +78,7 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 {
     self.descriptionLabel.textColor = [self colorForDescriptionLabelText];
     self.descriptionLabel.backgroundColor = [self colorForDescriptionLabelBackground];
+    self.descriptionLabel.insets = UIEdgeInsetsMake(0, 14, 0, 0);
 }
 
 - (void)refreshWithNewData
@@ -731,12 +733,12 @@ NSString *CollectionViewCellIdentifier = @"collectionViewGridCellIdentifier";
 
 - (void)showErrorToast
 {
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor whiteColor];
-    hud.labelTextColor = [UIColor blueColor];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = @"猜错了！";
-    [hud hide:YES afterDelay:1.0];
+//    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.color = [UIColor whiteColor];
+//    hud.labelTextColor = [UIColor blueColor];
+//    hud.mode = MBProgressHUDModeText;
+//    hud.labelText = @"猜错了！";
+//    [hud hide:YES afterDelay:1.0];
 }
 
 - (void)hasCompletedTheGame
