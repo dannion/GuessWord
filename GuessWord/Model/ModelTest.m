@@ -21,9 +21,9 @@
     NSArray *array = [CDVol cdVolsFromFile:@"allVols" inManagedObjectContext:context];
     NSLog(@"通过网络获取的全部期信息，共有%d期数据",[array count]);
     
-#warning //奇怪，没有这句话的话，不能保存完整
-    NSError *error;
-    [context save:&error];//奇怪，没有这句话的话，不能保存完整
+//#warning //奇怪，没有这句话的话，不能保存完整
+//    NSError *error;
+//    [context save:&error];//奇怪，没有这句话的话，不能保存完整
     
     
 //    CDVol *_vol = [CDVol cdVolWithUniqueVolNumber:[NSNumber numberWithInt:3] inManagedObjectContext:context];

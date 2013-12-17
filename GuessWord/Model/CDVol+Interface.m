@@ -128,23 +128,48 @@
 +(CDVol *)cdVolWithVolDictionary:(NSDictionary *)volDictionary
           inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    CDVol *vol =[CDVol cdVolWithUniqueVolNumber:[volDictionary objectForKey:KEY_FOR_UNIQUENUMBER]
-                         inManagedObjectContext:context];
     
-    vol.uniqueVolNumber     = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
-    vol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
-    
+    CDVol *vol = nil;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CDVol"];
+    NSNumber *uniqueVolNumber = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueVolNumber = %d)", [uniqueVolNumber intValue]];
+    [request setPredicate:predicate];
+    NSError *error;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    if (!matches || ([matches count] > 1))  {
+        //handle error
+    }else if (![matches count]){
+        NSLog(@"数据库中没有uniqueVolNumber == %@ 的CDVol，插入",uniqueVolNumber);
+        vol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
+                                            inManagedObjectContext:context];
+        vol.uniqueVolNumber     = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
+        vol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
+        
 #warning 应该用dateString来转换成NSDate对象，目前没有做
-    NSString *dateString = [volDictionary objectForKey:KEY_FOR_OPENDATE];
-    NSDateComponents *comps = [[NSDateComponents alloc]init];
-    [comps setMonth:01];
-    [comps setDay:31];
-    [comps setYear:2013];
-    [comps setHour:10];
-    NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate *date = [calendar dateFromComponents:comps];
-    vol.open_date           = date;
-    vol.amountOfLevels      = [volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
+        NSString *dateString = [volDictionary objectForKey:KEY_FOR_OPENDATE];
+        NSDateComponents *comps = [[NSDateComponents alloc]init];
+        [comps setMonth:01];
+        [comps setDay:31];
+        [comps setYear:2013];
+        [comps setHour:10];
+        
+#warning ChineseCalendar
+        NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSChineseCalendar];
+        NSDate *date = [calendar dateFromComponents:comps];
+        vol.open_date           = date;
+        vol.amountOfLevels      = [volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
+        
+        NSError *error;
+        BOOL succes = [context save:&error];
+        if (!succes) {
+            NSLog(@"保存CDVol失败%@",error);
+        }else{
+            NSLog(@"保存CDVol成功");
+        }
+    }else{
+        NSLog(@"数据库中有uniqueVolNumber == %@ 的CDVol,直接返回",uniqueVolNumber);
+        vol = [matches firstObject];
+    }
     return vol;
 }
 
