@@ -110,9 +110,10 @@
     }
     if ([array count] != 0) {
         
-#warning 棋盘添加字段位置5
+#warning 棋盘添加字段位置4
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [array firstObject];
+        cdpb.star           = thePlayBoard.star;
         cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
@@ -132,7 +133,8 @@
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
         
-#warning 棋盘添加字段位置4
+#warning 棋盘添加字段位置3
+        cdpb.star           = thePlayBoard.star;
         cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;

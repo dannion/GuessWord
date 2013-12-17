@@ -49,7 +49,6 @@
 		83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83479626185AE71000D67FFC /* CDVol+Interface.m */; };
 		834D2107185EA335008CD57F /* td2.json in Resources */ = {isa = PBXBuildFile; fileRef = 834D2106185EA335008CD57F /* td2.json */; };
 		834D210D185EA970008CD57F /* CDVol.m in Sources */ = {isa = PBXBuildFile; fileRef = 834D210C185EA970008CD57F /* CDVol.m */; };
-		834D2110185EA999008CD57F /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 834D210F185EA999008CD57F /* CDPlayBoard.m */; };
 		8373AB5C1857040500931677 /* td的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* td的说明.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
@@ -60,6 +59,7 @@
 		83B43A3218574474007E58C2 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 83B43A3118574474007E58C2 /* Readme.txt */; };
 		83B460081859A53D00AAADBE /* bigdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 83B460071859A53D00AAADBE /* bigdata.json */; };
 		83B4600C1859AB8000AAADBE /* puz1.json in Resources */ = {isa = PBXBuildFile; fileRef = 83B4600B1859AB8000AAADBE /* puz1.json */; };
+		83FBD83C1860269700FA9BB6 /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FBD83B1860269700FA9BB6 /* CDPlayBoard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,8 +131,6 @@
 		834D2106185EA335008CD57F /* td2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td2.json; path = json_file/td2.json; sourceTree = "<group>"; };
 		834D210B185EA970008CD57F /* CDVol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVol.h; sourceTree = "<group>"; };
 		834D210C185EA970008CD57F /* CDVol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVol.m; sourceTree = "<group>"; };
-		834D210E185EA999008CD57F /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
-		834D210F185EA999008CD57F /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* td的说明.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "td的说明.json"; path = "json_file/td的说明.json"; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -146,6 +144,8 @@
 		83B43A3118574474007E58C2 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
 		83B460071859A53D00AAADBE /* bigdata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bigdata.json; path = json_file/bigdata.json; sourceTree = "<group>"; };
 		83B4600B1859AB8000AAADBE /* puz1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = puz1.json; path = json_file/puz1.json; sourceTree = "<group>"; };
+		83FBD83A1860269700FA9BB6 /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
+		83FBD83B1860269700FA9BB6 /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
 		A1A21F5321544896AA0D8298 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,8 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */,
-				834D210E185EA999008CD57F /* CDPlayBoard.h */,
-				834D210F185EA999008CD57F /* CDPlayBoard.m */,
+				83FBD83A1860269700FA9BB6 /* CDPlayBoard.h */,
+				83FBD83B1860269700FA9BB6 /* CDPlayBoard.m */,
 				834D210B185EA970008CD57F /* CDVol.h */,
 				834D210C185EA970008CD57F /* CDVol.m */,
 				83479625185AE71000D67FFC /* CDVol+Interface.h */,
@@ -506,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83FBD83C1860269700FA9BB6 /* CDPlayBoard.m in Sources */,
 				83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */,
 				839288CA185831F000F6ADCD /* BoardCell.m in Sources */,
 				64D09A4F185594AB0054E807 /* GWAppDelegate.m in Sources */,
@@ -518,7 +519,6 @@
 				64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */,
 				64BCEBF7185FF40100573F82 /* GWLevelViewController.m in Sources */,
 				8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */,
-				834D2110185EA999008CD57F /* CDPlayBoard.m in Sources */,
 				64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */,
 				83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,

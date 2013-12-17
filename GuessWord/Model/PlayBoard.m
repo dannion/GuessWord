@@ -267,7 +267,8 @@
 
 #warning 棋盘添加字段位置2
     //局面写入一个字典
-    NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
+    NSDictionary *dictionary = @{@"star"        :self.star,
+                                 @"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
                                  @"uniqueid"    :self.uniqueid,
                                  @"volNumber"   :self.volNumber,
@@ -324,6 +325,7 @@
             
 #warning 棋盘添加字段位置1
             /*********解析基础数据*********/
+            self.star       = [playBoardDic objectForKey:@"star"];
             self.islocked   = [[playBoardDic objectForKey:@"islocked"] boolValue];//该棋盘是否已经解锁
             self.file       = [playBoardDic objectForKey:@"file"];
             self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
@@ -353,6 +355,7 @@
     [retString appendString:[NSString stringWithFormat:@"isLocked = %d\n",self.islocked]];
     [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
     [retString appendString:[NSString stringWithFormat:@"score = %d\n",self.score]];
+    [retString appendString:[NSString stringWithFormat:@"star = %@\n",self.star]];
     
     [retString appendString:@"[Correct]\n"];
     for (NSArray *row_array in self.cells) {
