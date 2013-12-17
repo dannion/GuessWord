@@ -55,6 +55,19 @@
     }
 }
 
+/*通过X期和Y关来获取PlayBoard*/
++(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number
+                                           andLevel:(NSNumber *)level
+{
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
+    if (cdpb) {
+        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+    }else{
+        return nil;
+    }
+}
 
 //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
@@ -267,7 +280,8 @@
 
 #warning 棋盘添加字段位置2
     //局面写入一个字典
-    NSDictionary *dictionary = @{@"file"        :self.file                        == nil ? @"":self.file,
+    NSDictionary *dictionary = @{@"star"        :self.star,
+                                 @"file"        :self.file                        == nil ? @"":self.file,
                                  @"category"    :self.category                    == nil ? @"":self.category,
                                  @"uniqueid"    :self.uniqueid,
                                  @"volNumber"   :self.volNumber,
@@ -324,6 +338,7 @@
             
 #warning 棋盘添加字段位置1
             /*********解析基础数据*********/
+            self.star       = [playBoardDic objectForKey:@"star"];
             self.islocked   = [[playBoardDic objectForKey:@"islocked"] boolValue];//该棋盘是否已经解锁
             self.file       = [playBoardDic objectForKey:@"file"];
             self.uniqueid   = [playBoardDic objectForKey:@"uniqueid"];
@@ -353,6 +368,7 @@
     [retString appendString:[NSString stringWithFormat:@"isLocked = %d\n",self.islocked]];
     [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
     [retString appendString:[NSString stringWithFormat:@"score = %d\n",self.score]];
+    [retString appendString:[NSString stringWithFormat:@"star = %@\n",self.star]];
     
     [retString appendString:@"[Correct]\n"];
     for (NSArray *row_array in self.cells) {
@@ -589,7 +605,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [paths objectAtIndex:0];
     NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
-    //目前保存的位置Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
+    //目前保存的位置/Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
     NSData *jsData = [self jsonDataDescription];
     if (jsData) {
         BOOL succeed = [jsData writeToFile:file atomically:YES];

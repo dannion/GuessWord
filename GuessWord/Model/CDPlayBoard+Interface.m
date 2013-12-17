@@ -110,9 +110,10 @@
     }
     if ([array count] != 0) {
         
-#warning 棋盘添加字段位置5
+#warning 棋盘添加字段位置4
         NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
         CDPlayBoard *cdpb = [array firstObject];
+        cdpb.star           = thePlayBoard.star;
         cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
@@ -132,7 +133,8 @@
         CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
                                                           inManagedObjectContext:context];
         
-#warning 棋盘添加字段位置4
+#warning 棋盘添加字段位置3
+        cdpb.star           = thePlayBoard.star;
         cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
         cdpb.uniqueid       = thePlayBoard.uniqueid;
         cdpb.category       = thePlayBoard.category;
@@ -149,6 +151,36 @@
             NSLog(@"插入新的uniqueid = %@ 的棋盘格",thePlayBoard.uniqueid);
         }
         //[appDelegate saveContext];
+    }
+}
+
+//通过vol_number和level获取CDPlayBoard
++(CDPlayBoard *)CDPlayBoardByVolNumber:(NSNumber *)vol_number
+                              andLevel:(NSNumber *)level
+                inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
+    
+    [request setEntity:entity];
+    
+    /****************设置数据库查询的条件**************/
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"volNumber = %d AND level = %d", [vol_number intValue],[level intValue]];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    if (array == nil)
+    {
+        NSLog(@"No such playboard with vol_no = %@ and level = %@ in local database",vol_number,level);
+        return nil;
+    }else if ([array count] > 1) {
+        NSLog(@"Error: More than 1 cdplayboard with vol_no = %@ and level = %@ in local database",vol_number,level);
+        return nil;
+    }else{
+        return [array firstObject];
     }
 }
 

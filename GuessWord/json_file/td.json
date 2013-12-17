@@ -6,6 +6,7 @@
     "degree" : 5,
     "category" : "诗词",
     "islocked" : 1,
+    "star": 0,
     "words" : [
                {
                "desc" : "时来运转",

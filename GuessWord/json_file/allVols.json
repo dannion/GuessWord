@@ -1,0 +1,20 @@
+[                                           整体是一个数组
+  {                                             每一期是一个字典
+    "name" : "第1期",                                名字
+    "open_date" : "2013-12-17",                     本期开始的时间
+    "amount_of_levels" : 10,                        本期包含题目数量
+    "vol_no" : 1                                    第几期
+  },
+  {
+    "name" : "第2期",
+    "open_date" : "2013-12-17",
+    "amount_of_levels" : 11,
+    "vol_no" : 2
+  },
+  {
+    "name" : "第3期",
+    "open_date" : "2013-12-17",
+    "amount_of_levels" : 12,
+    "vol_no" : 3
+  }
+]

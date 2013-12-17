@@ -9,8 +9,8 @@
 
 #define KEY_FOR_UNIQUENUMBER    @"vol_no"
 #define KEY_FOR_NAME            @"name"
-#define KEY_FOR_NUMBERLEVELS    @"levels_no"
-#define KEY_FOR_OPENDATE        @"opendate"
+#define KEY_FOR_AMOUNTLEVELS    @"amount_of_levels"
+#define KEY_FOR_OPENDATE        @"open_date"
 
 
 #import "CDVol.h"
@@ -25,5 +25,11 @@
 +(CDVol *)CDVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
             inManagedObjectContext:(NSManagedObjectContext *)context;
 
+/*将CDVol保存到本地下*/
+-(void)saveToFile:(NSString *)saveFile;
+
+
++(void)saveArrayToFile:(NSString *)saveFile withArray:(NSArray *)array;
++(NSArray *)cdvolArray;
 
 @end

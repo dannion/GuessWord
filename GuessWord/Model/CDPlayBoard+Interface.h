@@ -14,6 +14,11 @@
 @interface CDPlayBoard (Interface)
 
 
+//CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
+
++(CDPlayBoard *)CDPlayBoardByVolNumber:(NSNumber *)vol_number               //通过vol_number和level获取CDPlayBoard
+                              andLevel:(NSNumber *)level
+                inManagedObjectContext:(NSManagedObjectContext *)context;
 
 +(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID                  //通过id获取CDPlayBoard
                inManagedObjectContext:(NSManagedObjectContext *)context;

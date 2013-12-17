@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
+                                           andLevel:(NSNumber *)level;
 
 /************************************************公有变量***************************************/
 @property(nonatomic,strong) NSArray *words;         //包含了全部的单词
@@ -43,6 +45,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @property(nonatomic) int height;                    //纵向有多少个格子
 
 #warning #warning 棋盘添加字段位置0
+@property(nonatomic) NSNumber *star;                //星星：用户的完成度
 @property(nonatomic) BOOL islocked;                 //该棋盘是否已经解锁
 @property(nonatomic) CGPoint last_point;            //上一次的坐标
 

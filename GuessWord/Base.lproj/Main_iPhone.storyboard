@@ -545,7 +545,6 @@
     </scenes>
     <resources>
         <image name="1.jpeg" width="180" height="180"/>
-        <image name="1.jpeg" width="180" height="180"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -6,6 +6,7 @@
     "degree" : 6,
     "category" : "高效",
     "islocked" : 0,
+    "star": 0,
     "words" : [
                {
                "desc" : "百无聊赖",
