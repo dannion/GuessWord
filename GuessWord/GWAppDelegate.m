@@ -77,7 +77,12 @@
     // Override point for customization after application launch.
     [[UINavigationBar appearance] setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
     
-//    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+    // set the title text property, color, font, size and so on
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor blackColor], NSForegroundColorAttributeName,
+      [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
+    //    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
 //    for (NSString * temp in fontArrays) {
 //        NSLog(@"Font name  = %@", temp);
 //    }

@@ -30,6 +30,9 @@
     if (self.navigationController.viewControllers.count >1) {
         [self addDefaultBackBarItem];
     }
+    self.view.backgroundColor = [self colorForBackground];
+    
+//    [[UINavigationBar appearance] ]
     
 }
 
@@ -59,6 +62,13 @@
 
 
 
+#pragma mark -
+#pragma mark Image & Color Method
+
+- (UIColor*)colorForBackground
+{
+    return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+}
 
 
 

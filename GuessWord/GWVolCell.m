@@ -20,30 +20,30 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         //        background.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.000 alpha:1.000];
         //        self.backgroundView = background;
         
-        UIView *selectedBackground = [[UIView alloc] init];
-        selectedBackground.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.000 alpha:1.000];
-        self.selectedBackgroundView = selectedBackground;
+//        UIView *selectedBackground = [[UIView alloc] init];
+//        selectedBackground.backgroundColor = [UIColor colorWithRed:234.0 green:234.0 blue:234.000 alpha:1.000];
+//        self.selectedBackgroundView = selectedBackground;
         
         _backgroundImageView = [[UIImageView alloc] init];
         _backgroundImageView.contentMode = UIViewContentModeScaleToFill;
         
         _volNumberLabel = [[UILabel alloc] init];
+        _volNumberLabel.text = @"第一期";
         _volNumberLabel.textColor = [UIColor blackColor];
+        _detailLabel.font = [UIFont systemFontOfSize:23];
         _volNumberLabel.textAlignment = NSTextAlignmentCenter;
         _volNumberLabel.backgroundColor = [UIColor clearColor];
-        _volNumberLabel.userInteractionEnabled = NO;
+        [_volNumberLabel sizeToFit];
+        
+        _detailLabel = [[UILabel alloc] init];
+        _detailLabel.textColor = [UIColor blackColor];
+        _detailLabel.textAlignment = NSTextAlignmentCenter;
+        _detailLabel.font = [UIFont systemFontOfSize:10];
+        _detailLabel.text = @"积分：340";
+        [_detailLabel sizeToFit];
         
         [self.contentView addSubview:_backgroundImageView];
         [self.contentView addSubview:_volNumberLabel];
-        
-        _detailImageView = [[UIImageView alloc] init];
-        _detailImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        _detailLabel = [[UILabel alloc] init];
-        _detailLabel.textColor = [UIColor whiteColor];
-        _detailLabel.textAlignment = NSTextAlignmentCenter;
-        
-        [self.contentView addSubview:_detailImageView];
         [self.contentView addSubview:_detailLabel];
         
     }
@@ -53,11 +53,8 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
 - (void)layoutSubviews
 {
     _backgroundImageView.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
-    _volNumberLabel.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
-    
-    _detailImageView.frame = CGRectMake(30, 30, self.frame.size.width-30, self.frame.size.height-30);
-    
-    _detailLabel.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
+    _volNumberLabel.frame = CGRectMake(17, 24, _volNumberLabel.frame.size.width, _volNumberLabel.frame.size.height);
+    _detailLabel.frame = CGRectMake(19, 63, _detailLabel.frame.size.width, _detailLabel.frame.size.height);
 
 }
 

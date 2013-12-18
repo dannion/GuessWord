@@ -108,8 +108,8 @@ NSInteger volColNum = 3; //网格列数
         hud.color = [UIColor whiteColor];
         hud.labelTextColor = [UIColor blueColor];
         hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"无法连接服务器，请检查网络是否处于工作状态！";
-        [hud hide:YES afterDelay:2.0];
+        hud.labelText = @"无法连接服务器！";
+        [hud hide:YES afterDelay:1.0];
     }];
 
 }
@@ -171,14 +171,15 @@ NSInteger volColNum = 3; //网格列数
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GWVolCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWVolViewCellIdentifier forIndexPath:indexPath];
     
-    cell.volNumberLabel.text = @"123";
+    if (indexPath.row == _volArray.count-1) {
+        cell.volNumberLabel.text = @"下一期";
+        cell.backgroundImageView.image = [UIImage imageNamed:@"vol_next.png"];
+    }else{
+        CDVol* vol = (CDVol*)[_volArray objectAtIndex:indexPath.row];
+        cell.volNumberLabel.text = vol.name;
+        cell.backgroundImageView.image = [UIImage imageNamed:@"vol_active.png"];
+    }
     
-    // load the image for this cell
-    NSString *imageToLoad = [NSString stringWithFormat:@"1.jpeg"];
-    UIImage *aImage = [UIImage imageNamed:imageToLoad];
-    
-    cell.backgroundImageView.image = aImage;
-  
     return cell;
 
 }
@@ -186,8 +187,8 @@ NSInteger volColNum = 3; //网格列数
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _volView.bounds.size.width / (volColNum+1);
-    int height = width;
+    int width = 85;
+    int height = 85;
     return CGSizeMake(width, height);
 }
 
