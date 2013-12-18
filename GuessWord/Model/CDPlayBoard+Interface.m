@@ -120,6 +120,8 @@
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
         cdpb.jsonData       = [thePlayBoard jsonDataDescription];
         cdpb.volNumber      = thePlayBoard.volNumber;
+        cdpb.gotFromNetwork = [NSNumber numberWithBool:YES];//插入意味着已经从网络获取了信息
+        
         //如果库中已经有了，就不需要修改了belongToWhom了
         
         BOOL isSaveSuccess = [context save:&error];
@@ -141,6 +143,7 @@
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
         cdpb.jsonData       = [thePlayBoard jsonDataDescription];
         cdpb.volNumber      = thePlayBoard.volNumber;
+        cdpb.gotFromNetwork = [NSNumber numberWithBool:YES];
         CDVol *belongVol    = [CDVol cdVolWithUniqueVolNumber:thePlayBoard.volNumber inManagedObjectContext:context];
         cdpb.belongToWhom   = belongVol;
         
@@ -161,24 +164,30 @@
 {
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
     NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
-    
     [request setEntity:entity];
     
     /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"volNumber = %d AND level = %d", [vol_number intValue],[level intValue]];
     [request setPredicate:predicate];
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
-//    [request setSortDescriptors:@[sortDescriptor]];
-    
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil)
     {
-        NSLog(@"No such playboard with vol_no = %@ and level = %@ in local database",vol_number,level);
+        NSLog(@"查询数据库错误 【CDPlayboard】 with vol_no = %@ and level = %@ in local database",vol_number,level);
         return nil;
     }else if ([array count] > 1) {
         NSLog(@"Error: More than 1 cdplayboard with vol_no = %@ and level = %@ in local database",vol_number,level);
         return nil;
+    }else if ([array count] == 0){
+        NSLog(@"数据库中没有cdplayboard with vol_no = %@ and level = %@ in local database，本地做初始化",vol_number,level);
+        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
+                                                          inManagedObjectContext:context];
+        cdpb.level          = level;
+        cdpb.volNumber      = vol_number;
+        cdpb.star           = [NSNumber numberWithInt:0];
+        cdpb.islocked       = [NSNumber numberWithBool:YES];//默认是 锁 的状态
+        cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];//本地初始化不是从网络获取来的
+        return cdpb;
     }else{
         return [array firstObject];
     }
@@ -196,9 +205,6 @@
     /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [uniqueID intValue]];
     [request setPredicate:predicate];
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];
-//    [request setSortDescriptors:@[sortDescriptor]];
-    
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil)

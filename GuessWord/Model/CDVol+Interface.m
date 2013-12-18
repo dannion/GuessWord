@@ -8,6 +8,7 @@
 
 #import "CDVol+Interface.h"
 #import "GWAppDelegate.h"
+#import "CDPlayBoard+Interface.h"
 
 @implementation CDVol (Interface)
 
@@ -128,7 +129,7 @@
           inManagedObjectContext:(NSManagedObjectContext *)context
 {
     
-    CDVol *vol = nil;
+    CDVol *retVol = nil;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CDVol"];
     NSNumber *uniqueVolNumber = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueVolNumber = %d)", [uniqueVolNumber intValue]];
@@ -139,10 +140,11 @@
         //handle error
     }else if (![matches count]){
         NSLog(@"数据库中没有uniqueVolNumber == %@ 的CDVol，插入",uniqueVolNumber);
-        vol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
+        retVol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
                                             inManagedObjectContext:context];
-        vol.uniqueVolNumber     = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
-        vol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
+        NSNumber *_vol_number   = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
+        retVol.uniqueVolNumber     = _vol_number;
+        retVol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
         
 #warning 应该用dateString来转换成NSDate对象，目前没有做
         NSString *dateString = [volDictionary objectForKey:KEY_FOR_OPENDATE];
@@ -152,12 +154,24 @@
         [comps setYear:2013];
         [comps setHour:10];
         
-#warning ChineseCalendar
         NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSChineseCalendar];
         NSDate *date = [calendar dateFromComponents:comps];
-        vol.open_date           = date;
-        vol.amountOfLevels      = [volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
+        retVol.open_date           = date;
+        NSNumber *_amountLevels =[volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
+        retVol.amountOfLevels      = _amountLevels;
         
+        /*根据amountOfLevels初始化CDPlayBoard*/
+        int _intamountLevel = [_amountLevels intValue];
+        for (int i = 1; i <= _intamountLevel; i++) {
+            CDPlayBoard *_cdpb = [CDPlayBoard CDPlayBoardByVolNumber:_vol_number
+                                                            andLevel:[NSNumber numberWithInt:i]
+                                              inManagedObjectContext:context];
+            if (_cdpb) {
+//                _cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];
+                _cdpb.belongToWhom = retVol;
+            }
+        }
+            
         NSError *error;
         BOOL succes = [context save:&error];
         if (!succes) {
@@ -167,9 +181,9 @@
         }
     }else{
         NSLog(@"数据库中有uniqueVolNumber == %@ 的CDVol,直接返回",uniqueVolNumber);
-        vol = [matches firstObject];
+        retVol = [matches firstObject];
     }
-    return vol;
+    return retVol;
 }
 
 /*根据uniqueVolNumber来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后CDVol*/

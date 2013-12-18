@@ -10,11 +10,10 @@
 
 #import "CDPlayBoard.h"
 #import "PlayBoard.h"
-
+//islocked star volNumber是必须填写的
 @interface CDPlayBoard (Interface)
 
 
-//CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
 
 +(CDPlayBoard *)CDPlayBoardByVolNumber:(NSNumber *)vol_number               //通过vol_number和level获取CDPlayBoard
                               andLevel:(NSNumber *)level

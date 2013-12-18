@@ -21,10 +21,14 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
 /************************构造类实例的方法************************/
-+(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
-+(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
+//+(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
+
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
+
+
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
+
 +(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
                                            andLevel:(NSNumber *)level;
 
@@ -53,7 +57,7 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 
 -(void)saveToFile:(NSString *)saveFile;
 -(void)saveToDataBase;                                                                  //保存到数据库
--(void)insertToDatabase;                                                                //插入到数据库
+
 -(BoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
 -(NSString*)description;
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据

@@ -59,27 +59,31 @@
 +(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number
                                            andLevel:(NSNumber *)level
 {
+    PlayBoard *retPlayBoard = nil;
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
     if (cdpb) {
-        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
-    }else{
-        return nil;
+        if ([cdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            retPlayBoard = [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+        }
     }
+    return retPlayBoard;
 }
 
-//通过BoardNumber生成一个PlayBoard
+//通过BoardNumber生成一个PlayBoard,如果不是从网络重新刷新过的，那么不返回值
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID
 {
+    PlayBoard *retPlayBoard = nil;
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID inManagedObjectContext:context];
     if (cdpb) {
-        return [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
-    }else{
-        return nil;
+        if ([cdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            retPlayBoard = [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
+        }
     }
+    return retPlayBoard;
 }
 
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData{
