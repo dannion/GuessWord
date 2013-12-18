@@ -11,11 +11,11 @@
 
 #define kFont [UIFont fontWithName:@"Kristen ITC" size:20]
 
-#define kChar @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"W", @"X", @"Y", @"Z", @" " ]
+#define kChar @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"W", @"X", @"Y", @"Z", @"reset" ]
 
 #define kCustomKeyboardWillShowNotification @"CustomKeyboardWillShowNotification"
 #define kCustomKeyboardWillHideNotification @"CustomKeyboardWillHideNotification"
-#define kCustomKeyboardDidEnterACharacterNotification @"CustomKeyboardDidEnterACharacterNotification"
+#define kCustomKeyboardDidEnterCharacterNotification @"CustomKeyboardDidEnterCharacterNotification"
 
 @interface PMCustomKeyboard : UIView <UIInputViewAudioFeedback>
 
@@ -26,7 +26,6 @@
 
 
 + (PMCustomKeyboard*)shareInstance;
-
 
 - (void)showInView:(UIView*)view;
 - (void)showInView:(UIView *)view animated:(BOOL)animated;

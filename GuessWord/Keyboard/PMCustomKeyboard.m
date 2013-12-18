@@ -143,9 +143,10 @@ enum {
 
 - (IBAction)characterPressed:(id)sender {
 	UIButton *button = (UIButton *)sender;
-	NSString *character = [NSString stringWithString:button.titleLabel.text];
+	NSString *character = [NSString stringWithString:button.titleLabel.text];    
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardDidEnterACharacterNotification object:character];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCustomKeyboardDidEnterCharacterNotification object:character];
+
 }
 
 - (void)addPopupToButton:(UIButton *)b {

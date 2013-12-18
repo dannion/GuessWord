@@ -47,7 +47,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:kCustomKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:kCustomKeyboardWillHideNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChangeNotification:) name:kCustomKeyboardDidEnterACharacterNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChangeNotification:) name:kCustomKeyboardDidEnterCharacterNotification object:nil];
         
     }
     return self;
@@ -160,6 +160,12 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)popViewControllerAnimated:(BOOL)animated
+{
+    [self.playBoard saveToDataBase];
+    
+    [super popViewControllerAnimated:animated];
+}
 
 #pragma mark -
 #pragma mark LoadData
@@ -217,6 +223,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
+        [_playBoard saveToDataBase];
+        
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -563,6 +571,11 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)textFieldTextDidChangeNotification:(NSNotification *)notification
 {
     NSString* inputChar = notification.object;
+    
+    if ([inputChar isEqualToString:@"reset"]) {
+        
+        return;
+    }
     selectedGridCell.label.text = inputChar;
     
     //用户已输入，调用playboard相应接口

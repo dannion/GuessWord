@@ -36,7 +36,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         [_volNumberLabel sizeToFit];
         
         _detailLabel = [[UILabel alloc] init];
-        _detailLabel.textColor = [UIColor blackColor];
+        _detailLabel.textColor = [UIColor whiteColor];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.font = [UIFont systemFontOfSize:10];
         _detailLabel.text = @"积分：340";

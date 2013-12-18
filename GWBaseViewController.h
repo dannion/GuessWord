@@ -10,4 +10,6 @@
 
 @interface GWBaseViewController : UIViewController
 
+- (void)popViewControllerAnimated:(BOOL)animated;
+
 @end

@@ -10,6 +10,8 @@
 
 @interface GWBaseViewController ()
 
+
+
 @end
 
 @implementation GWBaseViewController
@@ -50,16 +52,18 @@
     [button setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button setImage:image forState:UIControlStateHighlighted];
-    [button addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     [button setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *barButtomItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     barButtomItem.accessibilityLabel = @"返回";
     self.navigationItem.leftBarButtonItem = barButtomItem;
-
 }
 
-
+- (void)popViewControllerAnimated:(BOOL)animated
+{
+    [self.navigationController popViewControllerAnimated:animated];
+}
 
 
 #pragma mark -
