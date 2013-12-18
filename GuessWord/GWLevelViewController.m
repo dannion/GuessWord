@@ -13,10 +13,14 @@
 
 NSString *GWLevelViewCellIdentifier = @"GWLevelViewCellIdentifier";
 
-NSInteger levelRowNum = 3;//网格行数
+//NSInteger levelRowNum = 3;//网格行数
 NSInteger levelColNum = 3; //网格列数
 
 @interface GWLevelViewController ()<PSUICollectionViewDelegateFlowLayout>
+{
+    //初始化为-1
+    int selectedLevel;
+}
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* levelView;
 
@@ -39,6 +43,7 @@ NSInteger levelColNum = 3; //网格列数
 	// Do any additional setup after loading the view.
     [self createGridView];
     self.view.backgroundColor = [self colorForBackground];
+    selectedLevel = -1;
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,6 +76,8 @@ NSInteger levelColNum = 3; //网格列数
         {
             [destination setUniqueID:[NSNumber numberWithInt:10002]];
         }
+        [destination setVolNumber:self.vol.uniqueVolNumber];
+        [destination setLevel: selectedLevel];
     }
 }
 
@@ -111,7 +118,7 @@ NSInteger levelColNum = 3; //网格列数
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _levelView.bounds.size.width / 4;
+    int width = _levelView.bounds.size.width / (levelColNum+1);
     int height = width;
     return CGSizeMake(width, height);
 }
@@ -124,7 +131,11 @@ NSInteger levelColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return levelRowNum * levelColNum * 10;
+    if (self.vol) {
+        return [self.vol.amountOfLevels intValue];
+    }else{
+        return 0;
+    }
 }
 
 #pragma mark -
@@ -143,6 +154,7 @@ NSInteger levelColNum = 3; //网格列数
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
+    selectedLevel = indexPath.row + 1;
     [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
     
 }

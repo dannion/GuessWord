@@ -12,6 +12,7 @@
 @interface GWLoginViewController ()
 
 - (IBAction)pressLoginBtn:(id)sender;
+- (IBAction)pressGuessLoginBtn:(id)sender;
 
 @end
 
@@ -29,7 +30,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self addViewBackgroundView];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [self colorForBackground];
+}
+
+- (void)addViewBackgroundView
+{
+    UIView* backgroundAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    backgroundAllView.backgroundColor = [self colorForBackground];
+    [self.view addSubview:backgroundAllView];
+    [self.view sendSubviewToBack:backgroundAllView];
+    
+    UIButton* backgroundButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    backgroundButton.isAccessibilityElement = NO;
+    backgroundButton.backgroundColor = [UIColor clearColor];
+    [backgroundButton addTarget:self action:@selector(tapRequest) forControlEvents:UIControlEventTouchUpInside];
+    [backgroundAllView addSubview:backgroundButton];
+}
+
+- (void)tapRequest
+{
+    for (UIView* aView in self.view.subviews) {
+        [aView resignFirstResponder];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,6 +78,20 @@
 
 - (IBAction)pressLoginBtn:(id)sender
 {
-    [self performSegueWithIdentifier:@"LoginToGrid" sender:nil];
+    [self performSegueWithIdentifier:@"LoginToGrid" sender:sender];
 }
+
+- (IBAction)pressGuessLoginBtn:(id)sender
+{
+    [self performSegueWithIdentifier:@"LoginToGrid" sender:sender];
+}
+
+#pragma mark -
+#pragma mark Image & Color Method
+
+- (UIColor*)colorForBackground
+{
+    return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
+}
+
 @end

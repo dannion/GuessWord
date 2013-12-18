@@ -9,16 +9,24 @@
 #import "GWVolViewController.h"
 #import "GWVolCell.h"
 #import "GWLevelViewController.h"
+#import "GWNetWorkingWrapper.h"
+#import "CDVol+Interface.h"
+#import "GWAppDelegate.h"
 
 
 NSString *GWVolViewCellIdentifier = @"GWVolViewCellIdentifier";
 
-NSInteger volRowNum = 3;//网格行数
+//NSInteger volRowNum = 3;//网格行数
 NSInteger volColNum = 3; //网格列数
 
 @interface GWVolViewController ()<PSUICollectionViewDelegateFlowLayout>
+{
+    CDVol* selectedVol;
+}
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* volView;
+
+@property (nonatomic, strong) NSArray* volArray;
 
 @end
 
@@ -41,7 +49,71 @@ NSInteger volColNum = 3; //网格列数
 	// Do any additional setup after loading the view.
     [self createGridView];
     self.view.backgroundColor = [self colorForBackground];
+    
+    [self loadData];
 }
+
+#pragma mark -
+#pragma mark LoadData
+- (void)loadData
+{
+    //逻辑：先查找本地数据库是否有，有则展现，同时访问网络获取新数据，如果有新数据，展现新数据并写入数据库。
+    
+    //从本地数据库取
+    [self refetchDataFromLocalCache];
+    //从网络取
+    [self refetchDataFromNetWork];
+    
+}
+
+- (void)refreshWithNewData
+{
+    [self.volView reloadData];
+}
+
+- (void)refetchDataFromLocalCache
+{
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    _volArray = [CDVol cdVolsFromFile:@"allVols" inManagedObjectContext:context];
+    NSLog(@"通过网络获取的全部期信息，共有%d期数据",[self.volArray count]);
+    
+    
+    [self refreshWithNewData];
+}
+
+- (void)refetchDataFromNetWork
+{
+    NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
+
+    
+//    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.volView animated:YES];
+//    hud.color = [UIColor whiteColor];
+//    hud.labelTextColor = [UIColor blueColor];
+//    hud.mode = MBProgressHUDModeText;
+//    hud.labelText = @"加载中，请稍候！";
+    
+    [GWNetWorkingWrapper getPath:@"getallvols" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"NewData!");
+        [MBProgressHUD hideAllHUDsForView:self.volView animated:YES];
+        
+        if (_volArray) {
+            [self refreshWithNewData];
+        }
+        
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:self.volView animated:YES];
+        
+        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor whiteColor];
+        hud.labelTextColor = [UIColor blueColor];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"无法连接服务器，请检查网络是否处于工作状态！";
+        [hud hide:YES afterDelay:2.0];
+    }];
+
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -69,9 +141,9 @@ NSInteger volColNum = 3; //网格列数
 {
     if ([segue.identifier isEqualToString:@"VolToLevel"]) {
         GWLevelViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setData:)])
-        {
-            //[destination setValue:@"这是要传递的数据" forKey:@"data"];
+        if ([sender isKindOfClass:[CDVol class]]) {
+            destination.vol = (CDVol*)sender;
+            NSLog(@"%@", destination.vol);
         }
     }
 }
@@ -99,13 +171,13 @@ NSInteger volColNum = 3; //网格列数
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GWVolCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWVolViewCellIdentifier forIndexPath:indexPath];
     
-    cell.label.text = @"123";
+    cell.volNumberLabel.text = @"123";
     
     // load the image for this cell
     NSString *imageToLoad = [NSString stringWithFormat:@"1.jpeg"];
     UIImage *aImage = [UIImage imageNamed:imageToLoad];
     
-    cell.imageView.image = aImage;
+    cell.backgroundImageView.image = aImage;
   
     return cell;
 
@@ -114,7 +186,7 @@ NSInteger volColNum = 3; //网格列数
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _volView.bounds.size.width / 4;
+    int width = _volView.bounds.size.width / (volColNum+1);
     int height = width;
     return CGSizeMake(width, height);
 }
@@ -127,7 +199,11 @@ NSInteger volColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return volRowNum * volColNum;
+    if (_volArray) {
+        return _volArray.count;
+    }else{
+        return 0;
+    }
 }
 
 #pragma mark -
@@ -146,8 +222,11 @@ NSInteger volColNum = 3; //网格列数
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
+    if (_volArray) {
+        selectedVol = _volArray[indexPath.row];
+    }
     
-    [self performSegueWithIdentifier:@"VolToLevel" sender:nil];
+    [self performSegueWithIdentifier:@"VolToLevel" sender:selectedVol];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

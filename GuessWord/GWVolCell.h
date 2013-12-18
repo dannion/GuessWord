@@ -10,7 +10,10 @@
 
 @interface GWVolCell : PSUICollectionViewCell
 
-@property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UIImageView *backgroundImageView;
+@property (strong, nonatomic) UILabel *volNumberLabel;
+
+@property (strong, nonatomic) UIImageView *detailImageView;
+@property (strong, nonatomic) UILabel *detailLabel;
 
 @end

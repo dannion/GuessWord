@@ -205,7 +205,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"level"];
     }
     
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
     hud.color = [UIColor whiteColor];
     hud.labelTextColor = [UIColor blueColor];
     hud.mode = MBProgressHUDModeText;
@@ -591,12 +591,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
                 gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-                //可以做动画
-                //            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                //
-                //            } completion:^(BOOL finished){
-                //
-                //            }];
+
+                [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
+                    gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+                } completion:^(BOOL finished) {
+                    
+                }];
+                
             }
             
         }
@@ -618,7 +620,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
                 CGPoint cellLocation = CGPointMake(correctWord.start_x+i, correctWord.start_y);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+//                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+                                
+                [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
+                    gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+                } completion:^(BOOL finished) {
+                    
+                }];
             }
 
         }
@@ -758,9 +767,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //    [hud hide:YES afterDelay:1.0];
 }
 
-- (void)hasCompletedTheGame
+- (void)showCompletedToast
 {
-    NSLog(@"闯关成功！！！！你真厉害！！");
     //答错了，弹出错误提示
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
@@ -769,9 +777,16 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.labelText = @"闯关成功！";
     hud.labelTextColor = [UIColor blueColor];
     
-    hud.detailsLabelText = @"你真厉害！不过为什么你要玩这么无聊的游戏！";
+    hud.detailsLabelText = @"你真厉害！";
     hud.detailsLabelTextColor = [UIColor blackColor];
     [hud hide:YES afterDelay:3.0];
+}
+- (void)hasCompletedTheGame
+{
+    //这里写完成游戏逻辑
+    NSLog(@"闯关成功！！！！你真厉害！！");
+    [self showCompletedToast];
+    
 }
 
 
