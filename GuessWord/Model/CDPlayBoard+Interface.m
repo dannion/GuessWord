@@ -141,7 +141,7 @@
         cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
         cdpb.jsonData       = [thePlayBoard jsonDataDescription];
         cdpb.volNumber      = thePlayBoard.volNumber;
-        CDVol *belongVol    = [CDVol CDVolWithUniqueVolNumber:thePlayBoard.volNumber inManagedObjectContext:context];
+        CDVol *belongVol    = [CDVol cdVolWithUniqueVolNumber:thePlayBoard.volNumber inManagedObjectContext:context];
         cdpb.belongToWhom   = belongVol;
         
         BOOL isSaveSuccess = [context save:&error];
