@@ -19,7 +19,12 @@
 
 -(NSString *)description;
 
-//通过网络文件获取cdVols数组
+
+//通过jsonData获取全部期的数据,cdVols数组
++(NSArray *)cdVolsWithJsonData:(NSData *)jsonData
+        inManagedObjectContext:(NSManagedObjectContext *)context;
+
+//通过网络文件获取全部期的数据
 +(NSArray *)cdVolsFromFile:(NSString *)file
     inManagedObjectContext:(NSManagedObjectContext *)context;
 

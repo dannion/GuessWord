@@ -98,7 +98,7 @@
 
 /*保存到数据库*/
 -(void)saveToDataBase{
-#warning 写入数据库前保证信息完整：包括star，得分等
+#warning 写入数据库前保证信息完整：包括star，得分等，另外得分情况是不是每一次点击都记录得分
     [self insertToDatabase];
 }
 
