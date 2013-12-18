@@ -148,6 +148,12 @@
 #pragma mark PUBLIC-API
 #pragma mark --
 
+/*重置棋盘*/
+-(void)resetBoard{
+    for (PowerBoardCell *pbc in self.cells) {
+        [pbc reset];
+    }
+}
 /*获取某个坐标上的boardcel*/
 -(PowerBoardCell *)cellAtPoint:(CGPoint)point{
     int x = (int)point.x;

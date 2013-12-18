@@ -32,6 +32,18 @@
     return retString;
 }
 
+
+//重置这个cell
+-(void)reset{
+    if ([self isCellBlock]) {
+        self.input = BLOCK;
+        self.display = BLOCK;
+    }else{
+        self.input = BLANK;
+        self.display = BLANK;
+    }
+}
+
 //向multiCorrect添加一个正确答案
 -(void)addCorrectAnswerWithOneAlphabet:(NSString *)oneAlphabet{
     [self.multi_correct addObject:oneAlphabet];

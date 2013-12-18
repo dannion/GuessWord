@@ -74,5 +74,6 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成
 -(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal; //判断某个点所在单词是否全部输入（不一定正确）
 
+-(void)resetBoard;                                                                      /*重置棋盘*/
 
 @end

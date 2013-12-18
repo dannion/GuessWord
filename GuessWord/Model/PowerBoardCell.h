@@ -12,6 +12,7 @@
 
 @property(nonatomic,strong)NSMutableSet *multi_correct;
 
+-(void)reset;                                                   //重置这个cell
 -(NSString *)stringOfCorrectAnswers;                            //打印输出正确答案用
 -(void)addCorrectAnswerWithOneAlphabet:(NSString *)oneAlphabet; //向multiCorrect添加一个正确答案
 -(BOOL)isCellBlock;                                             //重载

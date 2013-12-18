@@ -41,7 +41,7 @@
     }
     NSLog(@"当前棋盘信息%@",pbwithlevel);
     [pbwithlevel nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
-    
+    [pbwithlevel resetBoard];//重置棋盘
     [pbwithlevel saveToDataBase];
     /****************************************************************************************/
     
