@@ -11,7 +11,6 @@
 
 @implementation CDVol (Interface)
 
-
 //#warning 测试用，后期删掉
 //+(NSArray *)cdvolArray
 //{
@@ -177,7 +176,6 @@
 +(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
             inManagedObjectContext:(NSManagedObjectContext *)context
 {
-
     CDVol *vol = nil;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CDVol"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueVolNumber = %d)", [uniqueVolNumber intValue]];
@@ -206,6 +204,8 @@
     }
     return vol;
 }
+
+//实例的打印信息
 -(NSString *)description{
     NSMutableString *retString = [[NSMutableString alloc]init];
     [retString appendString:[NSString stringWithFormat:@"name = %@\n",self.name]];

@@ -167,8 +167,8 @@
     /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"volNumber = %d AND level = %d", [vol_number intValue],[level intValue]];
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
+//    [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
@@ -196,8 +196,8 @@
     /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [uniqueID intValue]];
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];
+//    [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
