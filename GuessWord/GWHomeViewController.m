@@ -32,6 +32,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [self colorForBackground];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,6 +46,14 @@
 {
     [super prepareForSegue:segue sender:sender];
     self.navigationController.navigationBarHidden = NO;
+}
+
+#pragma mark -
+#pragma mark Image & Color Method
+
+- (UIColor*)colorForBackground
+{
+    return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
 }
 
 @end

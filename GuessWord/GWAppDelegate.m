@@ -76,6 +76,11 @@
 {
     // Override point for customization after application launch.
     [[UINavigationBar appearance] setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+    
+//    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+//    for (NSString * temp in fontArrays) {
+//        NSLog(@"Font name  = %@", temp);
+//    }
     return YES;
 }
 							

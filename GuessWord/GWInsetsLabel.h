@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsetsLabel : UILabel
+@interface GWInsetsLabel : UILabel
 
 @property(nonatomic) UIEdgeInsets insets;
 - (id)initWithFrame:(CGRect)frame andInsets:(UIEdgeInsets)insets;

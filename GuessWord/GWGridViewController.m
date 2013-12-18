@@ -12,7 +12,7 @@
 #import "PMCustomKeyboard.h"
 #import "BoardCell.h"
 #import "GWNetWorkingWrapper.h"
-#import "InsetsLabel.h"
+#import "GWInsetsLabel.h"
 
 
 
@@ -33,7 +33,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
-@property (nonatomic, weak) IBOutlet InsetsLabel* descriptionLabel;
+@property (nonatomic, weak) IBOutlet GWInsetsLabel* descriptionLabel;
 @property (nonatomic, strong) UIImageView* gridViewBackgroundImageView; //网格背景页面
 
 @end

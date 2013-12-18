@@ -124,7 +124,7 @@ NSInteger levelColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return levelRowNum * levelColNum;
+    return levelRowNum * levelColNum * 10;
 }
 
 #pragma mark -

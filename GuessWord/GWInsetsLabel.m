@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 BUPTMITC. All rights reserved.
 //
 
-#import "InsetsLabel.h"
+#import "GWInsetsLabel.h"
 
-@implementation InsetsLabel
+@implementation GWInsetsLabel
 @synthesize insets=_insets;
 
 - (id)initWithFrame:(CGRect)frame andInsets:(UIEdgeInsets)insets
