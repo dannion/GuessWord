@@ -21,16 +21,6 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
-/************************构造类实例的方法************************/
-
-+(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
-+(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
-+(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
-+(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
-+(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
-                                           andLevel:(NSNumber *)level;
-
-/************************************************公有变量***************************************/
 @property(nonatomic,strong) NSArray *words;         //包含了全部的单词
 @property(nonatomic,strong) NSString *category;     //包含了全部的单词
 @property(nonatomic) NSNumber *uniqueid;            //board的id
@@ -53,28 +43,26 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 
 /**************************************************API******************************************/
 
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
++(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
++(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
++(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
+                                           andLevel:(NSNumber *)level;
 -(void)saveToFile:(NSString *)saveFile;
 -(void)saveToDataBase;                                                                  //保存到数据库
-
 -(BoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
 -(NSString*)description;
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据
-
 -(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
                                          atPoint:(CGPoint)point;
-
-//-(PlayBoard *)initWithCDPlayBoard:(CDPlayBoard *)theCDPlayBoard;                        //使用部分CDPlayBoard的信息来构造PlayBoard
-
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词
-
 -(BOOL)isGameBoardCompleted;                                                            //是否闯关成功
 -(BOOL)isClickableAtPoint:(CGPoint)point;                                               //判断该点是否能够点击
-
 -(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成
 -(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal; //判断某个点所在单词是否全部输入（不一定正确）
-
 -(void)resetBoard;                                                                      /*重置棋盘*/
 
 @end

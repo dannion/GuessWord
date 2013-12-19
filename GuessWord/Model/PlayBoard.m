@@ -49,8 +49,10 @@
     }else{
         NSMutableArray *playBoardsArray = [[NSMutableArray alloc]initWithCapacity:40];
         for (CDPlayBoard *onecdpb in cdpbs) {
-            PlayBoard *pb = [[PlayBoard alloc]initWithJsonData:onecdpb.jsonData];
-            [playBoardsArray addObject:pb];
+            if ([onecdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+                PlayBoard *pb = [[PlayBoard alloc]initWithJsonData:onecdpb.jsonData];
+                [playBoardsArray addObject:pb];
+            }
         }
         return playBoardsArray;
     }

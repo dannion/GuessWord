@@ -167,7 +167,6 @@
                                                             andLevel:[NSNumber numberWithInt:i]
                                               inManagedObjectContext:context];
             if (_cdpb) {
-//                _cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];
                 _cdpb.belongToWhom = retVol;
             }
         }
