@@ -113,7 +113,7 @@
 {
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-//    [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
+    [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
 }
 
 #pragma mark LAZY-INSTANCE

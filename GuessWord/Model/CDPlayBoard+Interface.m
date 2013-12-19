@@ -95,7 +95,7 @@
 }
 
 
-//将PlayBoard插入到数据库中
+//将PlayBoard插入到数据库中,根据vol_number和level来修改
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context
 {
@@ -103,19 +103,18 @@
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
     NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
     [request setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [thePlayBoard.uniqueid intValue]];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [thePlayBoard.uniqueid intValue]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"volNumber = %d AND level = %d",
+                              [thePlayBoard.volNumber intValue],thePlayBoard.level];
+    
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"uniqueid" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil || [array count] > 1) {
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
-    }
-    if ([array count] != 0) {
-        
+    }else if ([array count] == 1) {
 #warning 棋盘添加字段位置4
-        NSLog(@"数据库有uniqueid = %@ 的棋盘格,对其进行修改",thePlayBoard.uniqueid);
+        NSLog(@"数据库有 vol_number = %@ level = %d的棋盘格,对其进行修改",thePlayBoard.volNumber,thePlayBoard.level);
         CDPlayBoard *cdpb = [array firstObject];
         cdpb.star           = thePlayBoard.star;
         cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
@@ -127,7 +126,6 @@
         cdpb.gotFromNetwork = [NSNumber numberWithBool:YES];//插入意味着已经从网络获取了信息
         
         //如果库中已经有了，就不需要修改了belongToWhom了
-        
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
             NSLog(@"Error: %@,%@",error,[error userInfo]);
