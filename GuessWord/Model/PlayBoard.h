@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Word.h"
+
 @class BoardCell;
 
 typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
@@ -21,14 +22,11 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 @interface PlayBoard : NSObject/*Model：游戏的Board*/
 
 /************************构造类实例的方法************************/
-//+(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
 
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards
 +(PlayBoard *)playBoardFromFile:(NSString *)jsonFile;                       //通过file生成一个PlayBoard
 +(PlayBoard *)playBoardFromLocalDatabaseByUniqueID:(NSNumber *)uniqueID;    //通过BoardNumber生成一个PlayBoard
-
-
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData;                         //通过NSData生成一个PlayBoard
-
 +(PlayBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number  //通过X期和Y关来获取PlayBoard
                                            andLevel:(NSNumber *)level;
 
@@ -64,6 +62,9 @@ typedef NS_ENUM(NSInteger, GWPlayBoardCurrentDirection) {
 
 -(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
                                          atPoint:(CGPoint)point;
+
+//-(PlayBoard *)initWithCDPlayBoard:(CDPlayBoard *)theCDPlayBoard;                        //使用部分CDPlayBoard的信息来构造PlayBoard
+
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
 -(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词

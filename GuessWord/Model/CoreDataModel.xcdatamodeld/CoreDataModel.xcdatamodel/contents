@@ -16,6 +16,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="open_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uniqueVolNumber" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="vol_score" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="hasBoards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPlayBoard" inverseName="belongToWhom" inverseEntity="CDPlayBoard" syncable="YES"/>
     </entity>
     <elements>

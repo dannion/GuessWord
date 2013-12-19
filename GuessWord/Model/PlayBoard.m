@@ -39,10 +39,11 @@
 #pragma mark --
 
 //在数据库中找到所有该volNumber的 playBoards
-+(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber{
++(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber
+{
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    NSArray *cdpbs = [CDPlayBoard CDPlayBoardsByVolNumber:volNumber inManagedObjectContext:context];
+    NSArray *cdpbs = [CDPlayBoard cdPlayBoardsByVolNumber:volNumber inManagedObjectContext:context];
     if (cdpbs == nil) {
         return nil;
     }else{
@@ -62,7 +63,7 @@
     PlayBoard *retPlayBoard = nil;
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
+    CDPlayBoard *cdpb = [CDPlayBoard cdPlayBoardByVolNumber:vol_number andLevel:level inManagedObjectContext:context];
     if (cdpb) {
         if ([cdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
             retPlayBoard = [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
@@ -77,7 +78,7 @@
     PlayBoard *retPlayBoard = nil;
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    CDPlayBoard *cdpb = [CDPlayBoard CDPlayBoardByUniqueID:uniqueID inManagedObjectContext:context];
+    CDPlayBoard *cdpb = [CDPlayBoard cdPlayBoardByUniqueID:uniqueID inManagedObjectContext:context];
     if (cdpb) {
         if ([cdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
             retPlayBoard = [[PlayBoard alloc]initWithJsonData:cdpb.jsonData];
@@ -110,7 +111,7 @@
 {
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
+//    [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
 }
 
 #pragma mark LAZY-INSTANCE
@@ -150,8 +151,10 @@
 
 /*重置棋盘*/
 -(void)resetBoard{
-    for (PowerBoardCell *pbc in self.cells) {
-        [pbc reset];
+    for (NSArray *rowArray in self.cells) {
+        for (PowerBoardCell *pbc in rowArray) {
+            [pbc reset];
+        }
     }
 }
 /*获取某个坐标上的boardcel*/
@@ -316,7 +319,6 @@
         return jsonData;
     }
 }
-
 
 /*指定的初始化函数,通过json的二进制数据来构造对象*/
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData{

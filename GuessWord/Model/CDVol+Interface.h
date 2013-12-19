@@ -12,7 +12,6 @@
 #define KEY_FOR_AMOUNTLEVELS    @"amount_of_levels"
 #define KEY_FOR_OPENDATE        @"open_date"
 
-
 #import "CDVol.h"
 
 @interface CDVol (Interface)

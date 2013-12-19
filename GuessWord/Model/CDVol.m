@@ -2,7 +2,7 @@
 //  CDVol.m
 //  GuessWord
 //
-//  Created by WangJZ on 12/17/13.
+//  Created by WangJZ on 12/19/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
 //
 
@@ -12,10 +12,11 @@
 
 @implementation CDVol
 
-@dynamic name;
 @dynamic amountOfLevels;
+@dynamic name;
 @dynamic open_date;
 @dynamic uniqueVolNumber;
+@dynamic vol_score;
 @dynamic hasBoards;
 
 @end

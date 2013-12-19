@@ -163,7 +163,7 @@
         /*根据amountOfLevels初始化CDPlayBoard*/
         int _intamountLevel = [_amountLevels intValue];
         for (int i = 1; i <= _intamountLevel; i++) {
-            CDPlayBoard *_cdpb = [CDPlayBoard CDPlayBoardByVolNumber:_vol_number
+            CDPlayBoard *_cdpb = [CDPlayBoard cdPlayBoardByVolNumber:_vol_number
                                                             andLevel:[NSNumber numberWithInt:i]
                                               inManagedObjectContext:context];
             if (_cdpb) {

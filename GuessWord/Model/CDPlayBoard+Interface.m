@@ -13,7 +13,7 @@
 @implementation CDPlayBoard (Interface)
 
 //通过volNumber来获取一堆PlayBoards
-+(NSArray *)CDPlayBoardsByVolNumber:(NSNumber *)volNumber
++(NSArray *)cdPlayBoardsByVolNumber:(NSNumber *)volNumber
              inManagedObjectContext:(NSManagedObjectContext *)context;
 {
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
@@ -24,17 +24,21 @@
     /****************设置数据库查询的条件**************/
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(volNumber = %d)", [volNumber intValue]];
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"volNumber" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"level" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil)
     {
+        NSLog(@"查询volNumber == %@ 的CDPlayBoards 出错 ",volNumber);
+        return nil;
+    }else if([array count] == 0){
         NSLog(@"没有volNumber == %@ 的CDPlayBoards",volNumber);
         return nil;
+    }else{
+        return array;
     }
-    return array;
 }
 
 +(void)documentIsReady:(UIManagedDocument *)document{
@@ -158,7 +162,7 @@
 }
 
 //通过vol_number和level获取CDPlayBoard
-+(CDPlayBoard *)CDPlayBoardByVolNumber:(NSNumber *)vol_number
++(CDPlayBoard *)cdPlayBoardByVolNumber:(NSNumber *)vol_number
                               andLevel:(NSNumber *)level
                 inManagedObjectContext:(NSManagedObjectContext *)context
 {
@@ -194,7 +198,7 @@
 }
 
 //通过id获取CDPlayBoard
-+(CDPlayBoard *)CDPlayBoardByUniqueID:(NSNumber *)uniqueID
++(CDPlayBoard *)cdPlayBoardByUniqueID:(NSNumber *)uniqueID
                inManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
@@ -213,6 +217,19 @@
     }
     CDPlayBoard *copyPlayBoard = [array firstObject];
     return copyPlayBoard;
+}
+
+//实例的打印信息
+-(NSString *)description{
+    NSMutableString *retString = [[NSMutableString alloc]init];
+    
+    [retString appendString:[NSString stringWithFormat:@"level = %@\n",self.level]];
+    [retString appendString:[NSString stringWithFormat:@"star = %@\n",self.star]];
+    [retString appendString:[NSString stringWithFormat:@"islocked = %@\n",self.islocked]];
+    [retString appendString:[NSString stringWithFormat:@"volNumber = %@\n",self.volNumber]];
+    [retString appendString:[NSString stringWithFormat:@"gotFromNetwork = %@\n",self.gotFromNetwork]];
+
+    return retString;
 }
 
 @end
