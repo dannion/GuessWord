@@ -13,7 +13,7 @@
 #import "BoardCell.h"
 #import "GWNetWorkingWrapper.h"
 #import "GWInsetsLabel.h"
-
+#import "GWScoreCounter.h"
 
 
 NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
@@ -131,9 +131,16 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
     
+    int newWidthAndHeight;
     int temp = (int)_gridView.bounds.size.width % (int)gridColNum;
-    int newWidthAndHeight = _gridView.bounds.size.width-temp-1;
-    CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
+    if (temp != gridColNum - 1) {
+        newWidthAndHeight = _gridView.bounds.size.width - temp - 1;
+    }else{
+        newWidthAndHeight = _gridView.bounds.size.width;
+
+    }
+    
+         CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
     _gridView.frame = gridViewFrame;
     
     
@@ -220,8 +227,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
 //    }
     if (self.volNumber && self.level) {
-        [parameterDictionary setValue:@101001 forKey:@"vol"];
-//        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
+//        [parameterDictionary setValue:@101001 forKey:@"vol"];
+        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
         [parameterDictionary setValue:self.level forKey:@"lv"];
     }
     
@@ -600,7 +607,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     NSString* inputChar = notification.object;
     
-    if ([inputChar isEqualToString:@"reset"]) {
+    if ([inputChar isEqualToString:@" "]) {
         [self resetPlayBoard];
         return;
     }

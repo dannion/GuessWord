@@ -11,7 +11,7 @@
 
 #define kFont [UIFont fontWithName:@"Kristen ITC" size:20]
 
-#define kChar @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"W", @"X", @"Y", @"Z", @"reset" ]
+#define kChar @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"W", @"X", @"Y", @"Z", @" " ]
 
 #define kCustomKeyboardWillShowNotification @"CustomKeyboardWillShowNotification"
 #define kCustomKeyboardWillHideNotification @"CustomKeyboardWillHideNotification"

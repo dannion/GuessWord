@@ -302,8 +302,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.jpeg" id="NlV-PP-Lxg">
-                                <rect key="frame" x="38" y="76" width="80" height="80"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_icon.png" id="NlV-PP-Lxg">
+                                <rect key="frame" x="32" y="76" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="David" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yaP-SQ-eLT">
@@ -669,12 +669,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1.jpeg" width="180" height="180"/>
         <image name="bar_green_bg.png" width="13" height="35"/>
         <image name="bar_white_bg.png" width="322" height="37"/>
         <image name="logo.png" width="117" height="117"/>
         <image name="mainbutton.png" width="202" height="42"/>
         <image name="mainbutton_down.png" width="200" height="40"/>
+        <image name="photo_icon.png" width="70" height="72"/>
         <image name="rank_bg.png" width="60" height="20"/>
         <image name="set_button.png" width="28" height="28"/>
     </resources>

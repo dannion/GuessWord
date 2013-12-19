@@ -48,7 +48,7 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,13 +60,26 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
         cell = [[GWScoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GWScoreViewCellIdentifier];
     }
     
-    cell.rankLabel.text = @"1";
+    //后续这些字段都是从服务器获取。
+    int rank = indexPath.row + 1;
+    if (rank == 1) {
+        cell.crownImageView.hidden = NO;
+    }else{
+        cell.crownImageView.hidden = YES;
+    }
+    cell.rankLabel.text = [NSString stringWithFormat:@"%d", rank];
     cell.nameLabel.text = @"Matlab";
     cell.scoreLabel.text = @"2222";
     
     return cell;
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"line_icon.png"]];
+}
 
 @end
 

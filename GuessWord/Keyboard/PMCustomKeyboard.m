@@ -196,7 +196,9 @@ enum {
         }
         if(CGRectContainsPoint(b.frame, location))
         {
-            [self addPopupToButton:b];
+            if (b != [self.characterKeys lastObject]) {
+                [self addPopupToButton:b];
+            }
             [[UIDevice currentDevice] playInputClick];
         }
     }
