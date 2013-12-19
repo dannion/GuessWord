@@ -33,6 +33,7 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 //    self.scoreTableView.delegate = self;
+    self.view.backgroundColor = [UIColor colorWithRed:248.0/256 green:244.0/256 blue:241.0/256 alpha:1.0];
     
 }
 
@@ -59,8 +60,9 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
         cell = [[GWScoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GWScoreViewCellIdentifier];
     }
     
-    cell.label.text = @"123321";
-    cell.imageView.image = [UIImage imageNamed:@"1.jpeg"];
+    cell.rankLabel.text = @"1";
+    cell.nameLabel.text = @"Matlab";
+    cell.scoreLabel.text = @"2222";
     
     return cell;
 }

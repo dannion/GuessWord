@@ -18,8 +18,7 @@ NSInteger levelColNum = 3; //网格列数
 
 @interface GWLevelViewController ()<PSUICollectionViewDelegateFlowLayout>
 {
-    //初始化为-1
-    int selectedLevel;
+    NSNumber* selectedLevel;
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* levelView;
@@ -43,7 +42,6 @@ NSInteger levelColNum = 3; //网格列数
 	// Do any additional setup after loading the view.
     [self createGridView];
     self.view.backgroundColor = [self colorForBackground];
-    selectedLevel = -1;
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,10 +70,7 @@ NSInteger levelColNum = 3; //网格列数
 {
     if ([segue.identifier isEqualToString:@"LevelToGrid"]) {
         GWGridViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setUniqueID:)])
-        {
-            [destination setUniqueID:[NSNumber numberWithInt:10002]];
-        }
+        
         [destination setVolNumber:self.vol.uniqueVolNumber];
         [destination setLevel: selectedLevel];
     }
@@ -154,9 +149,10 @@ NSInteger levelColNum = 3; //网格列数
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
-    selectedLevel = indexPath.row + 1;
-    [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
+    int selectedLevelIntValue = indexPath.row + 1;
+    selectedLevel = [NSNumber numberWithInt:selectedLevelIntValue];
     
+    [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

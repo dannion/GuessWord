@@ -10,7 +10,12 @@
 
 @interface GWScoreCell : UITableViewCell
 
-@property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UIImageView* bgImageView;
+
+@property (strong, nonatomic) UIImageView* crownImageView;
+@property (strong, nonatomic) UILabel* rankLabel;
+@property (strong, nonatomic) UILabel* nameLabel;
+@property (strong, nonatomic) UILabel* scoreLabel;
+
 
 @end

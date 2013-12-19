@@ -86,19 +86,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     gridRowNum = self.playBoard.height;
     gridColNum = self.playBoard.width;
     
-    if (!gridColNum || !gridRowNum) {
-        NSLog(@"服务器数据错误！");
-        
-        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
-        hud.color = [UIColor whiteColor];
-        hud.labelTextColor = [UIColor blueColor];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"服务器数据错误！";
-        [hud hide:YES afterDelay:2.0];
-
-        return;
-    }
-    
     selectedGridCell = nil;
     selectedHorizontalWord = nil;
     selectedVerticalWord = nil;
@@ -109,6 +96,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     if ([PMCustomKeyboard shareInstance].isShowing) {
         [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
     }
+    
 }
 
 
@@ -175,7 +163,10 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
 - (void)popViewControllerAnimated:(BOOL)animated
 {
-    [self.playBoard saveToDataBase];
+    if (self.playBoard.uniqueid) {
+        [self.playBoard saveToDataBase];
+    }
+    
     
     [super popViewControllerAnimated:animated];
 }
@@ -205,6 +196,15 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
             [self refreshWithNewData];
         }
         
+    }else if (self.volNumber && self.level) {
+        //_playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+        _playBoard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
+        
+        if (_playBoard) {
+            //now we have data already, draw the actual grid.
+            [self refreshWithNewData];
+        }
+        
     }
 
 }
@@ -216,13 +216,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         return;
     }
     NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
-    if (self.uniqueID) {
-        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
-    }
-    if (self.volNumber) {
+//    if (self.uniqueID) {
+//        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
+//    }
+    if (self.volNumber && self.level) {
         [parameterDictionary setValue:@101001 forKey:@"vol"];
 //        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
-        [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"lv"];
+        [parameterDictionary setValue:self.level forKey:@"lv"];
     }
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
@@ -238,10 +238,23 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         
+        if (!gridColNum || !gridRowNum) {
+            NSLog(@"服务器数据错误！");
+            
+            MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
+            hud.color = [UIColor whiteColor];
+            hud.labelTextColor = [UIColor blueColor];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"服务器数据错误！";
+            [hud hide:YES afterDelay:2.0];
+            
+            return;
+        }
         
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
-        [_playBoard saveToDataBase];
+        [self.playBoard saveToDataBase];
+        
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:NO];
         

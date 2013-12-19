@@ -179,6 +179,7 @@ NSInteger volColNum = 3; //网格列数
         CDVol* vol = (CDVol*)[_volArray objectAtIndex:indexPath.row];
         cell.volNumberLabel.text = vol.name;
         cell.backgroundImageView.image = [UIImage imageNamed:@"vol_active.png"];
+        cell.detailLabel.text = @"12月27日";
     }
     
     return cell;

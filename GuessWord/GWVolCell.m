@@ -38,7 +38,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         _detailLabel = [[UILabel alloc] init];
         _detailLabel.textColor = [UIColor whiteColor];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
-        _detailLabel.font = [UIFont systemFontOfSize:10];
+        _detailLabel.font = [UIFont systemFontOfSize:8];
         _detailLabel.text = @"积分：340";
         [_detailLabel sizeToFit];
         
