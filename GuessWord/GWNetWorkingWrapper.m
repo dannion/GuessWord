@@ -8,7 +8,9 @@
 
 #import "GWNetWorkingWrapper.h"
 
+
 #define kGWBaseUrlString @"http://10.105.223.24//"
+
 
 @implementation GWNetWorkingWrapper
 
