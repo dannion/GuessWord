@@ -23,6 +23,8 @@
 		649E1DB718618ACC00468D8C /* vol_next.png in Resources */ = {isa = PBXBuildFile; fileRef = 649E1DB018618ACC00468D8C /* vol_next.png */; };
 		649E1DB818618ACC00468D8C /* vol_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649E1DB118618ACC00468D8C /* vol_next@2x.png */; };
 		649E1DB918618ACC00468D8C /* 说明.txt in Resources */ = {isa = PBXBuildFile; fileRef = 649E1DB218618ACC00468D8C /* 说明.txt */; };
+		649E1DBC1862C1ED00468D8C /* GWScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649E1DBB1862C1ED00468D8C /* GWScoreViewController.m */; };
+		649E1DBF1862C2BE00468D8C /* GWScoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 649E1DBE1862C2BE00468D8C /* GWScoreCell.m */; };
 		64AF28A918559ECD0046D43A /* GWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28A818559ECD0046D43A /* GWGridCell.m */; };
 		64AF28AA18559ECD0046D43A /* GWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28A818559ECD0046D43A /* GWGridCell.m */; };
 		64AF28C31856A48E0046D43A /* PlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AF28C01856A48E0046D43A /* PlayBoard.m */; };
@@ -110,6 +112,10 @@
 		649E1DB018618ACC00468D8C /* vol_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vol_next.png; sourceTree = "<group>"; };
 		649E1DB118618ACC00468D8C /* vol_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vol_next@2x.png"; sourceTree = "<group>"; };
 		649E1DB218618ACC00468D8C /* 说明.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "说明.txt"; sourceTree = "<group>"; };
+		649E1DBA1862C1ED00468D8C /* GWScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWScoreViewController.h; sourceTree = "<group>"; };
+		649E1DBB1862C1ED00468D8C /* GWScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWScoreViewController.m; sourceTree = "<group>"; };
+		649E1DBD1862C2BE00468D8C /* GWScoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWScoreCell.h; sourceTree = "<group>"; };
+		649E1DBE1862C2BE00468D8C /* GWScoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWScoreCell.m; sourceTree = "<group>"; };
 		64AF28A718559ECD0046D43A /* GWGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWGridCell.h; sourceTree = "<group>"; };
 		64AF28A818559ECD0046D43A /* GWGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWGridCell.m; sourceTree = "<group>"; };
 		64AF28BF1856A48E0046D43A /* PlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayBoard.h; sourceTree = "<group>"; };
@@ -315,6 +321,8 @@
 				64BCEBF6185FF40100573F82 /* GWLevelViewController.m */,
 				64BCEC041860336100573F82 /* GWHomeViewController.h */,
 				64BCEC051860336100573F82 /* GWHomeViewController.m */,
+				649E1DBA1862C1ED00468D8C /* GWScoreViewController.h */,
+				649E1DBB1862C1ED00468D8C /* GWScoreViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -335,6 +343,8 @@
 			children = (
 				64BCEC0118602F0B00573F82 /* GWCatagoryCell.h */,
 				64BCEC0218602F0B00573F82 /* GWCatagoryCell.m */,
+				649E1DBD1862C2BE00468D8C /* GWScoreCell.h */,
+				649E1DBE1862C2BE00468D8C /* GWScoreCell.m */,
 				64BCEBF2185FEBD900573F82 /* GWVolCell.h */,
 				64BCEBF3185FEBD900573F82 /* GWVolCell.m */,
 				64BCEBF8185FF45400573F82 /* GWLevelCell.h */,
@@ -640,7 +650,9 @@
 				64BCEBF0185FE5D400573F82 /* GWVolViewController.m in Sources */,
 				64BCEC061860336100573F82 /* GWHomeViewController.m in Sources */,
 				83CA1AA1186282A700DA6FA1 /* CDVol.m in Sources */,
+				649E1DBF1862C2BE00468D8C /* GWScoreCell.m in Sources */,
 				83CF5CDD18618B5E001FC0B4 /* CDPlayBoard.m in Sources */,
+				649E1DBC1862C1ED00468D8C /* GWScoreViewController.m in Sources */,
 				64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */,
 				64BCEBE4185EF1C000573F82 /* GWNetWorkingWrapper.m in Sources */,
 				64AF28C51856A48E0046D43A /* Word.m in Sources */,

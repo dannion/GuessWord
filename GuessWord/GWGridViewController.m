@@ -86,6 +86,19 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     gridRowNum = self.playBoard.height;
     gridColNum = self.playBoard.width;
     
+    if (!gridColNum || !gridRowNum) {
+        NSLog(@"服务器数据错误！");
+        
+        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
+        hud.color = [UIColor whiteColor];
+        hud.labelTextColor = [UIColor blueColor];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"服务器数据错误！";
+        [hud hide:YES afterDelay:2.0];
+
+        return;
+    }
+    
     selectedGridCell = nil;
     selectedHorizontalWord = nil;
     selectedVerticalWord = nil;
@@ -207,8 +220,9 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
     }
     if (self.volNumber) {
-        [parameterDictionary setValue:self.volNumber forKey:@"vol_no"];
-        [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"level"];
+        [parameterDictionary setValue:@101001 forKey:@"vol"];
+//        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
+        [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"lv"];
     }
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
@@ -217,18 +231,19 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.mode = MBProgressHUDModeText;
     hud.labelText = @"加载中，请稍候！";
     
-    [GWNetWorkingWrapper getPath:@"quiz.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [GWNetWorkingWrapper getPath:@"CrossWordPuzzlePHP/playboard.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
         
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
-        [_playBoard saveToDataBase];
+        
         
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
+        [_playBoard saveToDataBase];
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.gridView animated:NO];
         
         MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.color = [UIColor whiteColor];
@@ -573,7 +588,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     NSString* inputChar = notification.object;
     
     if ([inputChar isEqualToString:@"reset"]) {
-        
+        [self resetPlayBoard];
         return;
     }
     selectedGridCell.label.text = inputChar;
@@ -802,6 +817,11 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
 }
 
+- (void)resetPlayBoard
+{
+    [self.playBoard resetBoard];
+    [self refreshWithNewData];
+}
 
 #pragma mark -
 #pragma mark Internal Method to do with indexPath,location and gridcell state
