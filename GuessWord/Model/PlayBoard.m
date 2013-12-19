@@ -8,29 +8,21 @@
 //
 
 #import "PlayBoard.h"
-
 #import "CDPlayBoard+Interface.h"
 #import "GWAppDelegate.h"
 #import "PowerBoardCell.h"
 
 @interface PlayBoard()
 
-/*********************************私有变量*************************/
+/*********************************私有*************************/
 
 @property(nonatomic,strong)NSMutableArray *cells;
 
+-(void)initPowerBoardCells;                                 //根据tmp信息初始化两个area数组
+-(void)updateCellsDisplayByWord:(Word *)word;               //根据一个word更新display
+-(BOOL)isBingoOfWord:(Word *)word;                          //查看某个单词是否完成
+-(CGPoint)nextPointFromCurrentPoint:(CGPoint)fromPoint;     //找到一个点的下一个点
 
-/*********************************私有API*************************/
-
--(void)initPowerBoardCells;//根据tmp信息初始化两个area数组
--(void)updateCellsDisplayByWord:(Word *)word;//根据一个word更新display
--(BOOL)isBingoOfWord:(Word *)word;//查看某个单词是否完成
-//-(Word *)wordOfPoint:(CGPoint)point inDirection:(BOOL)isHorizontal;//获得该point该方向上的单词
-
--(CGPoint)nextPointFromCurrentPoint:(CGPoint)fromPoint;//找到一个点的下一个点
-//-(void)saveToFile:(NSString *)saveFile;//将信息保存到文件中（或数据库）
-
-    
 @end
 
 @implementation PlayBoard
@@ -94,22 +86,14 @@
 }
 
 
-
-
 +(PlayBoard *)playBoardFromFile:(NSString *)file{
     NSString *js_file_path = [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:js_file_path];
     return [PlayBoard playBoardFromData:jsonData];
 }
 
-
-/*保存到数据库*/
--(void)saveToDataBase{
 #warning 写入数据库前保证信息完整：包括star，得分等，另外得分情况是不是每一次点击都记录得分
-    [self insertToDatabase];
-}
-
--(void)insertToDatabase
+-(void)saveToDataBase
 {
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
@@ -118,7 +102,6 @@
 
 #pragma mark LAZY-INSTANCE
 #pragma mark --
-
 
 -(NSMutableArray *)cellsByLazyInstance
 {
@@ -241,7 +224,6 @@
     return completed;
 }
 
-
 //在某个坐标上输入一个字母，修改cell.Input
 -(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point
 {
@@ -330,8 +312,10 @@
         id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
         if (jsonObject != nil && error == nil){
             assert([jsonObject isKindOfClass:[NSDictionary class]]);
+
+//            //改动，棋盘数据的jsondata字段是传过来的真实的棋盘信息
+//            NSDictionary *playBoardDic = [(NSDictionary *)jsonObject objectForKey:@"jsondata"];
             NSDictionary *playBoardDic = (NSDictionary *)jsonObject;
-            
             /*********解析每一个单词*********/
             NSArray *words_json_arr = [playBoardDic objectForKey:@"words"];
             NSMutableArray *output_words = [[NSMutableArray alloc]initWithCapacity:50];
@@ -475,14 +459,12 @@
                 if (y >= 0 && y < self.height && x+i >= 0 && x+i < self.width) {
                     //正确答案（首字母）
                     PowerBoardCell *cell      = (PowerBoardCell *)self.cells[y][x+i];
-//                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
                     [cell addCorrectAnswerWithOneAlphabet:[ans_cap substringWithRange:NSMakeRange(i,1)]];
                     cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];//用户输入,如果tmp为空，那么设置为Blank，如果tmp有值，设置为tmp的值
                 }
             } else {
                 if (x >= 0 && x < self.width && y+i >= 0 && y+i < self.height) {
                     PowerBoardCell *cell      = (PowerBoardCell *)self.cells[y+i][x];
-//                    cell.correct    = [ans_cap substringWithRange:NSMakeRange(i,1)];
                     [cell addCorrectAnswerWithOneAlphabet:[ans_cap substringWithRange:NSMakeRange(i,1)]];
                     cell.input      = [tmp isEqualToString:@""] ? BLANK:[tmp substringWithRange:NSMakeRange(i,1)];
                 }
@@ -615,21 +597,21 @@
 }
 
 
--(void)saveToFile:(NSString *)saveFile{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = [paths objectAtIndex:0];
-    NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
-    //目前保存的位置/Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
-    NSData *jsData = [self jsonDataDescription];
-    if (jsData) {
-        BOOL succeed = [jsData writeToFile:file atomically:YES];
-        if (succeed) {
-            NSLog(@"Save succeed");
-        }else {
-            NSLog(@"Save fail");
-        }
-    }
-}
+//-(void)saveToFile:(NSString *)saveFile{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentDirectory = [paths objectAtIndex:0];
+//    NSString *file = [documentDirectory stringByAppendingPathComponent:saveFile];
+//    //目前保存的位置/Users/wangjz/Library/Application Support/iPhone Simulator/6.0/Applications/83275A71-8E2A-41D1-AF0B-E82044AFAD88
+//    NSData *jsData = [self jsonDataDescription];
+//    if (jsData) {
+//        BOOL succeed = [jsData writeToFile:file atomically:YES];
+//        if (succeed) {
+//            NSLog(@"Save succeed");
+//        }else {
+//            NSLog(@"Save fail");
+//        }
+//    }
+//}
 
 
 @end
