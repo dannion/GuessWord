@@ -9,7 +9,7 @@
 #import "GWNetWorkingWrapper.h"
 
 
-#define kGWBaseUrlString @"http://10.105.223.24//"
+#define kGWBaseUrlString @"http://10.105.223.24/CrossWordPuzzlePHP/"
 
 
 @implementation GWNetWorkingWrapper

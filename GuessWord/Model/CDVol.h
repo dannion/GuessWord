@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "CDPlayBoard+Interface.h"
-//@class CDPlayBoard;
 
 @interface CDVol : NSManagedObject
 
