@@ -336,7 +336,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                     <size key="titleShadowOffset" width="0.0" height="1"/>
-                    <state key="normal" backgroundImage="keyboard_button.png">
+                    <state key="normal" backgroundImage="keyboard_reset_button.png">
                         <color key="titleColor" red="0.4392156862745098" green="0.43137254901960786" blue="0.43137254901960786" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -379,5 +379,6 @@
     <resources>
         <image name="keyboard_bg.png" width="645" height="240"/>
         <image name="keyboard_button.png" width="80" height="79"/>
+        <image name="keyboard_reset_button.png" width="40" height="40"/>
     </resources>
 </document>

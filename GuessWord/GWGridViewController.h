@@ -20,6 +20,6 @@
 @property (nonatomic, strong) NSNumber* uniqueID;
 //或者传递网格的volNumber和level
 @property (nonatomic, strong) NSNumber* volNumber;
-@property (nonatomic, assign) int level;
+@property (nonatomic, assign) NSNumber* level;
 
 @end

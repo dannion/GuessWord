@@ -13,7 +13,7 @@
 #import "BoardCell.h"
 #import "GWNetWorkingWrapper.h"
 #import "GWInsetsLabel.h"
-
+#import "GWScoreCounter.h"
 
 
 NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
@@ -30,6 +30,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     CGPoint selectedLocation;
     Word* selectedHorizontalWord;
     Word* selectedVerticalWord;
+    
+    GWScoreCounter* scoreCounter;
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
@@ -86,19 +88,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     gridRowNum = self.playBoard.height;
     gridColNum = self.playBoard.width;
     
-    if (!gridColNum || !gridRowNum) {
-        NSLog(@"服务器数据错误！");
-        
-        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
-        hud.color = [UIColor whiteColor];
-        hud.labelTextColor = [UIColor blueColor];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"服务器数据错误！";
-        [hud hide:YES afterDelay:2.0];
-
-        return;
-    }
-    
     selectedGridCell = nil;
     selectedHorizontalWord = nil;
     selectedVerticalWord = nil;
@@ -109,6 +98,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     if ([PMCustomKeyboard shareInstance].isShowing) {
         [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
     }
+    
 }
 
 
@@ -143,9 +133,16 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     NSLog(@"%f %f", _gridView.bounds.size.width, _gridView.bounds.size.height);
     
+    int newWidthAndHeight;
     int temp = (int)_gridView.bounds.size.width % (int)gridColNum;
-    int newWidthAndHeight = _gridView.bounds.size.width-temp-1;
-    CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
+    if (temp != gridColNum - 1) {
+        newWidthAndHeight = _gridView.bounds.size.width - temp - 1;
+    }else{
+        newWidthAndHeight = _gridView.bounds.size.width;
+
+    }
+    
+         CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
     _gridView.frame = gridViewFrame;
     
     
@@ -175,7 +172,10 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
 - (void)popViewControllerAnimated:(BOOL)animated
 {
-    [self.playBoard saveToDataBase];
+    if (self.playBoard.uniqueid) {
+        [self.playBoard saveToDataBase];
+    }
+    
     
     [super popViewControllerAnimated:animated];
 }
@@ -205,6 +205,15 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
             [self refreshWithNewData];
         }
         
+    }else if (self.volNumber && self.level) {
+        //_playBoard = [PlayBoard playBoardFromFile:@"puz1"];
+        _playBoard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
+        
+        if (_playBoard) {
+            //now we have data already, draw the actual grid.
+            [self refreshWithNewData];
+        }
+        
     }
 
 }
@@ -216,13 +225,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         return;
     }
     NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
-    if (self.uniqueID) {
-        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
-    }
-    if (self.volNumber) {
-        [parameterDictionary setValue:@101001 forKey:@"vol"];
-//        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
-        [parameterDictionary setValue:[NSNumber numberWithInt:self.level] forKey:@"lv"];
+//    if (self.uniqueID) {
+//        [parameterDictionary setValue:self.uniqueID forKey:@"uid"];
+//    }
+    if (self.volNumber && self.level) {
+//        [parameterDictionary setValue:@101001 forKey:@"vol"];
+        [parameterDictionary setValue:self.volNumber forKey:@"vol"];
+        [parameterDictionary setValue:self.level forKey:@"lv"];
     }
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
@@ -238,10 +247,23 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         
+        if (!gridColNum || !gridRowNum) {
+            NSLog(@"服务器数据错误！");
+            
+            MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
+            hud.color = [UIColor whiteColor];
+            hud.labelTextColor = [UIColor blueColor];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"服务器数据错误！";
+            [hud hide:YES afterDelay:2.0];
+            
+            return;
+        }
         
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
-        [_playBoard saveToDataBase];
+        [self.playBoard saveToDataBase];
+        
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:NO];
         
@@ -416,6 +438,10 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
+    
+    if (!scoreCounter) {
+        scoreCounter = [GWScoreCounter beginGame];
+    }
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
     selectedLocation = [self locationFromIndexPath:indexPath];
@@ -587,7 +613,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     NSString* inputChar = notification.object;
     
-    if ([inputChar isEqualToString:@"reset"]) {
+    if ([inputChar isEqualToString:@" "]) {
         [self resetPlayBoard];
         return;
     }
@@ -607,10 +633,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
             //答错了，弹出错误提示
+            [scoreCounter userEnterWrongAnswer];
             [self showErrorToast];
+            
         }else{
             //答对了，将对应单词转换为汉字结果。
             Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
+            [scoreCounter userEnterCorrectWord:correctWord];
             
             int length = correctWord.length;
             
@@ -637,10 +666,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
             //答错了，弹出错误提示
+            [scoreCounter userEnterWrongAnswer];
             [self showErrorToast];
+            
         }else{
             //答对了，将对应单词转换为汉字结果。
             Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
+            [scoreCounter userEnterCorrectWord:correctWord];
             
             int length = correctWord.length;
             
@@ -805,7 +837,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.labelText = @"闯关成功！";
     hud.labelTextColor = [UIColor blueColor];
     
-    hud.detailsLabelText = @"你真厉害！";
+    hud.detailsLabelText = [NSString stringWithFormat:@"你获得的分数是：%d!你真厉害！", scoreCounter.currentScore];
     hud.detailsLabelTextColor = [UIColor blackColor];
     [hud hide:YES afterDelay:3.0];
 }
@@ -814,6 +846,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     //这里写完成游戏逻辑
     NSLog(@"闯关成功！！！！你真厉害！！");
     [self showCompletedToast];
+    [scoreCounter endGame];
+    NSLog(@"score = %d!", scoreCounter.currentScore);
     
 }
 
