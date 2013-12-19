@@ -8,8 +8,9 @@
 
 #import "GWNetWorkingWrapper.h"
 
-//#define kGWBaseUrlString @"http://10.105.54.95/"
-#define kGWBaseUrlString @"http://10.105.223.24/CrossWordPuzzlePHP/"
+
+#define kGWBaseUrlString @"http://10.105.223.24//"
+
 
 @implementation GWNetWorkingWrapper
 
@@ -21,6 +22,7 @@
     AFHTTPClient* client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:kGWBaseUrlString]];
     
     NSMutableURLRequest* request =[client requestWithMethod:@"GET" path:path parameters:parameters];
+    NSLog(@"%@", request);
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
     [operation setCompletionBlockWithSuccess:successBlock failure:failureBlock];

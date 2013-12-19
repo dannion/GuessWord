@@ -153,7 +153,7 @@ NSInteger volColNum = 3; //网格列数
 #pragma mark PSUICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 30;
+    return 10;
 }
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -174,6 +174,7 @@ NSInteger volColNum = 3; //网格列数
     if (indexPath.row == _volArray.count-1) {
         cell.volNumberLabel.text = @"下一期";
         cell.backgroundImageView.image = [UIImage imageNamed:@"vol_next.png"];
+        cell.detailLabel.text = @"12月27日";
     }else{
         CDVol* vol = (CDVol*)[_volArray objectAtIndex:indexPath.row];
         cell.volNumberLabel.text = vol.name;
