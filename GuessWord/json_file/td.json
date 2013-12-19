@@ -2,10 +2,10 @@
     "file" : "td.json",
     "uniqueid" : 10001,
     "volNumber": 1,
-    "level" : 0,
+    "level" : 1,
     "degree" : 5,
     "category" : "诗词",
-    "islocked" : 1,
+    "islocked" : 0,
     "star": 0,
     "words" : [
                {
