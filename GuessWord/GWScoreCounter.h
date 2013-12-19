@@ -13,11 +13,11 @@
 
 + (GWScoreCounter*)beginGame;  //用户开始游戏
 
-- (void)useTip;     //用户使用了提醒
-- (void)wrongAnswer;//用户答错了
-- (void)bingoWord:(Word*)word;//用户猜对了word这个单词
+- (void)userUseTip;     //用户使用了提醒
+- (void)userEnterWrongAnswer;//用户答错了
+- (void)userEnterCorrectWord:(Word*)word;//用户猜对了word这个单词
 
-- (void)doneGame;   //结束游戏
+- (void)endGame;   //结束游戏
 
 - (int)currentScore;
 

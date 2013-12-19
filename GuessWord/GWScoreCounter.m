@@ -40,20 +40,20 @@
     //计时
 }
 
-- (void)useTip
+- (void)userUseTip
 {
     currentScore -= HINT_PENALTY;
 }
-- (void)wrongAnswer
+- (void)userEnterWrongAnswer
 {
     currentScore -= WORD_ERROR_PENALTY;
 }
-- (void)bingoWord:(Word*)word
+- (void)userEnterCorrectWord:(Word*)word
 {
     currentScore += SCORE_PER_CHARACTER * word.length;
 }
 
-- (void)doneGame
+- (void)endGame
 {
     //结束计时，对currentScore加上时间加成。
     

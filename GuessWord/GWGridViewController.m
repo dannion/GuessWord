@@ -30,6 +30,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     CGPoint selectedLocation;
     Word* selectedHorizontalWord;
     Word* selectedVerticalWord;
+    
+    GWScoreCounter* scoreCounter;
 }
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
@@ -436,6 +438,10 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
+    
+    if (!scoreCounter) {
+        scoreCounter = [GWScoreCounter beginGame];
+    }
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
     selectedLocation = [self locationFromIndexPath:indexPath];
@@ -627,10 +633,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
             //答错了，弹出错误提示
+            [scoreCounter userEnterWrongAnswer];
             [self showErrorToast];
+            
         }else{
             //答对了，将对应单词转换为汉字结果。
             Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
+            [scoreCounter userEnterCorrectWord:correctWord];
             
             int length = correctWord.length;
             
@@ -657,10 +666,13 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
             //答错了，弹出错误提示
+            [scoreCounter userEnterWrongAnswer];
             [self showErrorToast];
+            
         }else{
             //答对了，将对应单词转换为汉字结果。
             Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
+            [scoreCounter userEnterCorrectWord:correctWord];
             
             int length = correctWord.length;
             
@@ -825,7 +837,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.labelText = @"闯关成功！";
     hud.labelTextColor = [UIColor blueColor];
     
-    hud.detailsLabelText = @"你真厉害！";
+    hud.detailsLabelText = [NSString stringWithFormat:@"你获得的分数是：%d!你真厉害！", scoreCounter.currentScore];
     hud.detailsLabelTextColor = [UIColor blackColor];
     [hud hide:YES afterDelay:3.0];
 }
@@ -834,6 +846,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     //这里写完成游戏逻辑
     NSLog(@"闯关成功！！！！你真厉害！！");
     [self showCompletedToast];
+    [scoreCounter endGame];
+    NSLog(@"score = %d!", scoreCounter.currentScore);
     
 }
 
