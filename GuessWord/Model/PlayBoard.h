@@ -46,7 +46,7 @@
                                            andLevel:(NSNumber *)level;
 
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData;                                      //默认的初始化函数
--(void)saveToDataBase;                                                                  //保存到数据库
+-(void)saveToDataBaseWithFinalScore:(int)finalScore;                                    //保存到数据库
 
 -(BoardCell *)cellAtPoint:(CGPoint)point;                                               //获取某个坐标上的boardcell
 -(NSString*)description;

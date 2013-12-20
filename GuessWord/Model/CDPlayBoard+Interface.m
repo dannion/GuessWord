@@ -12,19 +12,43 @@
 
 @implementation CDPlayBoard (Interface)
 
+-(void)setAttributesWithPlayBoard:(PlayBoard *)thePlayBoard{
+    #warning 棋盘添加字段位置4
+    self.star           = thePlayBoard.star;
+    self.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
+    self.uniqueid       = thePlayBoard.uniqueid;
+    self.category       = thePlayBoard.category;
+    self.level          = [NSNumber numberWithInt:thePlayBoard.level];
+    self.jsonData       = [thePlayBoard jsonDataDescription];
+    self.volNumber      = thePlayBoard.volNumber;
+    self.gotFromNetwork = [NSNumber numberWithBool:YES];
+}
+
+-(BOOL)isFirstLevel{
+    if ([self.level isEqualToNumber:[NSNumber numberWithInt:1]]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+-(void)setLock{
+    //如果是第一关，那么是解锁的，如果上一关已经解锁，那么解锁
+    if ([self isFirstLevel]) {
+        self.islocked = [NSNumber numberWithBool:NO];
+    }else{
+        self.islocked = [NSNumber numberWithBool:YES];
+    }
+}
+
 //通过volNumber来获取一堆PlayBoards
 +(NSArray *)cdPlayBoardsByVolNumber:(NSNumber *)volNumber
              inManagedObjectContext:(NSManagedObjectContext *)context;
 {
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
-    NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
-    
-    [request setEntity:entity];
-    
-    /****************设置数据库查询的条件**************/
+    [request setEntity:[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(volNumber = %d)", [volNumber intValue]];
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"level" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"level" ascending:YES];//根据level排序，很重要！
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
@@ -41,69 +65,15 @@
     }
 }
 
-+(void)documentIsReady:(UIManagedDocument *)document{
-//    if (document.documentState == UIDocumentStateNormal) {
-//        //start using document
-//        NSManagedObjectContext *context = document.managedObjectContext;
-//        //插入 context is the hook
-//        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
-//                                                              inManagedObjectContext:context];
-//        //目前cdpb中的所有peoperty都是nil的，可以通过字典的形式设置每个字段的值
-//        //[cdpb setValue:@"" forKey:@""];
-//        //当然，使用字典的方式有时候很丑陋，我们愿意使用@property的方式，怎么办呢？创建NSManagedObject的子类
-//        cdpb.level = [NSNumber numberWithInt:1];
-//        
-//        //也可以为relationship赋值，而且强大的是你只要设置reletionship的单方向即可
-//        
-//        //所有以上的操作只会在内存中，不会保存到实际的数据库中，直到你调用save
-//        
-//        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@""];
-//        request.fetchBatchSize = 20;
-//        request.fetchLimit = 100;
-//        request.sortDescriptors = ;
-//        request.predicate = ;
-//    }
-}
-
-+(void)openCoreDataBase{
-    //获取文件url
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentationDirectory inDomains:NSUserDomainMask] firstObject];
-    NSString *documentName = @"MyDocument";
-    NSURL *url = [documentsDirectory URLByAppendingPathComponent:documentName];
-    
-    //通过url获取文件
-    UIManagedDocument *document = [[UIManagedDocument alloc]initWithFileURL:url];
-    
-    //查看文件是否存在
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[url path]];
-    if (fileExists) {
-        [document openWithCompletionHandler:^(BOOL success){
-        //TO DO:处理打开成功，因为打开和创建是异步的，所以需要用completionHandler
-            if (success) {[self documentIsReady:document];}
-            if (!success) {NSLog(@"不能在 %@ 创建文件",url);}
-        }];
-    }else{
-        [document saveToURL:url
-           forSaveOperation:UIDocumentSaveForCreating
-          completionHandler:^(BOOL success){
-          //TO DO:处理创建成功
-              if (success) {[self documentIsReady:document];}
-              if (!success) {NSLog(@"不能在 %@ 创建文件",url);}
-          }];
-    }
-}
 
 
-//将PlayBoard插入到数据库中,根据vol_number和level来修改
+//将PlayBoard保存到数据库中,根据vol_number和level来修改
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    /************先查询，删除************/
     NSFetchRequest *request=[[NSFetchRequest alloc]init];
     NSEntityDescription *entity=[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context];
     [request setEntity:entity];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(uniqueid = %d)", [thePlayBoard.uniqueid intValue]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"volNumber = %d AND level = %d",
                               [thePlayBoard.volNumber intValue],thePlayBoard.level];
     
@@ -113,18 +83,13 @@
     if (array == nil || [array count] > 1) {
         NSLog(@"【error】读取数据库操作%@ 或者uniqueid 不唯一" ,error);
     }else if ([array count] == 1) {
-#warning 棋盘添加字段位置4
-        NSLog(@"数据库有 vol_number = %@ level = %d的棋盘格,对其进行修改",thePlayBoard.volNumber,thePlayBoard.level);
         CDPlayBoard *cdpb = [array firstObject];
-        cdpb.star           = thePlayBoard.star;
-        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
-        cdpb.uniqueid       = thePlayBoard.uniqueid;
-        cdpb.category       = thePlayBoard.category;
-        cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
-        cdpb.jsonData       = [thePlayBoard jsonDataDescription];
-        cdpb.volNumber      = thePlayBoard.volNumber;
-        cdpb.gotFromNetwork = [NSNumber numberWithBool:YES];//插入意味着已经从网络获取了信息
-        
+        if ([cdpb.gotFromNetwork isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            NSLog(@"库有 vol=%@ lv=%d的棋盘格,对其进行修改",thePlayBoard.volNumber,thePlayBoard.level);
+        }else{
+            NSLog(@"库仅有 初始化的 vol=%@ lv=%d的棋盘格,对其进行修改",thePlayBoard.volNumber,thePlayBoard.level);
+        }
+        [cdpb setAttributesWithPlayBoard:thePlayBoard];
         //如果库中已经有了，就不需要修改了belongToWhom了
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
@@ -133,33 +98,24 @@
             NSLog(@"修改 uniqueid = %@ 的棋盘格成功",thePlayBoard.uniqueid);
         }
     }else{
-        NSLog(@"数据库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
-        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
-                                                          inManagedObjectContext:context];
-        
-#warning 棋盘添加字段位置3
-        cdpb.star           = thePlayBoard.star;
-        cdpb.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
-        cdpb.uniqueid       = thePlayBoard.uniqueid;
-        cdpb.category       = thePlayBoard.category;
-        cdpb.level          = [NSNumber numberWithInt:thePlayBoard.level];
-        cdpb.jsonData       = [thePlayBoard jsonDataDescription];
-        cdpb.volNumber      = thePlayBoard.volNumber;
-        cdpb.gotFromNetwork = [NSNumber numberWithBool:YES];
-        CDVol *belongVol    = [CDVol cdVolWithUniqueVolNumber:thePlayBoard.volNumber inManagedObjectContext:context];
-        cdpb.belongToWhom   = belongVol;
-        
-        BOOL isSaveSuccess = [context save:&error];
-        if (!isSaveSuccess) {
-            NSLog(@"Error: %@,%@",error,[error userInfo]);
-        }else {
-            NSLog(@"插入新的uniqueid = %@ 的棋盘格",thePlayBoard.uniqueid);
-        }
-        //[appDelegate saveContext];
+        NSLog(@"错误，棋盘未初始化");
+//        NSLog(@"库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
+//        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
+//                                                          inManagedObjectContext:context];
+//        [cdpb setAttributesWithPlayBoard:thePlayBoard];
+//        cdpb.belongToWhom   = [CDVol cdVolWithUniqueVolNumber:thePlayBoard.volNumber
+//                                       inManagedObjectContext:context];
+//        
+//        BOOL isSaveSuccess = [context save:&error];
+//        if (!isSaveSuccess) {
+//            NSLog(@"Error: %@,%@",error,[error userInfo]);
+//        }else {
+//            NSLog(@"插入新的uniqueid = %@ 的棋盘格",thePlayBoard.uniqueid);
+//        }
     }
 }
 
-//通过vol_number和level获取CDPlayBoard
+//通过vol_number和level获取CDPlayBoard，如果没有，本地做初始化
 +(CDPlayBoard *)cdPlayBoardByVolNumber:(NSNumber *)vol_number
                               andLevel:(NSNumber *)level
                 inManagedObjectContext:(NSManagedObjectContext *)context
@@ -173,12 +129,11 @@
     [request setPredicate:predicate];
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
-    if (array == nil)
-    {
-        NSLog(@"查询数据库错误 【CDPlayboard】 with vol_no = %@ and level = %@ in local database",vol_number,level);
+    if (array == nil){
+        NSLog(@"查询数据库错误 【CDPlayboard】 with vol=%@ and level=%@ indatabase",vol_number,level);
         return nil;
     }else if ([array count] > 1) {
-        NSLog(@"Error: More than 1 cdplayboard with vol_no = %@ and level = %@ in local database",vol_number,level);
+        NSLog(@"查询数据库错误 More than 1 CDPlayboard with vol=%@ level = %@ in database",vol_number,level);
         return nil;
     }else if ([array count] == 0){
         NSLog(@"数据库中没有cdplayboard with vol_no = %@ and level = %@ in local database，本地做初始化",vol_number,level);
@@ -187,7 +142,7 @@
         cdpb.level          = level;
         cdpb.volNumber      = vol_number;
         cdpb.star           = [NSNumber numberWithInt:0];
-        cdpb.islocked       = [NSNumber numberWithBool:YES];//默认是 锁 的状态
+        [cdpb setLock];         //目前的规则是：如果是第一关，那么设置为解锁的
         cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];//本地初始化不是从网络获取来的
         return cdpb;
     }else{
@@ -195,7 +150,7 @@
     }
 }
 
-//通过id获取CDPlayBoard
+//通过id查询CDPlayBoard
 +(CDPlayBoard *)cdPlayBoardByUniqueID:(NSNumber *)uniqueID
                inManagedObjectContext:(NSManagedObjectContext *)context
 {

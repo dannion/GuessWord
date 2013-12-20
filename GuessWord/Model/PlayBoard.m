@@ -82,7 +82,11 @@
 }
 
 +(PlayBoard *)playBoardFromData:(NSData *)jsonData{
-    return [[PlayBoard alloc]initWithJsonData:jsonData];
+    if (!jsonData) {
+        return nil;
+    }else{
+        return [[PlayBoard alloc]initWithJsonData:jsonData];
+    }
 }
 
 
@@ -93,8 +97,9 @@
 }
 
 #warning 写入数据库前保证信息完整：包括star，得分等，另外得分情况是不是每一次点击都记录得分
--(void)saveToDataBase
+-(void)saveToDataBaseWithFinalScore:(int)finalScore
 {
+    self.score = finalScore;
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
@@ -311,10 +316,10 @@
         NSError *error = nil;
         id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
         if (jsonObject != nil && error == nil){
-            assert([jsonObject isKindOfClass:[NSDictionary class]]);
-
-//            //改动，棋盘数据的jsondata字段是传过来的真实的棋盘信息
-//            NSDictionary *playBoardDic = [(NSDictionary *)jsonObject objectForKey:@"jsondata"];
+            if (![jsonObject isKindOfClass:[NSDictionary class]]) {
+                NSLog(@"Json数据错误");
+                return nil;
+            }
             NSDictionary *playBoardDic = (NSDictionary *)jsonObject;
             /*********解析每一个单词*********/
             NSArray *words_json_arr = [playBoardDic objectForKey:@"words"];
@@ -395,6 +400,15 @@
         }
         [retString appendString:@"\n"];
     }
+    
+    for (NSArray *row_array in self.cells) {
+        for (PowerBoardCell *cell in row_array) {
+            [retString appendString:[NSString stringWithFormat:@"%d",cell.currentState]];
+            [retString appendString:@" "];
+        }
+        [retString appendString:@"\n"];
+    }
+    
     return retString;
 }
 

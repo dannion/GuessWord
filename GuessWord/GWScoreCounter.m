@@ -15,6 +15,7 @@
 
 
 @interface GWScoreCounter(){
+    BOOL isCountingScore;
     int currentScore;
 }
 - (void)start;
@@ -36,27 +37,34 @@
 
 - (void)start
 {
+    isCountingScore = YES;
     currentScore = INITIAL_SCORE;
     //计时
 }
 
 - (void)userUseTip
 {
-    currentScore -= HINT_PENALTY;
+    if (isCountingScore) {
+        currentScore -= HINT_PENALTY;
+    }
 }
 - (void)userEnterWrongAnswer
 {
-    currentScore -= WORD_ERROR_PENALTY;
+    if (isCountingScore) {
+        currentScore -= WORD_ERROR_PENALTY;
+    }
 }
 - (void)userEnterCorrectWord:(Word*)word
 {
-    currentScore += SCORE_PER_CHARACTER * word.length;
+    if (isCountingScore) {
+        currentScore += SCORE_PER_CHARACTER * word.length;
+    }
 }
 
 - (void)endGame
 {
     //结束计时，对currentScore加上时间加成。
-    
+    isCountingScore = NO;
 }
 
 - (int)currentScore

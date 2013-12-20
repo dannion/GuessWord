@@ -173,7 +173,11 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)popViewControllerAnimated:(BOOL)animated
 {
     if (self.playBoard.uniqueid) {
-        [self.playBoard saveToDataBase];
+        if (scoreCounter) {
+            [self.playBoard saveToDataBaseWithFinalScore:scoreCounter.currentScore];
+        }else{
+            [self.playBoard saveToDataBaseWithFinalScore:0];
+        }
     }
     
     
@@ -262,7 +266,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         
         //now we have data already, draw the actual grid.
         [self refreshWithNewData];
-        [self.playBoard saveToDataBase];
+        [self.playBoard saveToDataBaseWithFinalScore:0];
         
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:NO];
@@ -837,7 +841,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.labelText = @"闯关成功！";
     hud.labelTextColor = [UIColor blueColor];
     
-    hud.detailsLabelText = [NSString stringWithFormat:@"你获得的分数是：%d!你真厉害！", scoreCounter.currentScore];
+    hud.detailsLabelText = [NSString stringWithFormat:@"你获得的分数是:%d！你真厉害！", scoreCounter.currentScore];
     hud.detailsLabelTextColor = [UIColor blackColor];
     [hud hide:YES afterDelay:3.0];
 }

@@ -36,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Ze6-ED-NIW">
-                                <rect key="frame" x="86" y="180" width="149" height="44"/>
+                                <rect key="frame" x="60" y="200" width="202" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="往期回顾" backgroundImage="mainbutton.png">
@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gnu-NI-xc1">
-                                <rect key="frame" x="86" y="246" width="149" height="44"/>
+                                <rect key="frame" x="60" y="260" width="202" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="直播互动" backgroundImage="mainbutton.png">
@@ -69,7 +69,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Wp-ZN-CYg">
-                                <rect key="frame" x="86" y="312" width="149" height="44"/>
+                                <rect key="frame" x="60" y="320" width="202" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="闯关模式" backgroundImage="mainbutton.png">
@@ -84,11 +84,11 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" id="sEc-6z-BjN">
-                                <rect key="frame" x="110" y="40" width="100" height="100"/>
+                                <rect key="frame" x="103" y="50" width="117" height="117"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rio-5V-IsJ">
-                                <rect key="frame" x="86" y="348" width="149" height="44"/>
+                                <rect key="frame" x="60" y="380" width="202" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="积分排行" backgroundImage="mainbutton.png">
@@ -103,7 +103,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LBW-1t-1h8">
-                                <rect key="frame" x="206" y="402" width="28" height="28"/>
+                                <rect key="frame" x="255" y="435" width="28" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="set_button.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -675,16 +675,9 @@
         <image name="bar_white_bg.png" width="322" height="37"/>
         <image name="logo.png" width="117" height="117"/>
         <image name="mainbutton.png" width="202" height="42"/>
-        <image name="mainbutton.png" width="202" height="42"/>
-        <image name="mainbutton.png" width="202" height="42"/>
-        <image name="mainbutton.png" width="202" height="42"/>
-        <image name="mainbutton_down.png" width="200" height="40"/>
-        <image name="mainbutton_down.png" width="200" height="40"/>
-        <image name="mainbutton_down.png" width="200" height="40"/>
         <image name="mainbutton_down.png" width="200" height="40"/>
         <image name="photo_icon.png" width="70" height="72"/>
         <image name="rank_bg.png" width="60" height="20"/>
-        <image name="set_button.png" width="28" height="28"/>
         <image name="set_button.png" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

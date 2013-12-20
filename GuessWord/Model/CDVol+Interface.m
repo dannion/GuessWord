@@ -88,6 +88,7 @@
 //    }
 //}
 
+#warning 测试用，过后删除
 //通过文件获取cdVols数组
 +(NSArray *)cdVolsFromFile:(NSString *)file
     inManagedObjectContext:(NSManagedObjectContext *)context
@@ -106,23 +107,17 @@
     if (jsonObject != nil && error == nil){
         assert([jsonObject isKindOfClass:[NSArray class]]);
         NSArray *array = (NSArray *)jsonObject;
-        return [CDVol cdVolsWithVolArrary:array inManagedObjectContext:context];
+        NSMutableArray *retArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *volDic in array) {
+            CDVol *oneVol = [CDVol cdVolWithVolDictionary:volDic inManagedObjectContext:context];
+            [retArray addObject:oneVol];
+        }
+        return retArray;
     }else{
         return nil;
     }
 }
 
-//根据数组数组返回一组CDVol
-+(NSArray *)cdVolsWithVolArrary:(NSArray *)volArray
-         inManagedObjectContext:(NSManagedObjectContext *)context
-{
-    NSMutableArray *retArray = [[NSMutableArray alloc]init];
-    for (NSDictionary *volDic in volArray) {
-        CDVol *oneVol = [CDVol cdVolWithVolDictionary:volDic inManagedObjectContext:context];
-        [retArray addObject:oneVol];
-    }
-    return retArray;
-}
 
 /*创建CDVol:根据Dictionary来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后的CDVol*/
 +(CDVol *)cdVolWithVolDictionary:(NSDictionary *)volDictionary

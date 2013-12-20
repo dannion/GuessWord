@@ -4,7 +4,7 @@
 //
 //  Created by WangJZ on 12/13/13.
 //  Copyright (c) 2013 BUPTMITC. All rights reserved.
-//
+//  每次通过cdVolsWithJsonData来将网络的数据更新到本地，如果本地有，不改变，如果某一期没有，那么创建，并根据amountOfLevels来创建所有棋盘
 
 
 #define KEY_FOR_UNIQUENUMBER    @"vol_no"
@@ -18,25 +18,11 @@
 
 -(NSString *)description;
 
-
-//通过jsonData获取全部期的数据,cdVols数组
-+(NSArray *)cdVolsWithJsonData:(NSData *)jsonData
++(NSArray *)cdVolsWithJsonData:(NSData *)jsonData                       //(read and write)  通过jsonData获取全部期的数据,cdVols数组
         inManagedObjectContext:(NSManagedObjectContext *)context;
 
-//通过网络文件获取全部期的数据
-+(NSArray *)cdVolsFromFile:(NSString *)file
+#warning 测试用，过后删除
++(NSArray *)cdVolsFromFile:(NSString *)file                             //通过网络文件获取全部期的数据
     inManagedObjectContext:(NSManagedObjectContext *)context;
-
-//通过VolDictionary创建CDVol
-+(CDVol *)cdVolWithVolDictionary:(NSDictionary *)VolDictionary
-          inManagedObjectContext:(NSManagedObjectContext *)context;
-
-//通过唯一的ID获取CDVol或者创建CDVol
-+(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
-            inManagedObjectContext:(NSManagedObjectContext *)context;
-
-/*将CDVol保存到本地下*/
-//-(void)saveToFile:(NSString *)saveFile;
-
 
 @end
