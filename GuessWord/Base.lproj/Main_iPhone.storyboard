@@ -455,11 +455,11 @@
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="X15-d7-3Yk" customClass="PSUICollectionView">
-                                <rect key="frame" x="15" y="110" width="290" height="290"/>
+                                <rect key="frame" x="15" y="82" width="290" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="cmD-ne-ztG">
                                     <size key="itemSize" width="50" height="50"/>
@@ -490,6 +490,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="现场直播" id="Cql-in-p5O"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="descriptionLabel" destination="D4v-u4-Dxp" id="pXU-0P-Rdu"/>
                         <outlet property="gridView" destination="X15-d7-3Yk" id="1T9-5w-fXi"/>

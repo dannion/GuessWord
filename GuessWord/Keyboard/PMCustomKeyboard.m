@@ -77,7 +77,7 @@ enum {
     
     if (animated) {
         self.alpha = 0.0;
-        [UIView animateWithDuration:.5 animations:^{
+        [UIView animateWithDuration:.3 animations:^{
             self.alpha = 1.0;
         } completion:^(BOOL finished) {
             self.isShowing = YES;
@@ -104,7 +104,7 @@ enum {
     
     if (animated) {
         self.alpha = 1.0;
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:0.3 animations:^{
             self.alpha = 0.0;
         } completion:^(BOOL finished) {
             [super removeFromSuperview];

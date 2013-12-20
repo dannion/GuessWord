@@ -14,7 +14,7 @@
 #import "GWNetWorkingWrapper.h"
 #import "GWInsetsLabel.h"
 #import "GWScoreCounter.h"
-
+#import "GWAccountStore.h"
 
 NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
@@ -832,6 +832,11 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     [scoreCounter endGame];
     NSLog(@"score = %d!", scoreCounter.currentScore);
     
+    //如果用户登陆了，就上传分数给服务器
+    if ([[GWAccountStore shareStore] hasLogined]) {
+        [self sendScoreToServer];
+    }
+    
 }
 
 - (void)resetPlayBoard
@@ -840,6 +845,20 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     [self refreshWithNewData];
 }
 
+- (void)sendScoreToServer
+{
+//    示例：http://10.105.223.24/CrossWordPuzzlePHP/sendscore.php?user=xx&score=xx&id=xx
+    NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
+    NSDictionary* userinfo = [[GWAccountStore shareStore] currentAccount];
+    [paraDic setObject:[userinfo objectForKey:@"username"] forKey:@"user"];
+    [paraDic setObject:[NSNumber numberWithInt:scoreCounter.currentScore] forKey:@"score"];
+    [paraDic setObject:self.playBoard.uniqueid forKey:@"id"];
+    
+    [GWNetWorkingWrapper getPath:@"sendscore.php" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+    
+}
 #pragma mark -
 #pragma mark Internal Method to do with indexPath,location and gridcell state
 - (CGPoint)locationFromIndexPath:(NSIndexPath *)indexPath

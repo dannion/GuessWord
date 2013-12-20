@@ -235,8 +235,9 @@ NSInteger volColNum = 3; //网格列数
         selectedVol = _volArray[indexPath.row];
     }
     
+    //翻转动画， 然后跳转页面
     UIView* selectedCell = [self.volView cellForItemAtIndexPath:indexPath];
-    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:.4 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:selectedCell cache:YES];
         
     } completion:^(BOOL finished) {

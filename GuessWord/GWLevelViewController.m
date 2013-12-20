@@ -129,11 +129,11 @@ NSInteger levelColNum = 3; //网格列数
             cell.lockImageView.hidden = YES;
             break;
         case 2:
-            cell.imageView.image = [UIImage imageNamed:@"2star_bg.png"];
+            cell.imageView.image = [UIImage imageNamed:@"2stars_bg.png"];
             cell.lockImageView.hidden = YES;
             break;
         case 3:
-            cell.imageView.image = [UIImage imageNamed:@"3star_bg.png"];
+            cell.imageView.image = [UIImage imageNamed:@"3stars_bg.png"];
             cell.lockImageView.hidden = YES;
             break;
         default:
@@ -198,7 +198,7 @@ NSInteger levelColNum = 3; //网格列数
     
     //翻转动画，然后页面跳转
     UIView* selectedCell = [self.levelView cellForItemAtIndexPath:indexPath];
-    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:.4 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:selectedCell cache:YES];
         
     } completion:^(BOOL finished) {
