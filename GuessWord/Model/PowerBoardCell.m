@@ -38,9 +38,11 @@
     if ([self isCellBlock]) {
         self.input = BLOCK;
         self.display = BLOCK;
+        self.currentState = GWGridCellCurrentStateBlock;
     }else{
         self.input = BLANK;
         self.display = BLANK;
+        self.currentState = GWGridCellCurrentStateBlank;
     }
 }
 
@@ -58,6 +60,13 @@
     }
 }
 
+//置为BLOCK
+-(void)setToBlock{
+    self.currentState = GWGridCellCurrentStateBlock;
+    self.input = BLOCK;
+    self.display = BLOCK;
+    [self.multi_correct removeAllObjects];
+}
 -(BOOL)isCellCorrect{
     BOOL answer = NO;
     for (NSString *oneAlphabet in self.multi_correct) {

@@ -117,11 +117,7 @@
         NSMutableArray *column_array = [[NSMutableArray alloc]initWithCapacity:10];
         for (i = 0; i < self.width; i++) {
             PowerBoardCell *cell = [[PowerBoardCell alloc]init];
-            cell.input = BLOCK;
-//            cell.correct = BLOCK;
-//            [cell addCorrectAnswerWithOneAlphabet:BLOCK];
-            cell.display = BLOCK;
-            cell.currentState = GWGridCellCurrentStateBlock;
+            [cell setToBlock];
             [column_array addObject:cell];
         }
         [theCells addObject:column_array];
