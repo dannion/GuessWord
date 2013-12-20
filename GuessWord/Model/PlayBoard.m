@@ -400,6 +400,15 @@
         }
         [retString appendString:@"\n"];
     }
+    
+    for (NSArray *row_array in self.cells) {
+        for (PowerBoardCell *cell in row_array) {
+            [retString appendString:[NSString stringWithFormat:@"%d",cell.currentState]];
+            [retString appendString:@" "];
+        }
+        [retString appendString:@"\n"];
+    }
+    
     return retString;
 }
 
