@@ -38,6 +38,12 @@ NSInteger levelColNum = 3; //网格列数
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.levelView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

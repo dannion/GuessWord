@@ -53,6 +53,13 @@ NSInteger volColNum = 3; //网格列数
     [self loadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.volView reloadData];
+}
+
+
 #pragma mark -
 #pragma mark LoadData
 - (void)loadData
@@ -185,7 +192,17 @@ NSInteger volColNum = 3; //网格列数
         CDVol* vol = (CDVol*)[_volArray objectAtIndex:indexPath.row];
         cell.volNumberLabel.text = vol.name;
         cell.backgroundImageView.image = [UIImage imageNamed:@"vol_active.png"];
-        cell.detailLabel.text = @"12月27日";
+        
+        NSNumber* score = vol.vol_score;
+        NSString* detailText;
+        if (!score) {
+            detailText = @"暂无积分";
+        }else if ([score intValue] == 0 ){
+            detailText = @"暂无积分";
+        }else{
+            detailText = [NSString stringWithFormat:@"积分:%d", [score intValue]];
+        }
+        cell.detailLabel.text = detailText;
     }
     
     return cell;
