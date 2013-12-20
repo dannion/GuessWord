@@ -72,8 +72,6 @@
     }
 }
 
-
-
 //将PlayBoard保存到数据库中,根据vol_number和level来修改
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context
