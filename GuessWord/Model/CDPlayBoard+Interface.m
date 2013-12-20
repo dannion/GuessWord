@@ -31,7 +31,14 @@
         return NO;
     }
 }
--(void)setLock{
+
+//解锁
+-(void)setUnlock{
+    self.islocked = [NSNumber numberWithBool:NO];
+}
+
+//初始化时候判断是否加锁
+-(void)setInitLock{
     //如果是第一关，那么是解锁的，如果上一关已经解锁，那么解锁
     if ([self isFirstLevel]) {
         self.islocked = [NSNumber numberWithBool:NO];
@@ -65,8 +72,6 @@
     }
 }
 
-
-
 //将PlayBoard保存到数据库中,根据vol_number和level来修改
 +(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context
@@ -90,28 +95,29 @@
             NSLog(@"库仅有 初始化的 vol=%@ lv=%d的棋盘格,对其进行修改",thePlayBoard.volNumber,thePlayBoard.level);
         }
         [cdpb setAttributesWithPlayBoard:thePlayBoard];
+        
+        /**********重要修改，如果该关口信息已经完成，那么需要修改数据库中的下一关让其解锁*******/
+        if ([thePlayBoard.star isEqualToNumber:[NSNumber numberWithInt:3]]) {
+            NSNumber *nextLevelNumber = [NSNumber numberWithInt:(thePlayBoard.level+1)];
+            CDPlayBoard *nextLevelCDPlayBoard = [CDPlayBoard cdPlayBoardByVolNumber:thePlayBoard.volNumber
+                                                                           andLevel:nextLevelNumber
+                                                             inManagedObjectContext:context];
+            if (nextLevelCDPlayBoard) {
+                nextLevelCDPlayBoard.islocked = [NSNumber numberWithBool:NO];
+            }
+        }
+        /**********重要修改，如果该关口信息已经完成，那么需要修改数据库中的下一关让其解锁*******/
+        
+        
         //如果库中已经有了，就不需要修改了belongToWhom了
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
-            NSLog(@"Error: %@,%@",error,[error userInfo]);
+            NSLog(@"[Error]保存uniqueid = %@ 的棋盘: %@,%@",thePlayBoard.uniqueid,error,[error userInfo]);
         }else {
             NSLog(@"修改 uniqueid = %@ 的棋盘格成功",thePlayBoard.uniqueid);
         }
     }else{
         NSLog(@"错误，棋盘未初始化");
-//        NSLog(@"库中没有uniqueid = %@ 的棋盘格,新创建并插入",thePlayBoard.uniqueid);
-//        CDPlayBoard *cdpb = [NSEntityDescription insertNewObjectForEntityForName:@"CDPlayBoard"
-//                                                          inManagedObjectContext:context];
-//        [cdpb setAttributesWithPlayBoard:thePlayBoard];
-//        cdpb.belongToWhom   = [CDVol cdVolWithUniqueVolNumber:thePlayBoard.volNumber
-//                                       inManagedObjectContext:context];
-//        
-//        BOOL isSaveSuccess = [context save:&error];
-//        if (!isSaveSuccess) {
-//            NSLog(@"Error: %@,%@",error,[error userInfo]);
-//        }else {
-//            NSLog(@"插入新的uniqueid = %@ 的棋盘格",thePlayBoard.uniqueid);
-//        }
     }
 }
 
@@ -142,7 +148,7 @@
         cdpb.level          = level;
         cdpb.volNumber      = vol_number;
         cdpb.star           = [NSNumber numberWithInt:0];
-        [cdpb setLock];         //目前的规则是：如果是第一关，那么设置为解锁的
+        [cdpb setInitLock];         //目前的规则是：如果是第一关，那么设置为解锁的
         cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];//本地初始化不是从网络获取来的
         return cdpb;
     }else{

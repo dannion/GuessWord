@@ -99,7 +99,9 @@
 #warning 写入数据库前保证信息完整：包括star，得分等，另外得分情况是不是每一次点击都记录得分
 -(void)saveToDataBaseWithFinalScore:(int)finalScore
 {
-    self.score = finalScore;
+    self.score = finalScore;//设置得分
+    self.star = [self starFromStarCalculator];//设置星级
+    
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     [CDPlayBoard inserToDatabaseWithPlayBoard:self inManagedObjectContext:context];
@@ -135,6 +137,7 @@
 #pragma mark PUBLIC-API
 #pragma mark --
 
+
 /*重置棋盘*/
 -(void)resetBoard{
     for (NSArray *rowArray in self.cells) {
@@ -143,6 +146,8 @@
         }
     }
 }
+
+
 /*获取某个坐标上的boardcel*/
 -(PowerBoardCell *)cellAtPoint:(CGPoint)point{
     int x = (int)point.x;
@@ -412,6 +417,28 @@
 #pragma mark PRIVATE-API
 #pragma mark --
 
+//计算星级，目前根据单词的完成度来计算单词
+-(NSNumber *)starFromStarCalculator
+{
+    int amount_of_words     = [self.words count];
+    int amount_of_correct   = 0;
+    for (Word *aWord in self.words) {
+        if ([self isBingoOfWord:aWord]) {
+            amount_of_correct += 1;
+        }
+    }
+    float rate = (float)amount_of_correct / (float)amount_of_words;
+    if (rate == 1) {
+        return [NSNumber numberWithInt:3];
+    }else if(rate < 1 && rate >= 0.33){
+        return [NSNumber numberWithInt:2];
+    }else if(rate < 0.33 && rate > 0){
+        return [NSNumber numberWithInt:1];
+    }else{
+        return [NSNumber numberWithInt:0];
+    }
+}
+
 #warning 实现策略有待商榷
 //找到一个点的下一个点
 -(CGPoint)nextPointFromCurrentPoint:(CGPoint)fromPoint
@@ -454,6 +481,7 @@
     }
     return retPoint;
 }
+
 //根据tmp信息初始化两个area数组，只在最初调用
 -(void)initPowerBoardCells{
     //初始化correct和input
