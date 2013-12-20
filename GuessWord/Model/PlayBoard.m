@@ -310,6 +310,7 @@
     }
 }
 
+
 /*指定的初始化函数,通过json的二进制数据来构造对象*/
 -(PlayBoard *)initWithJsonData:(NSData *)jsonData{
     self = [super init];
