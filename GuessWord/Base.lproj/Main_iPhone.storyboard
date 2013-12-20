@@ -36,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Ze6-ED-NIW">
-                                <rect key="frame" x="86" y="194" width="149" height="44"/>
+                                <rect key="frame" x="86" y="180" width="149" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="往期回顾" backgroundImage="mainbutton.png">
@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gnu-NI-xc1">
-                                <rect key="frame" x="86" y="245" width="149" height="44"/>
+                                <rect key="frame" x="86" y="246" width="149" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="直播互动" backgroundImage="mainbutton.png">
@@ -69,7 +69,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Wp-ZN-CYg">
-                                <rect key="frame" x="86" y="296" width="149" height="44"/>
+                                <rect key="frame" x="86" y="312" width="149" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="闯关模式" backgroundImage="mainbutton.png">
@@ -84,7 +84,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" id="sEc-6z-BjN">
-                                <rect key="frame" x="110" y="65" width="100" height="100"/>
+                                <rect key="frame" x="110" y="40" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rio-5V-IsJ">
@@ -172,11 +172,11 @@
             <objects>
                 <viewController id="lZp-vO-OmD" customClass="GWLevelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZqE-df-GaO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Srh-am-kxK" customClass="PSUICollectionView">
-                                <rect key="frame" x="20" y="14" width="280" height="466"/>
+                                <rect key="frame" x="15" y="15" width="290" height="426"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PGY-VG-c4n">
                                     <size key="itemSize" width="50" height="50"/>
@@ -200,6 +200,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="选择关卡" id="tUY-xm-UIw"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="levelView" destination="Srh-am-kxK" id="nQC-A4-bvd"/>
                         <segue destination="tOL-zI-VCP" kind="push" identifier="LevelToGrid" id="PXI-Wc-tH3"/>
@@ -532,11 +533,11 @@
             <objects>
                 <viewController storyboardIdentifier="1" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tOL-zI-VCP" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C9j-eO-1aC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="OVE-t7-TBv" customClass="PSUICollectionView">
-                                <rect key="frame" x="15" y="110" width="290" height="290"/>
+                                <rect key="frame" x="15" y="95" width="290" height="251"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="A8E-2h-0t8">
                                     <size key="itemSize" width="50" height="50"/>
@@ -581,11 +582,11 @@
             <objects>
                 <viewController id="KrF-w0-WXO" customClass="GWLevelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="49V-hn-gjY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="n3g-1B-Vmz" customClass="PSUICollectionView">
-                                <rect key="frame" x="20" y="14" width="280" height="466"/>
+                                <rect key="frame" x="15" y="15" width="290" height="401"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XUk-53-qmO">
                                     <size key="itemSize" width="50" height="50"/>
@@ -609,6 +610,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="选择关卡" id="xWp-qs-sx5"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="levelView" destination="n3g-1B-Vmz" id="ePG-gz-QbZ"/>
                         <segue destination="U4j-03-AqA" kind="push" identifier="LevelToGrid" id="iNd-B8-b0r"/>
@@ -623,11 +625,11 @@
             <objects>
                 <viewController storyboardIdentifier="1" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U4j-03-AqA" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JyY-Yh-lNL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="0OR-qb-FAT" customClass="PSUICollectionView">
-                                <rect key="frame" x="15" y="110" width="290" height="290"/>
+                                <rect key="frame" x="15" y="95" width="290" height="251"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="pJR-Ki-gNR">
                                     <size key="itemSize" width="50" height="50"/>
@@ -673,9 +675,16 @@
         <image name="bar_white_bg.png" width="322" height="37"/>
         <image name="logo.png" width="117" height="117"/>
         <image name="mainbutton.png" width="202" height="42"/>
+        <image name="mainbutton.png" width="202" height="42"/>
+        <image name="mainbutton.png" width="202" height="42"/>
+        <image name="mainbutton.png" width="202" height="42"/>
+        <image name="mainbutton_down.png" width="200" height="40"/>
+        <image name="mainbutton_down.png" width="200" height="40"/>
+        <image name="mainbutton_down.png" width="200" height="40"/>
         <image name="mainbutton_down.png" width="200" height="40"/>
         <image name="photo_icon.png" width="70" height="72"/>
         <image name="rank_bg.png" width="60" height="20"/>
+        <image name="set_button.png" width="28" height="28"/>
         <image name="set_button.png" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -684,6 +693,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="OAg-KZ-A3s"/>
+        <segue reference="8L5-t8-CYr"/>
     </inferredMetricsTieBreakers>
 </document>

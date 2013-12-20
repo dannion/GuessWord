@@ -73,13 +73,13 @@ NSInteger volColNum = 3; //网格列数
 
 - (void)refetchDataFromLocalCache
 {
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    _volArray = [CDVol cdVolsFromFile:@"allVols" inManagedObjectContext:context];
+//    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+//    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+//    _volArray = [CDVol cdVolsFromFile:@"allVols" inManagedObjectContext:context];
     NSLog(@"通过网络获取的全部期信息，共有%d期数据",[self.volArray count]);
     
     
-    [self refreshWithNewData];
+//    [self refreshWithNewData];
 }
 
 - (void)refetchDataFromNetWork
@@ -93,9 +93,16 @@ NSInteger volColNum = 3; //网格列数
 //    hud.mode = MBProgressHUDModeText;
 //    hud.labelText = @"加载中，请稍候！";
     
-    [GWNetWorkingWrapper getPath:@"getallvols" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [GWNetWorkingWrapper getPath:@"overview.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");
         [MBProgressHUD hideAllHUDsForView:self.volView animated:YES];
+        
+        GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+        NSManagedObjectContext *context = appDelegate.managedObjectContext;
+
+        _volArray = [CDVol cdVolsWithJsonData:operation.responseData
+                            inManagedObjectContext:context];
+        NSLog(@"通过网络获取的全部期信息，共有%d期数据",[_volArray count]);
         
         if (_volArray) {
             [self refreshWithNewData];

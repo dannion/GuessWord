@@ -221,7 +221,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)refetchDataFromNetWork
 {
     //本地有数据，则不发送网络请求
-    if (_playBoard) {
+    if (_playBoard.uniqueid) {
         return;
     }
     NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
@@ -240,14 +240,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     hud.mode = MBProgressHUDModeText;
     hud.labelText = @"加载中，请稍候！";
     
-    [GWNetWorkingWrapper getPath:@"CrossWordPuzzlePHP/playboard.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [GWNetWorkingWrapper getPath:@"playboard.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
         
         PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         
-        if (!gridColNum || !gridRowNum) {
+        if (!_playBoard.uniqueid) {
             NSLog(@"服务器数据错误！");
             
             MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.gridView animated:YES];
@@ -649,7 +649,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
                 gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
 
-                [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
                     gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
                 } completion:^(BOOL finished) {
@@ -682,7 +682,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
 //                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
                                 
-                [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
                     gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
                 } completion:^(BOOL finished) {

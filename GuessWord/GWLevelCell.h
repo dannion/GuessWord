@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UIImageView *lockImageView;
 
 @end

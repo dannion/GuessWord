@@ -11,6 +11,9 @@
 #endif
 
 #ifdef __OBJC__
+
+    #define kFont [UIFont fontWithName:@"Kristen ITC" size:20]
+
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "PSTCollectionView.h"

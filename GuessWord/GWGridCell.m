@@ -8,7 +8,6 @@
 
 #import "GWGridCell.h"
 
-#define kFont [UIFont fontWithName:@"Kristen ITC" size:20]
 
 static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom = 0 };
 //static CGFloat SubTitleLabelHeight = 24;

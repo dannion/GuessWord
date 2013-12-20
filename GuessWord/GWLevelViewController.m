@@ -9,6 +9,7 @@
 #import "GWLevelViewController.h"
 #import "GWLevelCell.h"
 #import "GWGridViewController.h"
+#import "PlayBoard.h"
 
 
 NSString *GWLevelViewCellIdentifier = @"GWLevelViewCellIdentifier";
@@ -80,7 +81,7 @@ NSInteger levelColNum = 3; //网格列数
 #pragma mark PSUICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 30;
+    return 10;
 }
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -98,13 +99,41 @@ NSInteger levelColNum = 3; //网格列数
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GWLevelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWLevelViewCellIdentifier forIndexPath:indexPath];
     
-    cell.label.text = @"123";
+    int index = indexPath.row + 1;
+    cell.label.text = [NSString stringWithFormat:@"%d", index];
     
-    // load the image for this cell
-    NSString *imageToLoad = [NSString stringWithFormat:@"1.jpeg"];
-    UIImage *aImage = [UIImage imageNamed:imageToLoad];
     
-    cell.imageView.image = aImage;
+    PlayBoard* playboard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.vol.uniqueVolNumber andLevel:[NSNumber numberWithInt: index]];
+    
+    switch ([playboard.star intValue]) {
+        case 0:
+            if (playboard.islocked) {
+                cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
+                cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
+                cell.lockImageView.hidden = NO;
+            }else{
+                cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
+                cell.lockImageView.image = [UIImage imageNamed:@"unlocked_icon.png"];
+                cell.lockImageView.hidden = NO;
+            }
+            break;
+        case 1:
+            cell.imageView.image = [UIImage imageNamed:@"1star_bg.png"];
+            cell.lockImageView.hidden = YES;
+            break;
+        case 2:
+            cell.imageView.image = [UIImage imageNamed:@"2star_bg.png"];
+            cell.lockImageView.hidden = YES;
+            break;
+        case 3:
+            cell.imageView.image = [UIImage imageNamed:@"3star_bg.png"];
+            cell.lockImageView.hidden = YES;
+            break;
+        default:
+            break;
+    }
+    
+//    cell.imageView.image = aImage;
     
     return cell;
     
@@ -113,8 +142,8 @@ NSInteger levelColNum = 3; //网格列数
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _levelView.bounds.size.width / (levelColNum+1);
-    int height = width;
+    int width = 84;//_levelView.bounds.size.width / (levelColNum+1);
+    int height = 85;
     return CGSizeMake(width, height);
 }
 
@@ -150,6 +179,12 @@ NSInteger levelColNum = 3; //网格列数
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     int selectedLevelIntValue = indexPath.row + 1;
+
+    PlayBoard* playboard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.vol.uniqueVolNumber andLevel:[NSNumber numberWithInt: selectedLevelIntValue]];
+    if (playboard.islocked) {
+        return;
+    }
+    
     selectedLevel = [NSNumber numberWithInt:selectedLevelIntValue];
     
     [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
