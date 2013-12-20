@@ -31,4 +31,5 @@
 
 -(BOOL)isFirstLevel;//是否是第一关
 
+-(void)setUnlock;//解锁
 @end
