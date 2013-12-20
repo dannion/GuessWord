@@ -10,6 +10,22 @@
 
 @implementation GWAppDelegate
 
+-(void)copyLocalDatabaseIntoApp{
+    NSURL *storeURL=[[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NoteWithCoreData.sqlite"];
+    /*******************如果本地没有数据库（第一次使用），那么拷贝Boundle中的数据库***************************/
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
+        NSLog(@"第一次运行，将Boundle中的数据库拷贝到applicationDocumentsDirectory");
+        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"InitData" ofType:@"sqlite"]];
+        NSError* err = nil;
+        
+        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL toURL:storeURL error:&err]) {
+            NSLog(@"Oops, could copy preloaded data");
+        }
+    }else{
+        NSLog(@"第X次运行");
+    }
+    /************************************************************************************************/
+}
 -(void)saveContext
 {
     NSError *error;
@@ -82,6 +98,9 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor blackColor], NSForegroundColorAttributeName,
       [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
+
+    [self copyLocalDatabaseIntoApp]; //将本地数据库初始化
+    
     //    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
 //    for (NSString * temp in fontArrays) {
 //        NSLog(@"Font name  = %@", temp);

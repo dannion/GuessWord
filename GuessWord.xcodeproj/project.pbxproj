@@ -117,6 +117,7 @@
 		64E047F218570547008A137A /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64E047E918570547008A137A /* PMCustomKeyboard.xib */; };
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
 		833D2E851864375A00A221A9 /* DatabaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D2E841864375A00A221A9 /* DatabaseGenerator.m */; };
+		833D2E8718643BAA00A221A9 /* InitData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 833D2E8618643BAA00A221A9 /* InitData.sqlite */; };
 		83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83479626185AE71000D67FFC /* CDVol+Interface.m */; };
 		834D2107185EA335008CD57F /* td2.json in Resources */ = {isa = PBXBuildFile; fileRef = 834D2106185EA335008CD57F /* td2.json */; };
 		8373AB5C1857040500931677 /* td的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* td的说明.json */; };
@@ -278,6 +279,7 @@
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
 		833D2E831864375A00A221A9 /* DatabaseGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseGenerator.h; path = DatabaseGenerator/DatabaseGenerator.h; sourceTree = "<group>"; };
 		833D2E841864375A00A221A9 /* DatabaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseGenerator.m; path = DatabaseGenerator/DatabaseGenerator.m; sourceTree = "<group>"; };
+		833D2E8618643BAA00A221A9 /* InitData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = InitData.sqlite; path = DatabaseGenerator/InitData.sqlite; sourceTree = "<group>"; };
 		83479625185AE71000D67FFC /* CDVol+Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVol+Interface.h"; sourceTree = "<group>"; };
 		83479626185AE71000D67FFC /* CDVol+Interface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDVol+Interface.m"; sourceTree = "<group>"; };
 		834D2106185EA335008CD57F /* td2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td2.json; path = json_file/td2.json; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 		833D2E821864370B00A221A9 /* DatabaseGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				833D2E8618643BAA00A221A9 /* InitData.sqlite */,
 				833D2E831864375A00A221A9 /* DatabaseGenerator.h */,
 				833D2E841864375A00A221A9 /* DatabaseGenerator.m */,
 			);
@@ -760,6 +763,7 @@
 				649E1DA7186183BD00468D8C /* mainbutton_down@2x.png in Resources */,
 				649E1E43186405FB00468D8C /* login_button@2x.png in Resources */,
 				649E1E1C186405CE00468D8C /* unlocked_icon.png in Resources */,
+				833D2E8718643BAA00A221A9 /* InitData.sqlite in Resources */,
 				649E1DF41862CC8100468D8C /* rank_bg@2x.png in Resources */,
 				649E1E35186405EF00468D8C /* 说明.txt in Resources */,
 				649E1E45186405FB00468D8C /* register_button@2x.png in Resources */,
