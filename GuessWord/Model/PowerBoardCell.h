@@ -17,5 +17,5 @@
 -(BOOL)isCellBlock;                                             //重载
 -(BOOL)isCellCorrect;                                           //重载
 -(void)reset;                                                   //重置这个cell
-
+-(void)setToBlock;                                              //置为BLOCK
 @end
