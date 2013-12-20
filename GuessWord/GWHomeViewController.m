@@ -40,7 +40,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [self colorForBackground];
-    //self.liveGameBtn.enabled = NO;
+    self.liveGameBtn.enabled = NO;
     
     
     [self loadData];//访问网络，更新vol数据，用以确定是否直播，用来确定直播按钮是否可点击

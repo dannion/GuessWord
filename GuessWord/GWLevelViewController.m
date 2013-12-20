@@ -192,13 +192,22 @@ NSInteger levelColNum = 3; //网格列数
     NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
                                                inManagedObjectContext:context];
     CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
-    if (playboard.islocked) {
+    if ([playboard.islocked boolValue]) {
         return;
     }
     
-    selectedLevel = [NSNumber numberWithInt:selectedLevelIntValue];
+    //翻转动画，然后页面跳转
+    UIView* selectedCell = [self.levelView cellForItemAtIndexPath:indexPath];
+    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:selectedCell cache:YES];
+        
+    } completion:^(BOOL finished) {
+        
+        selectedLevel = [NSNumber numberWithInt:selectedLevelIntValue];
+        [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
+    }];
     
-    [self performSegueWithIdentifier:@"LevelToGrid" sender:nil];
+    
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

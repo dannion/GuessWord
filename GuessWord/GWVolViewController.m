@@ -235,7 +235,15 @@ NSInteger volColNum = 3; //网格列数
         selectedVol = _volArray[indexPath.row];
     }
     
-    [self performSegueWithIdentifier:@"VolToLevel" sender:selectedVol];
+    UIView* selectedCell = [self.volView cellForItemAtIndexPath:indexPath];
+    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:selectedCell cache:YES];
+        
+    } completion:^(BOOL finished) {
+        
+        [self performSegueWithIdentifier:@"VolToLevel" sender:selectedVol];
+
+    }];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
