@@ -7,10 +7,14 @@
 //
 
 #import "GWHomeViewController.h"
+#import "GWAccountStore.h"
+#import "GWGridViewController.h"
+#import "GWLoginViewController.h"
 
 @interface GWHomeViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *liveGameBtn;
+- (IBAction)liveGameBtnPressed:(id)sender;
 
 @end
 
@@ -27,6 +31,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -67,11 +72,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [super prepareForSegue:segue sender:sender];
+//    if ([segue.identifier isEqualToString:@"HomeToGrid"]) {
+//        GWGridViewController *destination = segue.destinationViewController;
+//        if ([destination respondsToSelector:@selector(setUniqueID:)])
+//        {
+//            destination.volNumber = @101001;
+//            destination.level = 0;
+//        }
+//    }
+    if ([segue.identifier isEqualToString:@"HomeToLogin"]){
+        GWLoginViewController *destination = segue.destinationViewController;
+        //
+    }
     self.navigationController.navigationBarHidden = NO;
 }
+
 
 #pragma mark -
 #pragma mark Image & Color Method
@@ -80,5 +98,17 @@
 {
     return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
 }
+
+- (IBAction)liveGameBtnPressed:(id)sender
+{
+    if (0){//[[GWAccountStore shareStore] hasLogined]) {
+        [self performSegueWithIdentifier:@"HomeToGrid" sender:nil];
+        
+    }else{
+        [self performSegueWithIdentifier:@"HomeToLogin" sender:nil];
+    }
+    
+}
+
 
 @end

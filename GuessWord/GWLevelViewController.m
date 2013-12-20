@@ -10,6 +10,7 @@
 #import "GWLevelCell.h"
 #import "GWGridViewController.h"
 #import "PlayBoard.h"
+#import "GWAppDelegate.h"
 
 
 NSString *GWLevelViewCellIdentifier = @"GWLevelViewCellIdentifier";
@@ -103,11 +104,17 @@ NSInteger levelColNum = 3; //网格列数
     cell.label.text = [NSString stringWithFormat:@"%d", index];
     
     
-    PlayBoard* playboard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.vol.uniqueVolNumber andLevel:[NSNumber numberWithInt: index]];
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    
+    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
+                                               inManagedObjectContext:context];
+    CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
+    
     
     switch ([playboard.star intValue]) {
         case 0:
-            if (playboard.islocked) {
+            if ([playboard.islocked boolValue]) {
                 cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
                 cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
                 cell.lockImageView.hidden = NO;
@@ -180,7 +187,11 @@ NSInteger levelColNum = 3; //网格列数
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     int selectedLevelIntValue = indexPath.row + 1;
 
-    PlayBoard* playboard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.vol.uniqueVolNumber andLevel:[NSNumber numberWithInt: selectedLevelIntValue]];
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
+                                               inManagedObjectContext:context];
+    CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
     if (playboard.islocked) {
         return;
     }

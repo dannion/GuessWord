@@ -25,7 +25,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RQ9-Vb-hVQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="234" y="1288"/>
+            <point key="canvasLocation" x="282" y="1928"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="h2A-9l-Xwx">
@@ -65,7 +65,7 @@
                                     <color key="titleColor" red="0.15294117647058825" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="XrM-7O-t4u" kind="push" id="2VH-Qa-9Lp"/>
+                                    <action selector="liveGameBtnPressed:" destination="iwb-iw-60t" eventType="touchUpInside" id="w6y-5C-s5h"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Wp-ZN-CYg">
@@ -119,11 +119,13 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="liveGameBtn" destination="Gnu-NI-xc1" id="fGQ-b2-Fyb"/>
+                        <segue destination="XrM-7O-t4u" kind="push" identifier="HomeToLogin" id="CV3-yQ-qLN"/>
+                        <segue destination="vXZ-lx-hvc" kind="push" identifier="HomeToGrid" id="PEj-uX-cCk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sYA-xT-ewf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-943" y="268"/>
+            <point key="canvasLocation" x="-895" y="-12"/>
         </scene>
         <!--Vol View Controller - 往期回顾-->
         <scene sceneID="SMz-ib-nYy">
@@ -279,8 +281,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="pressLoginBtn:" destination="XrM-7O-t4u" eventType="touchUpInside" id="iXH-H1-QON"/>
-                                    <segue destination="ZwQ-IM-Aye" kind="push" id="K0s-g2-RHM"/>
+                                    <action selector="pressRegisterBtn:" destination="XrM-7O-t4u" eventType="touchUpInside" id="CaZ-ud-k7f"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -288,12 +289,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="登录" id="Shv-jP-qTn"/>
                     <connections>
+                        <outlet property="passwordTextField" destination="SSJ-ff-ep6" id="Uug-s9-Bbs"/>
+                        <outlet property="usenameTextField" destination="VlC-X4-cQx" id="Otc-5U-Hcb"/>
                         <segue destination="vXZ-lx-hvc" kind="push" identifier="LoginToGrid" id="yuU-59-ujE"/>
+                        <segue destination="ZwQ-IM-Aye" kind="push" identifier="LoginToRegister" id="1Mh-GZ-bwq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XtT-WL-ETi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="226" y="-80"/>
+            <point key="canvasLocation" x="42" y="430"/>
         </scene>
         <!--Score View Controller - 积分排行-->
         <scene sceneID="DSn-pV-6YO">
@@ -402,7 +406,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YeJ-c1-gFH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-294" y="1288"/>
+            <point key="canvasLocation" x="-278" y="1920"/>
         </scene>
         <!--Catagory View Controller - 选择类别-->
         <scene sceneID="hcp-1E-wxp">
@@ -444,12 +448,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syQ-8H-uyT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-294" y="572"/>
+            <point key="canvasLocation" x="-254" y="1188"/>
         </scene>
         <!--Grid View Controller - 现场直播-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="1" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXZ-lx-hvc" customClass="GWGridViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -493,22 +497,64 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1450" y="-320"/>
+            <point key="canvasLocation" x="1494" y="-284"/>
         </scene>
-        <!--Base View Controller-->
+        <!--Register View Controller - 注册-->
         <scene sceneID="U5p-xK-ZdV">
             <objects>
-                <viewController id="ZwQ-IM-Aye" customClass="GWBaseViewController" sceneMemberID="viewController">
+                <viewController id="ZwQ-IM-Aye" customClass="GWRegisterViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I0H-F3-VP3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入用户名" minimumFontSize="17" id="Bav-re-7xa">
+                                <rect key="frame" x="70" y="93" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入密码" minimumFontSize="17" id="HDd-G4-hty">
+                                <rect key="frame" x="70" y="158" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2f4-Rn-8yI">
+                                <rect key="frame" x="104" y="225" width="113" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="提交">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="commitBtnPressed:" destination="ZwQ-IM-Aye" eventType="touchUpInside" id="iyX-2l-Izs"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QHT-IH-TS5">
+                                <rect key="frame" x="27" y="97" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s33-tU-ASl">
+                                <rect key="frame" x="27" y="162" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Dtc-6d-A1i"/>
+                    <navigationItem key="navigationItem" title="注册" id="Dtc-6d-A1i"/>
+                    <connections>
+                        <outlet property="passwordTextField" destination="HDd-G4-hty" id="Bzv-nj-o7y"/>
+                        <outlet property="usernameTextField" destination="Bav-re-7xa" id="QzE-La-cnn"/>
+                        <segue destination="vXZ-lx-hvc" kind="push" identifier="RegisterToGrid" id="yRK-aC-WZC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJJ-vH-jfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1450" y="345"/>
+            <point key="canvasLocation" x="830" y="631"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iok-4P-7LI">
@@ -526,12 +572,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pdy-St-0AX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1469" y="268"/>
+            <point key="canvasLocation" x="-1445" y="-20"/>
         </scene>
         <!--Grid View Controller - 游戏-->
         <scene sceneID="VZ9-WU-NUv">
             <objects>
-                <viewController storyboardIdentifier="1" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tOL-zI-VCP" customClass="GWGridViewController" sceneMemberID="viewController">
+                <viewController id="tOL-zI-VCP" customClass="GWGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C9j-eO-1aC">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -618,7 +664,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZd-0J-Cbb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="221" y="572"/>
+            <point key="canvasLocation" x="229" y="1180"/>
         </scene>
         <!--Grid View Controller - 游戏-->
         <scene sceneID="uMA-vb-1Bu">
@@ -667,7 +713,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3JW-HZ-stV" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="802" y="572"/>
+            <point key="canvasLocation" x="778" y="1172"/>
         </scene>
     </scenes>
     <resources>
@@ -686,6 +732,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="PEj-uX-cCk"/>
         <segue reference="8L5-t8-CYr"/>
     </inferredMetricsTieBreakers>
 </document>

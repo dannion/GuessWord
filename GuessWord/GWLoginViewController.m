@@ -8,11 +8,18 @@
 
 #import "GWLoginViewController.h"
 #import "GWGridViewController.h"
+#import "GWNetWorkingWrapper.h"
+#import "GWAccountStore.h"
 
 @interface GWLoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextField *usenameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+
 - (IBAction)pressLoginBtn:(id)sender;
 - (IBAction)pressGuessLoginBtn:(id)sender;
+- (IBAction)pressRegisterBtn:(id)sender;
+
 
 @end
 
@@ -33,6 +40,8 @@
     [self addViewBackgroundView];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [self colorForBackground];
+    self.passwordTextField.secureTextEntry = YES;
+    
 }
 
 - (void)addViewBackgroundView
@@ -68,8 +77,7 @@
         GWGridViewController *destination = segue.destinationViewController;
         if ([destination respondsToSelector:@selector(setUniqueID:)])
         {
-            destination.uniqueID = @10002;
-            destination.volNumber = @1;
+            destination.volNumber = @101001;
             destination.level = 0;
         }
     }
@@ -78,13 +86,78 @@
 
 - (IBAction)pressLoginBtn:(id)sender
 {
-    [self performSegueWithIdentifier:@"LoginToGrid" sender:sender];
+    NSString* usename;
+    NSString* password;
+    if (self.usenameTextField) {
+        if (self.usenameTextField.text.length>0) {
+            usename = self.usenameTextField.text;
+        }
+    }
+    if (self.passwordTextField) {
+        if (self.passwordTextField.text.length>0) {
+            password = self.passwordTextField.text;
+        }
+    }
+    
+    if (usename && password) {
+        [self loginWithUsername:usename andPassword:password];
+    }else{
+        [self showToastWithDescription:@"用户名或密码不能为空"];
+    }
 }
 
 - (IBAction)pressGuessLoginBtn:(id)sender
 {
     [self performSegueWithIdentifier:@"LoginToGrid" sender:sender];
 }
+
+- (IBAction)pressRegisterBtn:(id)sender {
+    [self performSegueWithIdentifier:@"LoginToRegister" sender:sender];
+}
+
+
+
+#pragma mark -
+#pragma mark Internal Method
+
+- (void)loginWithUsername:(NSString*)usename andPassword:(NSString*)password
+{
+//    示例：10.105.00.00/register?username=hh&password=123
+    NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
+    [paraDic setObject:usename forKey:@"id"];
+    [paraDic setObject:password forKey:@"pw"];
+    
+    [GWNetWorkingWrapper getPath:@"login" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString* responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        
+        if ([responseString isEqualToString:@"Success!"]) {//登陆成功
+            
+            [[GWAccountStore shareStore] saveToLocalCacheWithUsername:usename andPassword:password];
+            [self performSegueWithIdentifier:@"LoginToGrid" sender:nil];
+        }else{//登陆失败
+            
+            [self showToastWithDescription:responseString];
+        }
+        
+        
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [self showToastWithDescription:error.localizedDescription];
+        
+    }];
+    
+}
+
+- (void)showToastWithDescription:(NSString*)description
+{
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor whiteColor];
+    hud.labelTextColor = [UIColor blueColor];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = description;
+    [hud hide:YES afterDelay:1.5];
+}
+
 
 #pragma mark -
 #pragma mark Image & Color Method

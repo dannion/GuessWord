@@ -73,12 +73,11 @@ NSInteger volColNum = 3; //网格列数
 
 - (void)refetchDataFromLocalCache
 {
-//    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+//    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication] delegate];
 //    NSManagedObjectContext *context = appDelegate.managedObjectContext;
 //    _volArray = [CDVol cdVolsFromFile:@"allVols" inManagedObjectContext:context];
-    NSLog(@"通过网络获取的全部期信息，共有%d期数据",[self.volArray count]);
-    
-    
+//    NSLog(@"通过网络获取的全部期信息，共有%d期数据",[self.volArray count]);
+//
 //    [self refreshWithNewData];
 }
 
@@ -87,11 +86,11 @@ NSInteger volColNum = 3; //网格列数
     NSMutableDictionary* parameterDictionary = [NSMutableDictionary dictionary];
 
     
-//    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.volView animated:YES];
-//    hud.color = [UIColor whiteColor];
-//    hud.labelTextColor = [UIColor blueColor];
-//    hud.mode = MBProgressHUDModeText;
-//    hud.labelText = @"加载中，请稍候！";
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.volView animated:YES];
+    hud.color = [UIColor whiteColor];
+    hud.labelTextColor = [UIColor blueColor];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = @"加载中，请稍候！";
     
     [GWNetWorkingWrapper getPath:@"overview.php" parameters:parameterDictionary successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"NewData!");

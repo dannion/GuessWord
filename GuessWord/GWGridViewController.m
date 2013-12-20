@@ -201,7 +201,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     //从数据库里获取网格
     if (self.uniqueID) {
-        //_playBoard = [PlayBoard playBoardFromFile:@"puz1"];
         _playBoard = [PlayBoard playBoardFromLocalDatabaseByUniqueID:self.uniqueID];
         
         if (_playBoard) {
@@ -210,7 +209,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         }
         
     }else if (self.volNumber && self.level) {
-        //_playBoard = [PlayBoard playBoardFromFile:@"puz1"];
         _playBoard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
         
         if (_playBoard) {
@@ -281,25 +279,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     
 }
-
-/************     test code   begin     *************/
-//    //模拟2秒后收到数据，因为不知道目前为什么总是收不到服务器的数据
-//    [NSTimer scheduledTimerWithTimeInterval:2
-//                                           target:self
-//                                         selector:@selector(getResults)
-//                                         userInfo:nil
-//                                          repeats:NO];
-/************     test code   done     *************/
-//}
-/************     test code   begin    *************/
-//- (void)getResults
-//{
-//    PlayBoard* playBoard = [PlayBoard playBoardFromFile:@"td"];
-//    _playBoard = playBoard;
-//    [self refreshWithNewData];
-//
-//}
-///************     test code   done     *************/
 
 
 
