@@ -12,8 +12,8 @@
 
 NSString *GWCatagoryViewCellIdentifier = @"GWCatagoryViewCellIdentifier";
 
-NSInteger catagoryRowNum = 3;//网格行数
-NSInteger catagoryColNum = 3; //网格列数
+NSInteger catagoryAmount = 4; //类别数
+
 
 @interface GWCatagoryViewController ()<PSUICollectionViewDelegateFlowLayout>
 
@@ -78,11 +78,11 @@ NSInteger catagoryColNum = 3; //网格列数
 #pragma mark PSUICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 30;
+    return 15;
 }
 - (CGFloat)collectionView:(PSTCollectionView *)collectionView layout:(PSTCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 5;
+    return 1;
 }
 
 #pragma mark -
@@ -96,13 +96,28 @@ NSInteger catagoryColNum = 3; //网格列数
 - (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GWCatagoryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GWCatagoryViewCellIdentifier forIndexPath:indexPath];
     
-    cell.label.text = @"123";
+    int index = indexPath.row+1;
     
-    // load the image for this cell
-    NSString *imageToLoad = [NSString stringWithFormat:@"1.jpeg"];
-    UIImage *aImage = [UIImage imageNamed:imageToLoad];
+    NSString* imageString = [NSString stringWithFormat:@"group_0%d.png",index];
+    NSString* titleString;
+    switch (index) {
+        case 1:
+            titleString = @"电影知识";
+            break;
+        case 2:
+            titleString = @"诗词歌赋";
+            break;
+        case 3:
+            titleString = @"流行歌曲";
+            break;
+        case 4:
+        default:
+            titleString = @"随机模式";
+            break;
+    }
     
-    cell.imageView.image = aImage;
+    cell.imageView.image = [UIImage imageNamed:imageString];
+    cell.titleLabel.text = titleString;
     
     return cell;
     
@@ -111,8 +126,8 @@ NSInteger catagoryColNum = 3; //网格列数
 
 - (CGSize)collectionViewCellSize
 {
-    int width = _catagoryView.bounds.size.width / 2;
-    int height = width;
+    int width = 295;
+    int height = 58;
     return CGSizeMake(width, height);
 }
 
@@ -124,7 +139,7 @@ NSInteger catagoryColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return catagoryRowNum * catagoryColNum;
+    return  catagoryAmount;
 }
 
 #pragma mark -

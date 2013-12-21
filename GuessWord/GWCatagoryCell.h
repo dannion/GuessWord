@@ -11,6 +11,8 @@
 @interface GWCatagoryCell : PSUICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *detailLabel;
+
 
 @end

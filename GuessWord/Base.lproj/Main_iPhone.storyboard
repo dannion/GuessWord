@@ -413,11 +413,11 @@
             <objects>
                 <viewController id="v8a-Qq-Bsx" customClass="GWCatagoryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZ9-2a-52B">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Oj8-7v-wLd" customClass="PSUICollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="10" width="320" height="406"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="V6A-Fy-T6V">
                                     <size key="itemSize" width="50" height="50"/>
@@ -441,6 +441,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="选择类别" id="hjG-lf-fN4"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="catagoryView" destination="Oj8-7v-wLd" id="azz-x8-tY1"/>
                         <segue destination="KrF-w0-WXO" kind="push" identifier="CatagoryToLevel" id="Fyz-mC-kRt"/>
