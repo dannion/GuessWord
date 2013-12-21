@@ -16,6 +16,7 @@
 #import "GWScoreCounter.h"
 #import "GWAccountStore.h"
 
+
 NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
 @interface GWGridViewController ()<PSUICollectionViewDelegateFlowLayout>
@@ -849,8 +850,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
 //    示例：http://10.105.223.24/CrossWordPuzzlePHP/sendscore.php?user=xx&score=xx&id=xx
     NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
-    NSDictionary* userinfo = [[GWAccountStore shareStore] currentAccount];
-    [paraDic setObject:[userinfo objectForKey:@"username"] forKey:@"user"];
+    GWAccount* currentAccount = [[GWAccountStore shareStore] currentAccount];
+    [paraDic setObject:currentAccount.username forKey:@"user"];
     [paraDic setObject:[NSNumber numberWithInt:scoreCounter.currentScore] forKey:@"score"];
     [paraDic setObject:self.playBoard.uniqueid forKey:@"id"];
     

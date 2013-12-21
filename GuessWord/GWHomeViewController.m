@@ -99,6 +99,9 @@
     return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
 }
 
+#pragma mark -
+#pragma mark Button Action
+
 - (IBAction)liveGameBtnPressed:(id)sender
 {
     if (0){//[[GWAccountStore shareStore] hasLogined]) {

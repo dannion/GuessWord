@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GWAccount.h"
 
 @interface GWAccountStore : NSObject
 
@@ -16,6 +17,6 @@
 
 - (BOOL)hasLogined;
 
-- (NSDictionary*)currentAccount;//后续应该改为用gwaccount类去存取，而不是nsdictionary.
+- (GWAccount*)currentAccount;
 
 @end

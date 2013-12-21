@@ -38,15 +38,16 @@
     return [userDefaults boolForKey:@"hasLogined"];
 }
 
-- (NSDictionary*)currentAccount//后续应该改为用gwaccount类去存取，而不是nsdictionary.
+- (GWAccount*)currentAccount//后续应该改为用gwaccount类去存取，而不是nsdictionary.
 {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
-    NSMutableDictionary* currentAccount = [NSMutableDictionary dictionary];
-    [currentAccount setObject:[userDefaults stringForKey:@"username"] forKey:@"username"];
-    [currentAccount setObject:[userDefaults stringForKey:@"password"] forKey:@"password"];
+    NSMutableDictionary* currentAccountDictionary = [NSMutableDictionary dictionary];
+    [currentAccountDictionary setObject:[userDefaults stringForKey:@"username"] forKey:@"username"];
     
-    return currentAccount;
+    
+    
+    return [[GWAccount alloc] initWithDictionary:currentAccountDictionary];
 }
 
 @end
