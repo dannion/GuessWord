@@ -180,6 +180,16 @@
     return retVol;
 }
 
+//将本CDVol的所有boards的积分相加并保存
+-(void)updateScore
+{
+    int newScore = 0;
+    for (CDPlayBoard *one_cdpb in self.hasBoards) {
+        newScore += [one_cdpb.score intValue];
+    }
+    self.vol_score = [NSNumber numberWithInt:newScore];
+}
+
 /*根据uniqueVolNumber来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后CDVol*/
 +(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
             inManagedObjectContext:(NSManagedObjectContext *)context
