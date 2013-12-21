@@ -99,7 +99,7 @@
       [UIColor blackColor], NSForegroundColorAttributeName,
       [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
 
-    [self copyLocalDatabaseIntoApp]; //将本地数据库初始化
+//    [self copyLocalDatabaseIntoApp]; //将本地数据库初始化
     
     //    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
 //    for (NSString * temp in fontArrays) {

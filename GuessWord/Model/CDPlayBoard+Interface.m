@@ -14,6 +14,7 @@
 
 -(void)setAttributesWithPlayBoard:(PlayBoard *)thePlayBoard{
     #warning 棋盘添加字段位置4
+    self.score          = [NSNumber numberWithInt:thePlayBoard.score];
     self.star           = thePlayBoard.star;
     self.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
     self.uniqueid       = thePlayBoard.uniqueid;
@@ -107,8 +108,8 @@
             }
         }
         /**********重要修改，如果该关口信息已经完成，那么需要修改数据库中的下一关让其解锁*******/
-        
-        
+        [cdpb.belongToWhom updateScore];//当playboard修改时，势必会修改分数这个时候要让CDVol的分数联动修改
+                
         //如果库中已经有了，就不需要修改了belongToWhom了
         BOOL isSaveSuccess = [context save:&error];
         if (!isSaveSuccess) {
