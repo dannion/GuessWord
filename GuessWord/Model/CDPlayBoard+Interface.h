@@ -22,8 +22,8 @@
                               andLevel:(NSNumber *)level
                 inManagedObjectContext:(NSManagedObjectContext *)context;
 
-+(CDPlayBoard *)cdPlayBoardByUniqueID:(NSNumber *)uniqueID                  //(read )           通过id获取CDPlayBoard
-               inManagedObjectContext:(NSManagedObjectContext *)context;
+//+(CDPlayBoard *)cdPlayBoardByUniqueID:(NSNumber *)uniqueID                  //(read )           通过id获取CDPlayBoard
+//               inManagedObjectContext:(NSManagedObjectContext *)context;
 
 
 +(NSArray *)cdPlayBoardsByVolNumber:(NSNumber *)volNumber                   //(read & write)    通过volNumber来获取一堆CDPlayBoards
