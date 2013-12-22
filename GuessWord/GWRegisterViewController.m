@@ -63,12 +63,14 @@
     }
     if (self.mobileTextField) {
         if (self.mobileTextField.text.length>0) {
-            usename = self.mobileTextField.text;
+            mobileNum = self.mobileTextField.text;
         }
     }
     
-    if (usename && password) {
+    if (usename && password && mobileNum) {
         [self registerWithUsername:usename andMobileNumber:mobileNum andPassword:password];
+        [self showToastWithDescription:@"正在与服务器联系.."];
+        
     }else{
         [self showToastWithDescription:@"用户名或密码不能为空"];
     }
@@ -104,10 +106,12 @@
     [paraDic setObject:usename forKey:@"name"];
     
     [GWNetWorkingWrapper getPath:@"regist.php" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
-    
+        
         NSString* responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         
+        
         if ([responseString isEqualToString:@"Successfully insert!"]) {//登陆成功
+            
             
             [[GWAccountStore shareStore] saveToLocalCacheWithUsername:usename andPassword:password];
             [self performSegueWithIdentifier:@"RegisterToBroadcastLevel" sender:nil];

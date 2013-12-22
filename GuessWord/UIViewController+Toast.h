@@ -11,5 +11,8 @@
 @interface UIViewController (Toast)
 
 - (void)showToastWithDescription:(NSString*)description;
+- (void)showToastWithDescription:(NSString*)description whichWillHideAfterDelay:(NSUInteger)delay;//if delay=0, toast will not hide until you call hideToast;
+
+- (void)hideToast:(BOOL)animated;
 
 @end

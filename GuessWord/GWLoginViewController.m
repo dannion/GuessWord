@@ -130,7 +130,7 @@
         NSString* responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         
         if ([responseString isEqualToString:@"Success!"]) {//登陆成功
-            
+
             [[GWAccountStore shareStore] saveToLocalCacheWithUsername:usename andPassword:password];
             [self performSegueWithIdentifier:@"LoginToBroadcastLevel" sender:nil];
         }else{//登陆失败

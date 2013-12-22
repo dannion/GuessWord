@@ -10,6 +10,4 @@
 
 @interface GWLoginViewController : GWBaseViewController
 
-
-
 @end

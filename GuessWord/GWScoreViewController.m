@@ -58,10 +58,6 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
     
 }
 
-- (void)refreshWithNewData
-{
-    [self.scoreTableView reloadData];
-}
 
 
 - (void)refetchDataFromNetWork
@@ -127,13 +123,17 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
     if (jsonObject != nil && error == nil){
-//        if (![jsonObject isKindOfClass:[NSDictionary class]]) {
-//            NSLog(@"Json数据错误");
-//            return nil;
-//        }
-//        resultDic = (NSDictionary*)jsonObject;
-        NSArray* tempArray = (NSArray*)jsonObject;
-        resultDic = (NSDictionary*)[tempArray lastObject];
+
+        if ([jsonObject isKindOfClass:[NSArray class]]) {
+            //目前错误的接口返回数据是将所需的字典存在一个数组中，故做以下处理，当以后接口数据正常后，可将该条件判断语句删除
+            NSArray* tempArray = (NSArray*)jsonObject;
+            resultDic = (NSDictionary*)[tempArray lastObject];
+        }else if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+            resultDic = (NSDictionary*)jsonObject;
+        }else{
+            NSLog(@"Json数据错误");
+            return nil;
+        }
         
     }
     return resultDic;
@@ -143,16 +143,16 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
 - (void)handleResponseData:(NSDictionary*)responseDic
 {
     rankArray = [responseDic objectForKey:@"top"];
-    NSNumber* rank = [responseDic objectForKey:@"rank"];
-    
+    [self.scoreTableView reloadData];
+   
     if ([[GWAccountStore shareStore] hasLogined]) {
         self.username.text = [GWAccountStore shareStore].currentAccount.username;
+        
+         NSNumber* rank = [responseDic objectForKey:@"rank"];
         if (rank) {
             self.userrank.text = [NSString stringWithFormat:@"第%d名", [rank intValue]];
         }
     }
-    
-    [self refreshWithNewData];
 }
 
 
