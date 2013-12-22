@@ -9,7 +9,8 @@
 #import "GWRegisterViewController.h"
 #import "GWNetWorkingWrapper.h"
 #import "GWAccountStore.h"
-#import "GWGridViewController.h"
+#import "GWLevelViewController.h"
+#import "UIViewController+Toast.h"
 
 @interface GWRegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -68,13 +69,16 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"LoginToGrid"]) {
-        GWGridViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setUniqueID:)])
-        {
-            destination.volNumber = @101001;
-            destination.level = 0;
-        }
+    if ([segue.identifier isEqualToString:@"RegisterToBroadcastLevel"]) {
+        GWLevelViewController *destination = segue.destinationViewController;
+        
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
+        
+        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
+        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
+        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
+        destination.vol = nil;
+
     }
 }
 
@@ -96,7 +100,7 @@
         if ([responseString isEqualToString:@"Successfully insert!"]) {//登陆成功
             
             [[GWAccountStore shareStore] saveToLocalCacheWithUsername:usename andPassword:password];
-            [self performSegueWithIdentifier:@"RegisterToGrid" sender:nil];
+            [self performSegueWithIdentifier:@"RegisterToBroadcastLevel" sender:nil];
         }else{//登陆失败
             
             [self showToastWithDescription:responseString];
@@ -108,16 +112,6 @@
         
     }];
     
-}
-
-- (void)showToastWithDescription:(NSString*)description
-{
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor whiteColor];
-    hud.labelTextColor = [UIColor blueColor];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = description;
-    [hud hide:YES afterDelay:1.5];
 }
 
 

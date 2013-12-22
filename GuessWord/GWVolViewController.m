@@ -188,6 +188,8 @@ NSInteger volColNum = 3; //网格列数
         cell.volNumberLabel.text = @"下一期";
         cell.backgroundImageView.image = [UIImage imageNamed:@"vol_next.png"];
         cell.detailLabel.text = @"12月27日";
+        cell.userInteractionEnabled = NO;
+        
     }else{
         CDVol* vol = (CDVol*)[_volArray objectAtIndex:indexPath.row];
         cell.volNumberLabel.text = vol.name;
@@ -203,6 +205,7 @@ NSInteger volColNum = 3; //网格列数
             detailText = [NSString stringWithFormat:@"积分:%d", [score intValue]];
         }
         cell.detailLabel.text = detailText;
+        cell.userInteractionEnabled = YES;
     }
     
     return cell;

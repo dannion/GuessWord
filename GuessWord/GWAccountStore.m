@@ -40,13 +40,17 @@
 
 - (GWAccount*)currentAccount//后续应该改为用gwaccount类去存取，而不是nsdictionary.
 {
+    
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
     NSMutableDictionary* currentAccountDictionary = [NSMutableDictionary dictionary];
-    [currentAccountDictionary setObject:[userDefaults stringForKey:@"username"] forKey:@"username"];
+    NSString* user = [userDefaults stringForKey:@"username"];
     
+    if (!user) {
+        return nil;
+    }
     
-    
+    [currentAccountDictionary setObject:user forKey:@"username"];
     return [[GWAccount alloc] initWithDictionary:currentAccountDictionary];
 }
 

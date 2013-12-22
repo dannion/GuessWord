@@ -7,9 +7,10 @@
 //
 
 #import "GWLoginViewController.h"
-#import "GWGridViewController.h"
+#import "GWLevelViewController.h"
 #import "GWNetWorkingWrapper.h"
 #import "GWAccountStore.h"
+#import "UIViewController+Toast.h"
 
 @interface GWLoginViewController ()
 
@@ -73,13 +74,15 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"LoginToGrid"]) {
-        GWGridViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setUniqueID:)])
-        {
-            destination.volNumber = @101001;
-            destination.level = 0;
-        }
+    if ([segue.identifier isEqualToString:@"LoginToBroadcastLevel"]) {
+        GWLevelViewController *destination = segue.destinationViewController;
+        
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
+        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
+        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
+        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
+        destination.vol = nil;
+
     }
 }
 
@@ -108,7 +111,7 @@
 
 - (IBAction)pressGuessLoginBtn:(id)sender
 {
-    [self performSegueWithIdentifier:@"LoginToGrid" sender:sender];
+    [self performSegueWithIdentifier:@"LoginToBroadcastLevel" sender:sender];
 }
 
 - (IBAction)pressRegisterBtn:(id)sender {
@@ -133,7 +136,7 @@
         if ([responseString isEqualToString:@"Success!"]) {//登陆成功
             
             [[GWAccountStore shareStore] saveToLocalCacheWithUsername:usename andPassword:password];
-            [self performSegueWithIdentifier:@"LoginToGrid" sender:nil];
+            [self performSegueWithIdentifier:@"LoginToBroadcastLevel" sender:nil];
         }else{//登陆失败
             
             [self showToastWithDescription:responseString];
@@ -148,15 +151,7 @@
     
 }
 
-- (void)showToastWithDescription:(NSString*)description
-{
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor whiteColor];
-    hud.labelTextColor = [UIColor blueColor];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = description;
-    [hud hide:YES afterDelay:1.5];
-}
+
 
 
 #pragma mark -

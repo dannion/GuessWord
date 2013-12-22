@@ -8,8 +8,10 @@
 
 #import "GWHomeViewController.h"
 #import "GWAccountStore.h"
-#import "GWGridViewController.h"
+#import "GWLevelViewController.h"
 #import "GWLoginViewController.h"
+#import "GWNetWorkingWrapper.h"
+#import "UIViewController+Toast.h"
 
 @interface GWHomeViewController ()
 
@@ -56,14 +58,68 @@
     
 }
 
-- (void)refetchDataFromLocalCache
+- (NSDictionary*)parseResponseData:(NSData*)jsonData
 {
+    NSDictionary* resultDic;
+    NSError *error = nil;
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+    if (jsonObject != nil && error == nil){
+        if (![jsonObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"Json数据错误");
+            return nil;
+        }
+        
+        resultDic = (NSDictionary*)jsonObject;
+    }
+    return resultDic;
     
 }
 
+- (void)handleResponseData:(NSDictionary*)responseDic
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
+    
+    if (responseDic) {
+        NSString* isBroadcasting = (NSString*)[responseDic objectForKey:@"broad"];
+        if (isBroadcasting) {
+            if ([isBroadcasting isEqualToString:@"NO"]) {//如果不是正在直播
+                
+                [userDefaults setBool:NO forKey:@"isBroadcasting"];
+                [userDefaults synchronize];
+                
+                return;
+            }
+            if ([isBroadcasting isEqualToString:@"YES"]) {//正在直播,则直播按钮可点击，并记录下直播期号和开锁关卡
+                
+                self.liveGameBtn.enabled = YES;
+
+                [userDefaults setObject:(NSNumber*)[responseDic objectForKey:@"vol_number"] forKey:@"broadcastVolNumber"];
+                [userDefaults setObject:@3 forKey:@"broadcastVolLevelAmount"];
+                [userDefaults setObject:(NSArray*)[responseDic objectForKey:@"unlock"] forKey:@"broadcastUnlockLevel"];
+                [userDefaults setBool:YES forKey:@"isBroadcasting"];
+                
+                [userDefaults synchronize];
+                
+            }
+        }
+    }
+
+}
+
+
 - (void)refetchDataFromNetWork
 {
-    
+    [GWNetWorkingWrapper getPath:@"broadcast.php" parameters:nil successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //对返回值进行判断
+        NSLog(@"%@", responseObject);
+        NSDictionary* responseDic = [self parseResponseData:responseObject];
+        [self handleResponseData:responseDic];
+        
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [self showToastWithDescription:error.localizedDescription];
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,18 +131,23 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([segue.identifier isEqualToString:@"HomeToGrid"]) {
-//        GWGridViewController *destination = segue.destinationViewController;
-//        if ([destination respondsToSelector:@selector(setUniqueID:)])
-//        {
-//            destination.volNumber = @101001;
-//            destination.level = 0;
-//        }
-//    }
+
     if ([segue.identifier isEqualToString:@"HomeToLogin"]){
-        GWLoginViewController *destination = segue.destinationViewController;
-        //
+    
     }
+    if ([segue.identifier isEqualToString:@"HomeToBroadcastLevel"]){
+        
+        GWLevelViewController *destination = segue.destinationViewController;
+        
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
+
+        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
+        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
+        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
+        destination.vol = nil;
+        
+    }
+    
     self.navigationController.navigationBarHidden = NO;
 }
 
@@ -104,8 +165,8 @@
 
 - (IBAction)liveGameBtnPressed:(id)sender
 {
-    if (0){//[[GWAccountStore shareStore] hasLogined]) {
-        [self performSegueWithIdentifier:@"HomeToGrid" sender:nil];
+    if ([[GWAccountStore shareStore] hasLogined]) {
+        [self performSegueWithIdentifier:@"HomeToBroadcastLevel" sender:nil];
         
     }else{
         [self performSegueWithIdentifier:@"HomeToLogin" sender:nil];

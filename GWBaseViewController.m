@@ -36,7 +36,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     if (self.navigationController.viewControllers.count >1) {
-        [self addDefaultBackBarItem];
+        [self addDefaultLeftBarItem];
     }
     self.view.backgroundColor = [self colorForBackground];
     
@@ -50,7 +50,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)addDefaultBackBarItem
+- (void)addDefaultLeftBarItem
 {
     UIImage* image = [UIImage imageNamed:@"navigationbar_backbutton.png"];
     
@@ -79,12 +79,6 @@
 {
     return [UIColor colorWithRed:234.0/256 green:234.0/256 blue:234.0/256 alpha:1.0];
 }
-
-
-
-
-
-
 
 
 

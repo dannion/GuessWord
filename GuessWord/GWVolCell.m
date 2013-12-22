@@ -54,8 +54,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
 {
     _backgroundImageView.frame = CGRectMake(ContentInsets.left, ContentInsets.top, self.frame.size.width, self.frame.size.height);
     _volNumberLabel.frame = CGRectMake(17, 24, _volNumberLabel.frame.size.width, _volNumberLabel.frame.size.height);
-    _detailLabel.frame = CGRectMake(19, 63, _detailLabel.frame.size.width, _detailLabel.frame.size.height);
-
+    _detailLabel.frame = CGRectMake(25, 64, _detailLabel.frame.size.width, _detailLabel.frame.size.height);
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

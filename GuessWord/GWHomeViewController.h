@@ -10,4 +10,8 @@
 
 @interface GWHomeViewController : GWBaseViewController
 
+
+@property(nonatomic, strong) NSNumber* broadcastVolNumber;
+@property(nonatomic, strong) NSArray* broadcastUnlockLevel;
+
 @end

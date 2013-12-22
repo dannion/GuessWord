@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		563F5125C1E0409E8257A99E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B9CDA8592C4BDB823921FD /* libPods.a */; };
+		643E602D186679CA00B818E0 /* UIViewController+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 643E602C186679CA00B818E0 /* UIViewController+Toast.m */; };
 		649E1DA2186183BD00468D8C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 649E1D99186183BD00468D8C /* logo.png */; };
 		649E1DA3186183BD00468D8C /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649E1D9A186183BD00468D8C /* logo@2x.png */; };
 		649E1DA4186183BD00468D8C /* mainbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 649E1D9B186183BD00468D8C /* mainbutton.png */; };
@@ -150,6 +151,8 @@
 
 /* Begin PBXFileReference section */
 		01B9CDA8592C4BDB823921FD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		643E602B186679CA00B818E0 /* UIViewController+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Toast.h"; sourceTree = "<group>"; };
+		643E602C186679CA00B818E0 /* UIViewController+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Toast.m"; sourceTree = "<group>"; };
 		649E1D99186183BD00468D8C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		649E1D9A186183BD00468D8C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		649E1D9B186183BD00468D8C /* mainbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainbutton.png; sourceTree = "<group>"; };
@@ -532,6 +535,8 @@
 			children = (
 				64BCEBE9185FE09A00573F82 /* GWInsetsLabel.h */,
 				64BCEBEA185FE09A00573F82 /* GWInsetsLabel.m */,
+				643E602B186679CA00B818E0 /* UIViewController+Toast.h */,
+				643E602C186679CA00B818E0 /* UIViewController+Toast.m */,
 				64BCEBDF185EDB6D00573F82 /* UIImage+Stretch.h */,
 				64BCEBE0185EDB6D00573F82 /* UIImage+Stretch.m */,
 			);
@@ -922,6 +927,7 @@
 				64BCEC061860336100573F82 /* GWHomeViewController.m in Sources */,
 				649E1E5118642FCA00468D8C /* GWRegisterViewController.m in Sources */,
 				83CA1AA1186282A700DA6FA1 /* CDVol.m in Sources */,
+				643E602D186679CA00B818E0 /* UIViewController+Toast.m in Sources */,
 				649E1DBF1862C2BE00468D8C /* GWScoreCell.m in Sources */,
 				833D2E851864375A00A221A9 /* DatabaseGenerator.m in Sources */,
 				649E1DBC1862C1ED00468D8C /* GWScoreViewController.m in Sources */,

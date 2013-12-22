@@ -10,4 +10,6 @@
 
 @interface GWScoreViewController : GWBaseViewController
 
+@property (nonatomic, strong) NSNumber* volNumber;
+
 @end

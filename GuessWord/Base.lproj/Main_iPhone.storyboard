@@ -10,11 +10,11 @@
             <objects>
                 <viewController id="5OR-Wn-vHj" customClass="GWBaseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ozn-kP-tkf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5ru-qE-CAS">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -120,7 +120,7 @@
                     <connections>
                         <outlet property="liveGameBtn" destination="Gnu-NI-xc1" id="fGQ-b2-Fyb"/>
                         <segue destination="XrM-7O-t4u" kind="push" identifier="HomeToLogin" id="CV3-yQ-qLN"/>
-                        <segue destination="vXZ-lx-hvc" kind="push" identifier="HomeToGrid" id="PEj-uX-cCk"/>
+                        <segue destination="dqw-H2-J6M" kind="push" identifier="HomeToBroadcastLevel" id="XAm-fx-mzh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sYA-xT-ewf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -206,11 +206,56 @@
                     <connections>
                         <outlet property="levelView" destination="Srh-am-kxK" id="nQC-A4-bvd"/>
                         <segue destination="tOL-zI-VCP" kind="push" identifier="LevelToGrid" id="PXI-Wc-tH3"/>
+                        <segue destination="gys-1d-wv5" kind="push" identifier="LevelToScore" id="IgT-Cv-iYM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pF6-dz-8Dl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="221" y="-731"/>
+        </scene>
+        <!--Level View Controller - 选择关卡-->
+        <scene sceneID="jhz-85-yIK">
+            <objects>
+                <viewController id="dqw-H2-J6M" customClass="GWLevelViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JvB-WT-EcV">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="cy3-NV-t5h" customClass="PSUICollectionView">
+                                <rect key="frame" x="15" y="15" width="290" height="426"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pTQ-Xg-A54">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yPZ-7x-SP7">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="选择关卡" id="4ie-MN-TYD"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="levelView" destination="cy3-NV-t5h" id="uKO-1f-jdt"/>
+                        <segue destination="uxX-GI-l3s" kind="push" identifier="LevelToGrid" id="ufo-r6-p12"/>
+                        <segue destination="gys-1d-wv5" kind="push" identifier="LevelToScore" id="ptU-pL-NfX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iUt-E4-Ufc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1310" y="-183"/>
         </scene>
         <!--Login View Controller - 登录-->
         <scene sceneID="zQG-qf-r0h">
@@ -291,8 +336,8 @@
                     <connections>
                         <outlet property="passwordTextField" destination="SSJ-ff-ep6" id="Uug-s9-Bbs"/>
                         <outlet property="usenameTextField" destination="VlC-X4-cQx" id="Otc-5U-Hcb"/>
-                        <segue destination="vXZ-lx-hvc" kind="push" identifier="LoginToGrid" id="yuU-59-ujE"/>
                         <segue destination="ZwQ-IM-Aye" kind="push" identifier="LoginToRegister" id="1Mh-GZ-bwq"/>
+                        <segue destination="dqw-H2-J6M" kind="push" identifier="LoginToBroadcastLevel" id="cVq-NX-v20"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XtT-WL-ETi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -304,11 +349,11 @@
             <objects>
                 <viewController id="gys-1d-wv5" customClass="GWScoreViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VmQ-zy-yAo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_icon.png" id="NlV-PP-Lxg">
-                                <rect key="frame" x="32" y="76" width="80" height="80"/>
+                                <rect key="frame" x="32" y="76" width="80" height="16"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="David" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yaP-SQ-eLT">
@@ -326,11 +371,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xqc-nH-N3K">
-                                <rect key="frame" x="0.0" y="234" width="320" height="263"/>
+                                <rect key="frame" x="0.0" y="234" width="320" height="199"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tiC-BO-Rn2">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="263"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -451,56 +496,6 @@
             </objects>
             <point key="canvasLocation" x="-254" y="1188"/>
         </scene>
-        <!--Grid View Controller - 现场直播-->
-        <scene sceneID="ufC-wZ-h7g">
-            <objects>
-                <viewController id="vXZ-lx-hvc" customClass="GWGridViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="X15-d7-3Yk" customClass="PSUICollectionView">
-                                <rect key="frame" x="15" y="82" width="290" height="218"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="cmD-ne-ztG">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="cJA-1D-kDW">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D4v-u4-Dxp" customClass="GWInsetsLabel">
-                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="现场直播" id="Cql-in-p5O"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="descriptionLabel" destination="D4v-u4-Dxp" id="pXU-0P-Rdu"/>
-                        <outlet property="gridView" destination="X15-d7-3Yk" id="1T9-5w-fXi"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1494" y="-284"/>
-        </scene>
         <!--Register View Controller - 注册-->
         <scene sceneID="U5p-xK-ZdV">
             <objects>
@@ -551,12 +546,12 @@
                     <connections>
                         <outlet property="passwordTextField" destination="HDd-G4-hty" id="Bzv-nj-o7y"/>
                         <outlet property="usernameTextField" destination="Bav-re-7xa" id="QzE-La-cnn"/>
-                        <segue destination="vXZ-lx-hvc" kind="push" identifier="RegisterToGrid" id="yRK-aC-WZC"/>
+                        <segue destination="dqw-H2-J6M" kind="push" identifier="RegisterToBroadcastLevel" id="fF9-vu-nvb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJJ-vH-jfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830" y="631"/>
+            <point key="canvasLocation" x="830" y="593"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iok-4P-7LI">
@@ -662,6 +657,7 @@
                     <connections>
                         <outlet property="levelView" destination="n3g-1B-Vmz" id="ePG-gz-QbZ"/>
                         <segue destination="U4j-03-AqA" kind="push" identifier="LevelToGrid" id="iNd-B8-b0r"/>
+                        <segue destination="gys-1d-wv5" kind="push" identifier="LevelToScore" id="tby-kw-07u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZd-0J-Cbb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -715,7 +711,56 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3JW-HZ-stV" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="1172"/>
+            <point key="canvasLocation" x="830" y="1188"/>
+        </scene>
+        <!--Grid View Controller - 游戏-->
+        <scene sceneID="gwW-Am-OQa">
+            <objects>
+                <viewController id="uxX-GI-l3s" customClass="GWGridViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gpi-Og-yL6">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="ejp-tj-juX" customClass="PSUICollectionView">
+                                <rect key="frame" x="15" y="94" width="290" height="251"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="OG5-yo-5d8">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="iw7-bh-sv1">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gko-2Z-ZBF" customClass="GWInsetsLabel">
+                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="游戏" id="gTt-P0-Aac"/>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="gko-2Z-ZBF" id="8hZ-0g-8Pt"/>
+                        <outlet property="gridView" destination="ejp-tj-juX" id="iwy-hc-w2a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wD9-oL-KmY" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1794" y="-183"/>
         </scene>
     </scenes>
     <resources>
@@ -734,7 +779,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="PEj-uX-cCk"/>
-        <segue reference="8L5-t8-CYr"/>
+        <segue reference="tby-kw-07u"/>
+        <segue reference="OAg-KZ-A3s"/>
+        <segue reference="fF9-vu-nvb"/>
     </inferredMetricsTieBreakers>
 </document>

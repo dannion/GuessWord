@@ -28,7 +28,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         _imageView.contentMode = UIViewContentModeScaleToFill;
         
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.textColor = [UIColor colorWithRed:127.0/256 green:184.0/256 blue:115.0/256 alpha:1.0];
+        _titleLabel.textColor = [UIColor blackColor];//[UIColor colorWithRed:127.0/256 green:184.0/256 blue:115.0/256 alpha:1.0];
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.text = @"随机模式";
@@ -36,7 +36,7 @@ static UIEdgeInsets ContentInsets = { .top = 0, .left = 0, .right = 0, .bottom =
         [_titleLabel sizeToFit];
         
         _detailLabel = [[UILabel alloc] init];
-        _detailLabel.textColor = [UIColor colorWithRed:182.0/256 green:182.0/256 blue:182.0/256 alpha:1.0];
+        _detailLabel.textColor = [UIColor blackColor];//[UIColor colorWithRed:182.0/256 green:182.0/256 blue:182.0/256 alpha:1.0];
         _detailLabel.textAlignment = NSTextAlignmentLeft;
         _detailLabel.backgroundColor = [UIColor clearColor];
         _detailLabel.text = @"已完成：20/100关";

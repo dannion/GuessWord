@@ -11,6 +11,7 @@
 #import "GWGridViewController.h"
 #import "PlayBoard.h"
 #import "GWAppDelegate.h"
+#import "GWScoreViewController.h"
 
 
 NSString *GWLevelViewCellIdentifier = @"GWLevelViewCellIdentifier";
@@ -48,7 +49,13 @@ NSInteger levelColNum = 3; //网格列数
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    if (self.vol) {//后续判断都采用self.volUniqueNumber和self.volLevelAmount。不再理会正在直播还是非直播
+        self.volUniqueNumber = self.vol.uniqueVolNumber;
+        self.volLevelAmount = self.vol.amountOfLevels;
+    }
+    
     [self createGridView];
+    [self addDefaultRightBarItem];
     self.view.backgroundColor = [self colorForBackground];
 }
 
@@ -72,6 +79,27 @@ NSInteger levelColNum = 3; //网格列数
     [self.view addSubview:_levelView];
 }
 
+- (void)addDefaultRightBarItem
+{
+    UIImage* image = [UIImage imageNamed:@"king_icon.png"];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:image forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(showVolRankVC) forControlEvents:UIControlEventTouchUpInside];
+    [button setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *barButtomItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    barButtomItem.accessibilityLabel = @"返回";
+    self.navigationItem.rightBarButtonItem = barButtomItem;
+}
+
+- (void)showVolRankVC
+{
+    [self performSegueWithIdentifier:@"LevelToScore" sender:nil];
+}
+
 #pragma mark -
 #pragma mark Prepare For Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -79,8 +107,14 @@ NSInteger levelColNum = 3; //网格列数
     if ([segue.identifier isEqualToString:@"LevelToGrid"]) {
         GWGridViewController *destination = segue.destinationViewController;
         
-        [destination setVolNumber:self.vol.uniqueVolNumber];
+        [destination setVolNumber:self.volUniqueNumber];
         [destination setLevel: selectedLevel];
+    }
+    if ([segue.identifier isEqualToString:@"LevelToScore"]) {
+        GWScoreViewController *destination = segue.destinationViewController;
+        
+        destination.volNumber = self.volUniqueNumber;
+        
     }
 }
 
@@ -113,34 +147,62 @@ NSInteger levelColNum = 3; //网格列数
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     
-    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
+    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.volUniqueNumber
                                                inManagedObjectContext:context];
     CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
-    
-    
-    switch ([playboard.star intValue]) {
-        case 0:
+
+
+    //是否显示解锁
+    if (self.activateLevel) {//直播形式，服务器直接告知解锁关卡
+        
+        if (![self.activateLevel containsObject:[NSNumber numberWithInt:index]]) {
+            
+            cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
+            cell.lockImageView.hidden = NO;
+            cell.userInteractionEnabled = NO;
+        }else{
+            cell.lockImageView.image = [UIImage imageNamed:@"unlocked_icon.png"];
+            cell.lockImageView.hidden = NO;
+            cell.userInteractionEnabled = YES;
+        }
+        
+        
+    }else{ //非直播形式
+        
+        if ([playboard.star intValue] == 0) {
             if ([playboard.islocked boolValue]) {
-                cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
                 cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
                 cell.lockImageView.hidden = NO;
+                cell.userInteractionEnabled = NO;
             }else{
-                cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
                 cell.lockImageView.image = [UIImage imageNamed:@"unlocked_icon.png"];
                 cell.lockImageView.hidden = NO;
+                cell.userInteractionEnabled = YES;
             }
+        }
+
+    }
+    
+    //显示星号
+    switch ([playboard.star intValue]) {
+        case 0:
+            cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
+            cell.userInteractionEnabled = YES;
             break;
         case 1:
             cell.imageView.image = [UIImage imageNamed:@"1star_bg.png"];
             cell.lockImageView.hidden = YES;
+            cell.userInteractionEnabled = YES;
             break;
         case 2:
             cell.imageView.image = [UIImage imageNamed:@"2stars_bg.png"];
             cell.lockImageView.hidden = YES;
+            cell.userInteractionEnabled = YES;
             break;
         case 3:
             cell.imageView.image = [UIImage imageNamed:@"3stars_bg.png"];
             cell.lockImageView.hidden = YES;
+            cell.userInteractionEnabled = YES;
             break;
         default:
             break;
@@ -168,8 +230,8 @@ NSInteger levelColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    if (self.vol) {
-        return [self.vol.amountOfLevels intValue];
+    if (self.volLevelAmount) {
+        return [self.volLevelAmount intValue];
     }else{
         return 0;
     }
@@ -192,18 +254,10 @@ NSInteger levelColNum = 3; //网格列数
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     int selectedLevelIntValue = indexPath.row + 1;
-
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
-                                               inManagedObjectContext:context];
-    CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
-    if ([playboard.islocked boolValue]) {
-        return;
-    }
+    
     
     //翻转动画，然后页面跳转
-    UIView* selectedCell = [self.levelView cellForItemAtIndexPath:indexPath];
+    UIView* selectedCell = (GWLevelCell*)[self.levelView cellForItemAtIndexPath:indexPath];
     [UIView animateWithDuration:.4 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:selectedCell cache:YES];
         

@@ -10,7 +10,7 @@
 
 @interface GWInsetsLabel : UILabel
 
-@property(nonatomic) UIEdgeInsets insets;
+@property(nonatomic, assign) UIEdgeInsets insets;
 - (id)initWithFrame:(CGRect)frame andInsets:(UIEdgeInsets)insets;
 - (id)initWithInsets:(UIEdgeInsets)insets;
 

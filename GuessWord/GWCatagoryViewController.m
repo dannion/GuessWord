@@ -64,11 +64,10 @@ NSInteger catagoryAmount = 4; //类别数
 #pragma mark Prepare For Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"VolToLevel"]) {
+    if ([segue.identifier isEqualToString:@"CatagoryToLevel"]) {
         GWLevelViewController *destination = segue.destinationViewController;
-        if ([destination respondsToSelector:@selector(setData:)])
-        {
-            //[destination setValue:@"这是要传递的数据" forKey:@"data"];
+        if ([sender isKindOfClass:[CDVol class]]) {
+            destination.vol = (CDVol*)sender;
         }
     }
 }
@@ -159,7 +158,9 @@ NSInteger catagoryAmount = 4; //类别数
 {
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     
-    [self performSegueWithIdentifier:@"CatagoryToLevel" sender:nil];
+    CDVol* selectedVol;
+    
+    [self performSegueWithIdentifier:@"CatagoryToLevel" sender:selectedVol];
 }
 
 - (void)collectionView:(PSTCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
