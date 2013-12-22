@@ -599,6 +599,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     if ([inputChar isEqualToString:@" "]) {
         [self resetPlayBoard];
+        [scoreCounter resetCounter];
         return;
     }
     selectedGridCell.label.text = inputChar;

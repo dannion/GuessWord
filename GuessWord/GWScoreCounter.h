@@ -21,4 +21,6 @@
 
 - (int)currentScore;
 
+- (void)resetCounter;
+
 @end

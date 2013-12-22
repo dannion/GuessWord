@@ -8,16 +8,17 @@
 
 #import "GWScoreCounter.h"
 
-#define INITIAL_SCORE 100
-#define HINT_PENALTY 10
-#define SCORE_PER_CHARACTER 5
-#define WORD_ERROR_PENALTY 2
+#define INITIAL_SCORE 0
+#define HINT_PENALTY 5
+#define SCORE_PER_CHARACTER 3
+#define WORD_ERROR_PENALTY 1
 
 
 @interface GWScoreCounter(){
     BOOL isCountingScore;
     int currentScore;
 }
+
 - (void)start;
 
 @end
@@ -70,6 +71,12 @@
 - (int)currentScore
 {
     return currentScore;
+}
+
+- (void)resetCounter
+{
+    isCountingScore = YES;
+    currentScore = INITIAL_SCORE;
 }
 
 @end

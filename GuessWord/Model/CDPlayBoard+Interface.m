@@ -56,7 +56,7 @@
     [request setEntity:[NSEntityDescription entityForName:@"CDPlayBoard" inManagedObjectContext:context]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(volNumber = %d)", [volNumber intValue]];
     [request setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"level" ascending:YES];//根据level排序，很重要！
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"level" ascending:YES];//根据level排序，很重要！
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
