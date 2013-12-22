@@ -137,32 +137,40 @@
         NSLog(@"数据库中没有uniqueVolNumber == %@ 的CDVol，插入",uniqueVolNumber);
         retVol = [NSEntityDescription insertNewObjectForEntityForName:@"CDVol"
                                             inManagedObjectContext:context];
+
+#warning 应该用dateString来转换成NSDate对象，目前没有做
+        NSString *date_string = [volDictionary objectForKey:KEY_FOR_OPENDATE];
+        NSArray *date_array = [date_string componentsSeparatedByString:@"-"];
+        NSDateComponents *comps = [[NSDateComponents alloc]init];
+        [comps setYear:[date_array[0] intValue]];
+        [comps setMonth:[date_array[1] intValue]];
+        [comps setDay:[date_array[2] intValue]];
+//        [comps setHour:10];
+        NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSChineseCalendar];
+        NSDate *date = [calendar dateFromComponents:comps];
+        
+        retVol.open_date           = date;
         NSNumber *_vol_number   = [volDictionary objectForKey:KEY_FOR_UNIQUENUMBER];
         retVol.uniqueVolNumber     = _vol_number;
         retVol.name                = [volDictionary objectForKey:KEY_FOR_NAME];
+        retVol.amountOfLevels      = [volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
         
-#warning 应该用dateString来转换成NSDate对象，目前没有做
-        NSString *dateString = [volDictionary objectForKey:KEY_FOR_OPENDATE];
-        NSDateComponents *comps = [[NSDateComponents alloc]init];
-        [comps setMonth:01];
-        [comps setDay:31];
-        [comps setYear:2013];
-        [comps setHour:10];
-        
-        NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSChineseCalendar];
-        NSDate *date = [calendar dateFromComponents:comps];
-        retVol.open_date           = date;
-        NSNumber *_amountLevels =[volDictionary objectForKey:KEY_FOR_AMOUNTLEVELS];
-        retVol.amountOfLevels      = _amountLevels;
+        //设置cur_level的数据
+        NSNumber *_cur_level = [volDictionary objectForKey:@"cur_level"];//解锁的数组
+        if (!_cur_level) {
+            _cur_level = [NSNumber numberWithInt:1];
+        }
+        int _int_cur_level = [_cur_level intValue];
         
         /*根据amountOfLevels初始化CDPlayBoard*/
-        int _intamountLevel = [_amountLevels intValue];
+        int _intamountLevel = [retVol.amountOfLevels intValue];
         for (int i = 1; i <= _intamountLevel; i++) {
             CDPlayBoard *_cdpb = [CDPlayBoard cdPlayBoardByVolNumber:_vol_number
                                                             andLevel:[NSNumber numberWithInt:i]
                                               inManagedObjectContext:context];
             if (_cdpb) {
                 _cdpb.belongToWhom = retVol;
+                _cdpb.islocked = (i <= _int_cur_level) ? [NSNumber numberWithBool:NO] : [NSNumber numberWithBool:YES]; //如果大于当前关口信息，那么设定为锁住的
             }
         }
             
