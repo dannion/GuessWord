@@ -92,13 +92,17 @@
             if ([isBroadcasting isEqualToString:@"YES"]) {//正在直播,则直播按钮可点击，并记录下直播期号和开锁关卡
                 
                 self.liveGameBtn.enabled = YES;
-
-                [userDefaults setObject:(NSNumber*)[responseDic objectForKey:@"vol_number"] forKey:@"broadcastVolNumber"];
-                [userDefaults setObject:@3 forKey:@"broadcastVolLevelAmount"];
-                [userDefaults setObject:(NSArray*)[responseDic objectForKey:@"unlock"] forKey:@"broadcastUnlockLevel"];
-                [userDefaults setBool:YES forKey:@"isBroadcasting"];
                 
-                [userDefaults synchronize];
+                
+#warning not finish, should complete here
+                CDVol* broadcastingVol;//CDVol提供方法，解析数据生成vol实例
+             
+                if (broadcastingVol) {
+                    [userDefaults setBool:YES forKey:@"isBroadcasting"];
+                    [userDefaults setObject:broadcastingVol forKey:@"broadcastingVol"];
+                    [userDefaults synchronize];
+
+                }
                 
             }
         }
@@ -111,9 +115,9 @@
 {
     [GWNetWorkingWrapper getPath:@"broadcast.php" parameters:nil successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         //对返回值进行判断
-        NSLog(@"%@", responseObject);
         NSDictionary* responseDic = [self parseResponseData:responseObject];
         [self handleResponseData:responseDic];
+        
         
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -141,10 +145,7 @@
         
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
 
-        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
-        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
-        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
-        destination.vol = nil;
+        destination.vol = [userDefaults objectForKey:@"broadcastingVol"];
         
     }
     

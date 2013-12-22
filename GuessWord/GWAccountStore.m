@@ -40,6 +40,9 @@
 
 - (GWAccount*)currentAccount//后续应该改为用gwaccount类去存取，而不是nsdictionary.
 {
+    if (![self hasLogined]) {
+        return nil;
+    }
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -52,6 +55,16 @@
     
     [currentAccountDictionary setObject:user forKey:@"username"];
     return [[GWAccount alloc] initWithDictionary:currentAccountDictionary];
+}
+
+- (void)signOut
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+
+    [userDefaults setBool:NO forKey:@"hasLogined"];
+    
+    [userDefaults synchronize];
+
 }
 
 @end

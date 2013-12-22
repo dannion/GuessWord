@@ -17,6 +17,8 @@
 
 - (BOOL)hasLogined;
 
+- (void)signOut;
+
 - (GWAccount*)currentAccount;
 
 @end

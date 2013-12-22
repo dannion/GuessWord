@@ -78,11 +78,7 @@
         GWLevelViewController *destination = segue.destinationViewController;
         
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
-        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
-        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
-        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
-        destination.vol = nil;
-
+        destination.vol = [userDefaults objectForKey:@"broadcastingVol"];
     }
 }
 

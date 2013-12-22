@@ -18,6 +18,9 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
 {
     NSArray* rankArray;
 }
+@property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UILabel *userrank;
+@property (weak, nonatomic) IBOutlet UILabel *userscore;
 
 @property (weak, nonatomic) IBOutlet UITableView *scoreTableView;
 
@@ -41,6 +44,7 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
     self.view.backgroundColor = [UIColor colorWithRed:248.0/256 green:244.0/256 blue:241.0/256 alpha:1.0];
     
     self.scoreTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.userscore.hidden = YES;
     
     [self loadData];
 }
@@ -139,6 +143,14 @@ NSString *GWScoreViewCellIdentifier = @"GWScoreViewCellIdentifier";
 - (void)handleResponseData:(NSDictionary*)responseDic
 {
     rankArray = [responseDic objectForKey:@"top"];
+    NSNumber* rank = [responseDic objectForKey:@"rank"];
+    
+    if ([[GWAccountStore shareStore] hasLogined]) {
+        self.username.text = [GWAccountStore shareStore].currentAccount.username;
+        if (rank) {
+            self.userrank.text = [NSString stringWithFormat:@"第%d名", [rank intValue]];
+        }
+    }
     
     [self refreshWithNewData];
 }

@@ -49,10 +49,6 @@ NSInteger levelColNum = 3; //网格列数
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    if (self.vol) {//后续判断都采用self.volUniqueNumber和self.volLevelAmount。不再理会正在直播还是非直播
-        self.volUniqueNumber = self.vol.uniqueVolNumber;
-        self.volLevelAmount = self.vol.amountOfLevels;
-    }
     
     [self createGridView];
     [self addDefaultRightBarItem];
@@ -107,13 +103,13 @@ NSInteger levelColNum = 3; //网格列数
     if ([segue.identifier isEqualToString:@"LevelToGrid"]) {
         GWGridViewController *destination = segue.destinationViewController;
         
-        [destination setVolNumber:self.volUniqueNumber];
+        [destination setVolNumber:self.vol.uniqueVolNumber];
         [destination setLevel: selectedLevel];
     }
     if ([segue.identifier isEqualToString:@"LevelToScore"]) {
         GWScoreViewController *destination = segue.destinationViewController;
         
-        destination.volNumber = self.volUniqueNumber;
+        destination.volNumber = self.vol.uniqueVolNumber;
         
     }
 }
@@ -147,29 +143,14 @@ NSInteger levelColNum = 3; //网格列数
     GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     
-    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.volUniqueNumber
+    NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:self.vol.uniqueVolNumber
                                                inManagedObjectContext:context];
     CDPlayBoard *playboard= [localCDPlayBoards objectAtIndex:indexPath.row];
 
 
-    //是否显示解锁
-    if (self.activateLevel) {//直播形式，服务器直接告知解锁关卡
-        
-        if (![self.activateLevel containsObject:[NSNumber numberWithInt:index]]) {
-            
-            cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
-            cell.lockImageView.hidden = NO;
-            cell.userInteractionEnabled = NO;
-        }else{
-            cell.lockImageView.image = [UIImage imageNamed:@"unlocked_icon.png"];
-            cell.lockImageView.hidden = NO;
-            cell.userInteractionEnabled = YES;
-        }
-        
-        
-    }else{ //非直播形式
-        
-        if ([playboard.star intValue] == 0) {
+    //显示星号和是否解锁
+    switch ([playboard.star intValue]) {
+        case 0:
             if ([playboard.islocked boolValue]) {
                 cell.lockImageView.image = [UIImage imageNamed:@"locked_icon.png"];
                 cell.lockImageView.hidden = NO;
@@ -179,15 +160,7 @@ NSInteger levelColNum = 3; //网格列数
                 cell.lockImageView.hidden = NO;
                 cell.userInteractionEnabled = YES;
             }
-        }
-
-    }
-    
-    //显示星号
-    switch ([playboard.star intValue]) {
-        case 0:
             cell.imageView.image = [UIImage imageNamed:@"nostar_bg.png"];
-            cell.userInteractionEnabled = YES;
             break;
         case 1:
             cell.imageView.image = [UIImage imageNamed:@"1star_bg.png"];
@@ -207,11 +180,8 @@ NSInteger levelColNum = 3; //网格列数
         default:
             break;
     }
-    
-//    cell.imageView.image = aImage;
-    
+
     return cell;
-    
 }
 
 
@@ -230,8 +200,8 @@ NSInteger levelColNum = 3; //网格列数
 
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    if (self.volLevelAmount) {
-        return [self.volLevelAmount intValue];
+    if (self.vol.amountOfLevels) {
+        return [self.vol.amountOfLevels intValue];
     }else{
         return 0;
     }

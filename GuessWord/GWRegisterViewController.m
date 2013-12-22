@@ -13,9 +13,12 @@
 #import "UIViewController+Toast.h"
 
 @interface GWRegisterViewController ()
+
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 - (IBAction)commitBtnPressed:(id)sender;
+- (IBAction)loginBtnPressed:(id)sender;
 
 @end
 
@@ -46,6 +49,7 @@
 - (IBAction)commitBtnPressed:(id)sender
 {
     NSString* usename;
+    NSString* mobileNum;
     NSString* password;
     if (self.usernameTextField) {
         if (self.usernameTextField.text.length>0) {
@@ -57,14 +61,24 @@
             password = self.passwordTextField.text;
         }
     }
+    if (self.mobileTextField) {
+        if (self.mobileTextField.text.length>0) {
+            usename = self.mobileTextField.text;
+        }
+    }
     
     if (usename && password) {
-        [self registerWithUsername:usename andPassword:password];
+        [self registerWithUsername:usename andMobileNumber:mobileNum andPassword:password];
     }else{
         [self showToastWithDescription:@"用户名或密码不能为空"];
     }
 
     
+}
+
+- (IBAction)loginBtnPressed:(id)sender
+{
+    [self popViewControllerAnimated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -73,11 +87,7 @@
         GWLevelViewController *destination = segue.destinationViewController;
         
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
-        
-        destination.volUniqueNumber = [userDefaults objectForKey:@"broadcastVolNumber"];
-        destination.volLevelAmount = [userDefaults objectForKey:@"broadcastVolLevelAmount"];
-        destination.activateLevel = [userDefaults objectForKey:@"broadcastUnlockLevel"];
-        destination.vol = nil;
+        destination.vol = [userDefaults objectForKey:@"broadcastingVol"];
 
     }
 }
@@ -85,11 +95,11 @@
 #pragma mark -
 #pragma mark Internal Method
 
-- (void)registerWithUsername:(NSString*)usename andPassword:(NSString*)password
+- (void)registerWithUsername:(NSString*)usename andMobileNumber:(NSString*)mobileNum andPassword:(NSString*)password
 {
     //    示例：10.105.00.00/register?username=hh&password=123
     NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
-    [paraDic setObject:usename forKey:@"id"];
+    [paraDic setObject:mobileNum forKey:@"id"];
     [paraDic setObject:password forKey:@"pw"];
     [paraDic setObject:usename forKey:@"name"];
     
