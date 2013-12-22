@@ -149,7 +149,8 @@
         cdpb.level          = level;
         cdpb.volNumber      = vol_number;
         cdpb.star           = [NSNumber numberWithInt:0];
-        [cdpb setInitLock];         //目前的规则是：如果是第一关，那么设置为解锁的
+        cdpb.islocked       = [NSNumber numberWithBool:NO];//默认是锁住的
+//        [cdpb setInitLock];         //目前的规则是：如果是第一关，那么设置为解锁的
         cdpb.gotFromNetwork = [NSNumber numberWithBool:NO];//本地初始化不是从网络获取来的
         return cdpb;
     }else{
