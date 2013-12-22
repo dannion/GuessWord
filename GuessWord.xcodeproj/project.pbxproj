@@ -121,6 +121,8 @@
 		64E047F118570547008A137A /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E047E818570547008A137A /* PMCustomKeyboard.m */; };
 		64E047F218570547008A137A /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64E047E918570547008A137A /* PMCustomKeyboard.xib */; };
 		831A3C081856BF76005CEF99 /* ModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 831A3C071856BF76005CEF99 /* ModelTest.m */; };
+		832BF7341866E3F0006AE8A9 /* playboardoffline.json in Resources */ = {isa = PBXBuildFile; fileRef = 832BF7331866E3F0006AE8A9 /* playboardoffline.json */; };
+		832BF7361866ECF2006AE8A9 /* cdVolsOffline.json in Resources */ = {isa = PBXBuildFile; fileRef = 832BF7351866ECF2006AE8A9 /* cdVolsOffline.json */; };
 		833D2E851864375A00A221A9 /* DatabaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D2E841864375A00A221A9 /* DatabaseGenerator.m */; };
 		833D2E8718643BAA00A221A9 /* InitData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 833D2E8618643BAA00A221A9 /* InitData.sqlite */; };
 		83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83479626185AE71000D67FFC /* CDVol+Interface.m */; };
@@ -292,6 +294,8 @@
 		64E047E918570547008A137A /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
 		831A3C061856BF76005CEF99 /* ModelTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTest.h; sourceTree = "<group>"; };
 		831A3C071856BF76005CEF99 /* ModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTest.m; sourceTree = "<group>"; };
+		832BF7331866E3F0006AE8A9 /* playboardoffline.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = playboardoffline.json; path = DatabaseGenerator/playboardoffline.json; sourceTree = "<group>"; };
+		832BF7351866ECF2006AE8A9 /* cdVolsOffline.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cdVolsOffline.json; path = DatabaseGenerator/cdVolsOffline.json; sourceTree = "<group>"; };
 		833D2E831864375A00A221A9 /* DatabaseGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseGenerator.h; path = DatabaseGenerator/DatabaseGenerator.h; sourceTree = "<group>"; };
 		833D2E841864375A00A221A9 /* DatabaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseGenerator.m; path = DatabaseGenerator/DatabaseGenerator.m; sourceTree = "<group>"; };
 		833D2E8618643BAA00A221A9 /* InitData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = InitData.sqlite; path = DatabaseGenerator/InitData.sqlite; sourceTree = "<group>"; };
@@ -671,6 +675,8 @@
 		833D2E821864370B00A221A9 /* DatabaseGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				832BF7331866E3F0006AE8A9 /* playboardoffline.json */,
+				832BF7351866ECF2006AE8A9 /* cdVolsOffline.json */,
 				833D2E8618643BAA00A221A9 /* InitData.sqlite */,
 				833D2E831864375A00A221A9 /* DatabaseGenerator.h */,
 				833D2E841864375A00A221A9 /* DatabaseGenerator.m */,
@@ -781,8 +787,10 @@
 				649E1E1A186405CE00468D8C /* nostar_bg.png in Resources */,
 				649E1E31186405EF00468D8C /* group_03.png in Resources */,
 				649E1DE91862CC8100468D8C /* bar_green_bg.png in Resources */,
+				832BF7341866E3F0006AE8A9 /* playboardoffline.json in Resources */,
 				649E1E17186405CE00468D8C /* 3stars_bg@2x.png in Resources */,
 				649E1DEE1862CC8100468D8C /* king_icon@2x.png in Resources */,
+				832BF7361866ECF2006AE8A9 /* cdVolsOffline.json in Resources */,
 				649E1E44186405FB00468D8C /* register_button.png in Resources */,
 				64BCEC0818603F1800573F82 /* KristenItc.ttf in Resources */,
 				649E1DA7186183BD00468D8C /* mainbutton_down@2x.png in Resources */,

@@ -118,7 +118,7 @@
             NSLog(@"修改 uniqueid = %@ 的棋盘格成功",thePlayBoard.uniqueid);
         }
     }else{
-        NSLog(@"错误，棋盘未初始化");
+        NSLog(@"错误，棋盘未初始化:vol=%@ lv=%d的棋盘格",thePlayBoard.volNumber,thePlayBoard.level);
     }
 }
 

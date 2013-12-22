@@ -7,6 +7,8 @@
 //
 
 #import "GWAppDelegate.h"
+#import "DatabaseGenerator.h"
+
 
 @implementation GWAppDelegate
 
@@ -98,6 +100,9 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor blackColor], NSForegroundColorAttributeName,
       [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
+    
+    [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline"];
+    [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline"];
 
 //    [self copyLocalDatabaseIntoApp]; //将本地数据库初始化
     
