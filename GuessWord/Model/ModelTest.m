@@ -16,48 +16,48 @@
 
 +(void)testFunction
 {
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
- 
-
-    [GWNetWorkingWrapper getPath:@"overview.php"
-                      parameters:nil
-                    successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
-                        NSLog(@"通过网络获取数据成功");
-                        
-                        //1、从网络全部期数据
-//                        NSString *jsonString = [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding];
-                        NSArray *array = [CDVol cdVolsWithJsonData:operation.responseData
-                                            inManagedObjectContext:context];
-                        NSLog(@"通过网络获取的全部期信息，共有%d期数据",[array count]);
-                        
-                        //2、用户选择了第一期
-                        CDVol *currentCDVol = [array objectAtIndex:0];
-                        
-                        //3、查询第一期的关卡信息，关卡信息只显示，不修改，只有在保存PlayBoard的时候修改关卡信息
-                        NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:currentCDVol.uniqueVolNumber
-                                                                   inManagedObjectContext:context];
-                        CDPlayBoard *onePB = [localCDPlayBoards objectAtIndex:0];//第一关信息
-                        NSLog(@"第 %@ 期的 boards星级、解锁信息%@",currentCDVol.uniqueVolNumber,localCDPlayBoards);
-                        
-                        //4、用户选择了第一期第一关，查询本地是否有，如果没有从网络获取
-                        PlayBoard *pbwithlevel = [PlayBoard playBoardFromLocalDataBaseByVolNumber:currentCDVol.uniqueVolNumber
-                                                                                         andLevel:[NSNumber numberWithInt:1]];
-                        if (pbwithlevel) {
-                            NSLog(@"本地[有]第%@期-第%d关",currentCDVol.uniqueVolNumber,1);
-                        }else{
-                            NSLog(@"本地[没有]第%@期-第%d关,从服务器获取",currentCDVol.uniqueVolNumber,1);
-                            pbwithlevel = [PlayBoard playBoardFromFile:@"td"];
-                        }
-                        NSLog(@"当前棋盘信息%@",pbwithlevel);
-                        [pbwithlevel nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
-                        [pbwithlevel resetBoard];//重置棋盘
-                        [pbwithlevel saveToDataBaseWithFinalScore:0];
-                        NSLog(@"------------------------------Model测试结束------------------------");
-                        
-    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"通过网络获取数据错误");
-    }];
+//    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+//    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+// 
+//
+//    [GWNetWorkingWrapper getPath:@"overview.php"
+//                      parameters:nil
+//                    successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                        NSLog(@"通过网络获取数据成功");
+//                        
+//                        //1、从网络全部期数据
+////                        NSString *jsonString = [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding];
+//                        NSArray *array = [CDVol cdVolsWithJsonData:operation.responseData
+//                                            inManagedObjectContext:context];
+//                        NSLog(@"通过网络获取的全部期信息，共有%d期数据",[array count]);
+//                        
+//                        //2、用户选择了第一期
+//                        CDVol *currentCDVol = [array objectAtIndex:0];
+//                        
+//                        //3、查询第一期的关卡信息，关卡信息只显示，不修改，只有在保存PlayBoard的时候修改关卡信息
+//                        NSArray *localCDPlayBoards = [CDPlayBoard cdPlayBoardsByVolNumber:currentCDVol.uniqueVolNumber
+//                                                                   inManagedObjectContext:context];
+//                        CDPlayBoard *onePB = [localCDPlayBoards objectAtIndex:0];//第一关信息
+//                        NSLog(@"第 %@ 期的 boards星级、解锁信息%@",currentCDVol.uniqueVolNumber,localCDPlayBoards);
+//                        
+//                        //4、用户选择了第一期第一关，查询本地是否有，如果没有从网络获取
+//                        PlayBoard *pbwithlevel = [PlayBoard playBoardFromLocalDataBaseByVolNumber:currentCDVol.uniqueVolNumber
+//                                                                                         andLevel:[NSNumber numberWithInt:1]];
+//                        if (pbwithlevel) {
+//                            NSLog(@"本地[有]第%@期-第%d关",currentCDVol.uniqueVolNumber,1);
+//                        }else{
+//                            NSLog(@"本地[没有]第%@期-第%d关,从服务器获取",currentCDVol.uniqueVolNumber,1);
+//                            pbwithlevel = [PlayBoard playBoardFromFile:@"td"];
+//                        }
+//                        NSLog(@"当前棋盘信息%@",pbwithlevel);
+//                        [pbwithlevel nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
+//                        [pbwithlevel resetBoard];//重置棋盘
+//                        [pbwithlevel saveToDataBaseWithFinalScore:0];
+//                        NSLog(@"------------------------------Model测试结束------------------------");
+//                        
+//    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                        NSLog(@"通过网络获取数据错误");
+//    }];
     
 
     

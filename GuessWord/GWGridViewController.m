@@ -201,15 +201,16 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)refetchDataFromLocalCache
 {
     //从数据库里获取网格
-    if (self.uniqueID) {
-        _playBoard = [PlayBoard playBoardFromLocalDatabaseByUniqueID:self.uniqueID];
-        
-        if (_playBoard) {
-            //now we have data already, draw the actual grid.
-            [self refreshWithNewData];
-        }
-        
-    }else if (self.volNumber && self.level) {
+//    if (self.uniqueID) {
+//        _playBoard = [PlayBoard playBoardFromLocalDatabaseByUniqueID:self.uniqueID];
+//        
+//        if (_playBoard) {
+//            //now we have data already, draw the actual grid.
+//            [self refreshWithNewData];
+//        }
+//        
+//    }else
+    if (self.volNumber && self.level) {
         _playBoard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
         
         if (_playBoard) {

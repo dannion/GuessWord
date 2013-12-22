@@ -11,6 +11,8 @@
 #define KEY_FOR_NAME            @"name"
 #define KEY_FOR_AMOUNTLEVELS    @"amount_of_levels"
 #define KEY_FOR_OPENDATE        @"open_date"
+#define KEY_FOR_CURRENTLEVEL    @"cur_level"
+#define KEY_FOR_VOLSCORE        @"vol_score"
 
 #import "CDVol.h"
 
