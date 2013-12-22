@@ -6,9 +6,15 @@
 //  Copyright (c) 2013年 BUPTMITC. All rights reserved.
 //
 
+#import "GWAppDelegate.h"
+#import "CDVol+Interface.h"
 #import "GWCatagoryViewController.h"
 #import "GWCatagoryCell.h"
 #import "GWLevelViewController.h"
+#define UNIQUE_NUMBER_FOR_CATEGORY_1 500001
+#define UNIQUE_NUMBER_FOR_CATEGORY_2 500002
+#define UNIQUE_NUMBER_FOR_CATEGORY_3 500003
+#define UNIQUE_NUMBER_FOR_CATEGORY_4 500004
 
 NSString *GWCatagoryViewCellIdentifier = @"GWCatagoryViewCellIdentifier";
 
@@ -156,10 +162,36 @@ NSInteger catagoryAmount = 4; //类别数
 
 - (void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    int index = indexPath.row + 1;
+    NSNumber *_category_unique_number;
+    switch (index) {
+        case 1:{
+            _category_unique_number = [NSNumber numberWithInt:UNIQUE_NUMBER_FOR_CATEGORY_1];
+            break;
+        }
+        case 2:{
+            _category_unique_number = [NSNumber numberWithInt:UNIQUE_NUMBER_FOR_CATEGORY_2];
+            break;
+        }
+        case 3:{
+            _category_unique_number = [NSNumber numberWithInt:UNIQUE_NUMBER_FOR_CATEGORY_3];
+            break;
+        }
+        case 4:{
+            _category_unique_number = [NSNumber numberWithInt:UNIQUE_NUMBER_FOR_CATEGORY_4];
+            break;
+        }
+        
+        default:
+        break;
+    }
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     
 #warning not finished, 这里应该生成一个Vol传给关卡页面
-    CDVol* selectedVol;
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    CDVol* selectedVol = [CDVol cdVolWithUniqueVolNumber:_category_unique_number
+                                  inManagedObjectContext:context];
     
     [self performSegueWithIdentifier:@"CatagoryToLevel" sender:selectedVol];
 }

@@ -28,7 +28,7 @@
 -(void)updateScore;     //将本CDVol的所有boards的积分相加并保存
 
 +(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
-            inManagedObjectContext:(NSManagedObjectContext *)context;   //根据uniqueVolNumber来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后CDVol
+            inManagedObjectContext:(NSManagedObjectContext *)context;   //根据uniqueVolNumber来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后CDVol 【用来查询offline每个类别的数据】
 
 #warning 测试用，过后删除
 +(NSArray *)cdVolsFromFile:(NSString *)file                             //通过网络文件获取全部期的数据
