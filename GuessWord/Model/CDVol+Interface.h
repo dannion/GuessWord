@@ -23,9 +23,11 @@
 +(NSArray *)cdVolsWithJsonData:(NSData *)jsonData                       //(read and write)  通过jsonData获取全部期的数据,cdVols数组
         inManagedObjectContext:(NSManagedObjectContext *)context;
 
+-(void)updateScore;                                                     //将本CDVol的所有boards的积分相加并保存
 
 
--(void)updateScore;     //将本CDVol的所有boards的积分相加并保存
++(CDVol *)cdVolWithVolDictionary:(NSDictionary *)volDictionary          //创建CDVol:根据Dictionary来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后的CDVol[直播时候调用]
+          inManagedObjectContext:(NSManagedObjectContext *)context;
 
 +(CDVol *)cdVolWithUniqueVolNumber:(NSNumber *)uniqueVolNumber
             inManagedObjectContext:(NSManagedObjectContext *)context;   //根据uniqueVolNumber来查找CDVol，如果库中有，取出，如果没有，创建并返回创建后CDVol 【用来查询offline每个类别的数据】

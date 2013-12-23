@@ -101,10 +101,12 @@
       [UIColor blackColor], NSForegroundColorAttributeName,
       [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
     
-    [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline"];
-    [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline"];
-
-//    [self copyLocalDatabaseIntoApp]; //将本地数据库初始化
+    //工具函数，用来生成本地database
+//    [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline"];
+//    [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline"];
+//
+    //将本地数据库初始化
+    [self copyLocalDatabaseIntoApp];
     
     //    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
 //    for (NSString * temp in fontArrays) {

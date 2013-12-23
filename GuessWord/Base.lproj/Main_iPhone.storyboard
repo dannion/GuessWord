@@ -843,8 +843,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="fF9-vu-nvb"/>
-        <segue reference="tby-kw-07u"/>
         <segue reference="OAg-KZ-A3s"/>
+        <segue reference="tby-kw-07u"/>
+        <segue reference="cVq-NX-v20"/>
     </inferredMetricsTieBreakers>
 </document>
