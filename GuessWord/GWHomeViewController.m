@@ -12,6 +12,8 @@
 #import "GWLoginViewController.h"
 #import "GWNetWorkingWrapper.h"
 #import "UIViewController+Toast.h"
+#import "CDVol+Interface.h"
+#import "GWAppDelegate.h"
 
 @interface GWHomeViewController ()
 
@@ -93,9 +95,11 @@
                 
                 self.liveGameBtn.enabled = YES;
                 
-                
-#warning not finish, should complete here
-                CDVol* broadcastingVol;//CDVol提供方法，解析数据生成vol实例
+                GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+                NSManagedObjectContext *context = appDelegate.managedObjectContext;
+
+                NSDictionary* broadVolDic = [responseDic objectForKey:@"broad_vol"];
+                CDVol* broadcastingVol = [CDVol cdVolWithVolDictionary:broadVolDic inManagedObjectContext:context];//CDVol提供方法，解析数据生成vol实例
              
                 if (broadcastingVol) {
                     [userDefaults setBool:YES forKey:@"isBroadcasting"];
