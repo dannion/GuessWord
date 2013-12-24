@@ -99,13 +99,15 @@
                 NSManagedObjectContext *context = appDelegate.managedObjectContext;
 
                 NSDictionary* broadVolDic = [responseDic objectForKey:@"broad_vol"];
+                [userDefaults setObject:broadVolDic forKey:@"broadcastingVol"];
+                [userDefaults synchronize];
+                
                 CDVol* broadcastingVol = [CDVol cdVolWithVolDictionary:broadVolDic inManagedObjectContext:context];//CDVol提供方法，解析数据生成vol实例
-             
+
                 if (broadcastingVol) {
                     [userDefaults setBool:YES forKey:@"isBroadcasting"];
-                    [userDefaults setObject:broadcastingVol forKey:@"broadcastingVol"];
-                    [userDefaults synchronize];
-
+//                    [userDefaults setObject:broadcastingVol forKey:@"broadcastingVol"];
+//                    [userDefaults synchronize];
                 }
                 
             }
@@ -145,11 +147,14 @@
     }
     if ([segue.identifier isEqualToString:@"HomeToBroadcastLevel"]){
         
+        //在UserDefault中找到对应的字典，根据字典生成CDVol
         GWLevelViewController *destination = segue.destinationViewController;
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary* broadVolDic = [userDefaults objectForKey:@"broadcastingVol"];
         
-        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
-
-        destination.vol = [userDefaults objectForKey:@"broadcastingVol"];
+        GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+        destination.vol = [CDVol cdVolWithVolDictionary:broadVolDic
+                                 inManagedObjectContext:appDelegate.managedObjectContext];//CDVol提供方法，解析数据生成vol实例
         
     }
     

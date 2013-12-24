@@ -11,6 +11,8 @@
 #import "GWAccountStore.h"
 #import "GWLevelViewController.h"
 #import "UIViewController+Toast.h"
+#import "GWAppDelegate.h"
+#import "CDVol+Interface.h"
 
 @interface GWRegisterViewController ()
 
@@ -88,9 +90,12 @@
     if ([segue.identifier isEqualToString:@"RegisterToBroadcastLevel"]) {
         GWLevelViewController *destination = segue.destinationViewController;
         
-        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];//将结果存入userDefaults中
-        destination.vol = [userDefaults objectForKey:@"broadcastingVol"];
-
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary* broadVolDic = [userDefaults objectForKey:@"broadcastingVol"];
+        
+        GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+        destination.vol = [CDVol cdVolWithVolDictionary:broadVolDic
+                                 inManagedObjectContext:appDelegate.managedObjectContext];//CDVol提供方法，解析数据生成vol实例
     }
 }
 
