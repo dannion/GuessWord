@@ -16,7 +16,8 @@
     #warning 棋盘添加字段位置4
     self.score          = [NSNumber numberWithInt:thePlayBoard.score];
     self.star           = thePlayBoard.star;
-    self.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
+//    self.islocked       = [NSNumber numberWithBool:thePlayBoard.islocked];
+    self.islocked       = [NSNumber numberWithBool:NO];
     self.uniqueid       = thePlayBoard.uniqueid;
     self.category       = thePlayBoard.category;
     self.level          = [NSNumber numberWithInt:thePlayBoard.level];
