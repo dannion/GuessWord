@@ -425,7 +425,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     
     if (!scoreCounter) {
-        scoreCounter = [GWScoreCounter beginGame];
+        scoreCounter = [GWScoreCounter beginGameWithCurrentPlayBoard:self.playBoard];
     }
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
@@ -476,43 +476,21 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     
     switch (cellCurrentState) {
-        case GWGridCellCurrentStateBlock:
-            
-            if ([PMCustomKeyboard shareInstance].isShowing) {
-                [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
-            }
-            
-            break;
+
         case GWGridCellCurrentStateBlank:
-            // change color
-            selectedGridCell.imageView.image = [self imageForSelectedCell];
-
-            // 弹起键盘
-            [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
-
-            break;
         case GWGridCellCurrentStateGuessing:
-            // change color
-            selectedGridCell.imageView.image = [self imageForSelectedCell];
-
-            // 弹起键盘
-            [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
-
-            break;
         case GWGridCellCurrentStateDone:
             // change color
             selectedGridCell.imageView.image = [self imageForSelectedCell];
 
             // 弹起键盘
             [[PMCustomKeyboard shareInstance] showInView:self.view animated:YES];
-
             break;
+        case GWGridCellCurrentStateBlock:
         case GWGridCellCurrentStateUnKnown:
-
             if ([PMCustomKeyboard shareInstance].isShowing) {
                 [[PMCustomKeyboard shareInstance] removeFromSuperview:YES];
             }
-
             break;
         default:
             
@@ -600,7 +578,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     if ([inputChar isEqualToString:@" "]) {
         [self resetPlayBoard];
-        [scoreCounter resetCounter];
         return;
     }
     selectedGridCell.label.text = inputChar;
@@ -846,6 +823,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 {
     [self.playBoard resetBoard];
     [self refreshWithNewData];
+    [scoreCounter resetCounter];
 }
 
 - (void)sendScoreToServer

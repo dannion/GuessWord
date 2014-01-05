@@ -34,6 +34,7 @@
 @property(nonatomic) BOOL islocked;                 //该棋盘是否已经解锁
 @property(nonatomic) CGPoint last_point;            //上一次的坐标
 
+
 /**************************************************API******************************************/
 
 +(NSArray *)playBoardsFromLocalDatabaseVolNumber:(NSNumber *)volNumber;     //在数据库中找到所有该volNumber的 playBoards

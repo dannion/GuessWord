@@ -14,12 +14,11 @@
 #define WORD_ERROR_PENALTY 1
 
 
-@interface GWScoreCounter(){
+@interface GWScoreCounter()
+{
     BOOL isCountingScore;
     int currentScore;
 }
-
-- (void)start;
 
 @end
 //负责游戏计分
@@ -27,20 +26,29 @@
 
 
 
-+ (GWScoreCounter*)beginGame
++ (GWScoreCounter*)beginGameWithCurrentPlayBoard:(PlayBoard*)currentPlayBoard
 {
-    GWScoreCounter* scoreCounter = [[GWScoreCounter alloc] init];
+    GWScoreCounter* scoreCounter = [[GWScoreCounter alloc] initWithCurrentPlayBoard:currentPlayBoard];
     
-    [scoreCounter start];
     
     return scoreCounter;
 }
 
-- (void)start
+- (id)initWithCurrentPlayBoard:(PlayBoard*)currentPlayBoard
 {
-    isCountingScore = YES;
-    currentScore = INITIAL_SCORE;
-    //计时
+    self = [super init];
+    if (self) {
+        isCountingScore = YES;
+        
+        if (currentPlayBoard.score == 0) {
+            currentScore = INITIAL_SCORE;
+        }else{
+            currentScore = currentPlayBoard.score;
+        }
+        //计时
+
+    }
+    return self;
 }
 
 - (void)userUseTip
