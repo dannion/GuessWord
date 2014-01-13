@@ -133,7 +133,7 @@
     [paraDic setObject:usename forKey:@"id"];
     [paraDic setObject:password forKey:@"pw"];
     
-    [GWNetWorkingWrapper getPath:@"login" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [GWNetWorkingWrapper getPath:@"login.php" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString* responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         
         if ([responseString isEqualToString:@"Success!"]) {//登陆成功
