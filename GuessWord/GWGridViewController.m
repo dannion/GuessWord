@@ -664,6 +664,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     }else{
         //输入焦点自动跳到下一个位置
         if (1) {//这里需要加入判断nextpoint是否存在的逻辑
+            [self collectionView:self.gridView didDeselectItemAtIndexPath:[self indexPathFromLocation:selectedLocation]];
             [self collectionView:self.gridView didSelectItemAtIndexPath:[self indexPathFromLocation:nextPoint]];
         }
     }
