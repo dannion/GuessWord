@@ -102,9 +102,9 @@
       [UIFont systemFontOfSize:20.0], NSFontAttributeName, nil]];
     
     //工具函数，用来生成本地database
-//    [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline"];
-//    [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline"];
-//
+    [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline2"];
+    [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline2"];
+
     //将本地数据库初始化
     [self copyLocalDatabaseIntoApp];
     
