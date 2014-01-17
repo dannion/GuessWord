@@ -106,7 +106,7 @@
     [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline2"];
 
     //将本地数据库初始化
-    [self copyLocalDatabaseIntoApp];
+    //[self copyLocalDatabaseIntoApp];
     
     //    NSArray * fontArrays = [[NSArray alloc] initWithArray:[UIFont familyNames]];
 //    for (NSString * temp in fontArrays) {
