@@ -143,7 +143,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
     }
     
-         CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
+    CGRect gridViewFrame = CGRectMake(_gridView.frame.origin.x, _gridView.frame.origin.y, newWidthAndHeight, newWidthAndHeight);
     _gridView.frame = gridViewFrame;
     
     

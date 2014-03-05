@@ -21,7 +21,7 @@
         NSError* err = nil;
         
         if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL toURL:storeURL error:&err]) {
-            NSLog(@"Oops, could copy preloaded data");
+            NSLog(@"Oops, could not copy preloaded data");
         }
     }else{
         NSLog(@"第X次运行");
@@ -36,7 +36,7 @@
     {
         if([managedObjectContext hasChanges]&&![managedObjectContext save:&error])
         {
-            NSLog(@"保存数据时出错了:%@",error);
+            NSLog(@"保存数据时出错了:%@", error);
         }
     }
 }

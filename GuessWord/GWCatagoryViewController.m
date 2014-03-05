@@ -188,7 +188,7 @@ NSInteger catagoryAmount = 4; //类别数
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     
 #warning not finished, 这里应该生成一个Vol传给关卡页面
-    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication]delegate];
+    GWAppDelegate *appDelegate=(GWAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     CDVol* selectedVol = [CDVol cdVolWithUniqueVolNumber:_category_unique_number
                                   inManagedObjectContext:context];
