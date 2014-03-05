@@ -1,13 +1,13 @@
 //
-//  PowerPlayBoard.m
+//  NewBoard.h
 //  GuessWord
 //
 //  Created by WangJZ on 3/5/14.
 //  Copyright (c) 2014 BUPTMITC. All rights reserved.
 //
 
-#import "PowerPlayBoard.h"
+#import <Foundation/Foundation.h>
 
-@implementation PowerPlayBoard
+@interface NewBoard : NSObject
 
 @end
