@@ -131,6 +131,8 @@
 		8373AB5C1857040500931677 /* td的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* td的说明.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
+		83826F9D1886755900A0DC45 /* playboardoffline2.json in Resources */ = {isa = PBXBuildFile; fileRef = 83826F9C1886755900A0DC45 /* playboardoffline2.json */; };
+		83826F9F1886763000A0DC45 /* cdVolsOffline2.json in Resources */ = {isa = PBXBuildFile; fileRef = 83826F9E1886763000A0DC45 /* cdVolsOffline2.json */; };
 		839288CA185831F000F6ADCD /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 839288C9185831F000F6ADCD /* BoardCell.m */; };
 		83A31323185EEE7A0036420A /* PowerBoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A31322185EEE7A0036420A /* PowerBoardCell.m */; };
 		83A6A622185FFD0400565DE8 /* allVols.json in Resources */ = {isa = PBXBuildFile; fileRef = 83A6A621185FFD0400565DE8 /* allVols.json */; };
@@ -307,6 +309,8 @@
 		8373AB5B1857040500931677 /* td的说明.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "td的说明.json"; path = "json_file/td的说明.json"; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		83826F9C1886755900A0DC45 /* playboardoffline2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = playboardoffline2.json; path = DatabaseGenerator/playboardoffline2.json; sourceTree = "<group>"; };
+		83826F9E1886763000A0DC45 /* cdVolsOffline2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cdVolsOffline2.json; path = DatabaseGenerator/cdVolsOffline2.json; sourceTree = "<group>"; };
 		839288C8185831F000F6ADCD /* BoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardCell.h; sourceTree = "<group>"; };
 		839288C9185831F000F6ADCD /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCell.m; sourceTree = "<group>"; };
 		83A31321185EEE7A0036420A /* PowerBoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerBoardCell.h; sourceTree = "<group>"; };
@@ -684,7 +688,9 @@
 			isa = PBXGroup;
 			children = (
 				832BF7331866E3F0006AE8A9 /* playboardoffline.json */,
+				83826F9C1886755900A0DC45 /* playboardoffline2.json */,
 				832BF7351866ECF2006AE8A9 /* cdVolsOffline.json */,
+				83826F9E1886763000A0DC45 /* cdVolsOffline2.json */,
 				833D2E8618643BAA00A221A9 /* InitData.sqlite */,
 				833D2E831864375A00A221A9 /* DatabaseGenerator.h */,
 				833D2E841864375A00A221A9 /* DatabaseGenerator.m */,
@@ -810,6 +816,7 @@
 				649E1E45186405FB00468D8C /* register_button@2x.png in Resources */,
 				649E1DF91862DAEF00468D8C /* photo_icon@2x.png in Resources */,
 				83A6A622185FFD0400565DE8 /* allVols.json in Resources */,
+				83826F9F1886763000A0DC45 /* cdVolsOffline2.json in Resources */,
 				649E1E47186405FB00468D8C /* guessLogin_line@2x.png in Resources */,
 				649E1DA4186183BD00468D8C /* mainbutton.png in Resources */,
 				649E1DEA1862CC8100468D8C /* bar_green_bg@2x.png in Resources */,
@@ -864,6 +871,7 @@
 				64BCEBCF185EAEE000573F82 /* keyboard_bg.png in Resources */,
 				649E1E2F186405EF00468D8C /* group_02.png in Resources */,
 				649E1DB318618ACC00468D8C /* vol_active.png in Resources */,
+				83826F9D1886755900A0DC45 /* playboardoffline2.json in Resources */,
 				649E1DA6186183BD00468D8C /* mainbutton_down.png in Resources */,
 				64D09A49185594AB0054E807 /* InfoPlist.strings in Resources */,
 				649E1E22186405DC00468D8C /* exit_button@2x.png in Resources */,
