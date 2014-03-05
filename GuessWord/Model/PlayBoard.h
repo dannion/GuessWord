@@ -53,11 +53,14 @@
 -(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
                                          atPoint:(CGPoint)point;
 -(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
--(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词
+
 -(BOOL)isGameBoardCompleted;                                                            //是否闯关成功
 -(BOOL)isClickableAtPoint:(CGPoint)point;                                               //判断该点是否能够点击
--(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成
--(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal; //判断某个点所在单词是否全部输入（不一定正确）
 -(void)resetBoard;                                                                      //重置棋盘
+
+-(Word *)wordOfPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;           //通过point获得指定方向的单词~~~~~返回一个单词数组
+-(BOOL)isBingoOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal;    //判断某个点所在单词是否完成~~~~~返回一个单词数组（Bingo的）
+-(BOOL)isFullFillOfWordAtPoint:(CGPoint)point inHorizontalDirection:(BOOL)isHorizontal; //判断某个点所在单词是否全部输入（不一定正确）
+
 
 @end

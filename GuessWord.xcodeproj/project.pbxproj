@@ -128,6 +128,7 @@
 		83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */ = {isa = PBXBuildFile; fileRef = 83479626185AE71000D67FFC /* CDVol+Interface.m */; };
 		834D2107185EA335008CD57F /* td2.json in Resources */ = {isa = PBXBuildFile; fileRef = 834D2106185EA335008CD57F /* td2.json */; };
 		83633F641865340500ECED8F /* CDPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633F631865340500ECED8F /* CDPlayBoard.m */; };
+		8369F74118C6B05A0018C84C /* newJson.json in Resources */ = {isa = PBXBuildFile; fileRef = 8369F74018C6B05A0018C84C /* newJson.json */; };
 		8373AB5C1857040500931677 /* td的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5B1857040500931677 /* td的说明.json */; };
 		8373AB5E18570CD100931677 /* td.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB5D18570CD100931677 /* td.json */; };
 		8373AB661857314A00931677 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */; };
@@ -140,6 +141,7 @@
 		83B43A3218574474007E58C2 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 83B43A3118574474007E58C2 /* Readme.txt */; };
 		83B460081859A53D00AAADBE /* bigdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 83B460071859A53D00AAADBE /* bigdata.json */; };
 		83B4600C1859AB8000AAADBE /* puz1.json in Resources */ = {isa = PBXBuildFile; fileRef = 83B4600B1859AB8000AAADBE /* puz1.json */; };
+		83C8181718C6C92D00907BA1 /* PowerPlayBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C8181618C6C92D00907BA1 /* PowerPlayBoard.m */; };
 		83CA1AA1186282A700DA6FA1 /* CDVol.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CA1AA0186282A700DA6FA1 /* CDVol.m */; };
 		83F2E50518604C0E00E5FD41 /* allVols的说明.json in Resources */ = {isa = PBXBuildFile; fileRef = 83F2E50418604C0E00E5FD41 /* allVols的说明.json */; };
 /* End PBXBuildFile section */
@@ -306,6 +308,7 @@
 		834D2106185EA335008CD57F /* td2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td2.json; path = json_file/td2.json; sourceTree = "<group>"; };
 		83633F621865340500ECED8F /* CDPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPlayBoard.h; sourceTree = "<group>"; };
 		83633F631865340500ECED8F /* CDPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPlayBoard.m; sourceTree = "<group>"; };
+		8369F74018C6B05A0018C84C /* newJson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = newJson.json; path = json_file/newJson.json; sourceTree = "<group>"; };
 		8373AB5B1857040500931677 /* td的说明.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "td的说明.json"; path = "json_file/td的说明.json"; sourceTree = "<group>"; };
 		8373AB5D18570CD100931677 /* td.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = td.json; path = json_file/td.json; sourceTree = "<group>"; };
 		8373AB651857314A00931677 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -321,6 +324,8 @@
 		83B43A3118574474007E58C2 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
 		83B460071859A53D00AAADBE /* bigdata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bigdata.json; path = json_file/bigdata.json; sourceTree = "<group>"; };
 		83B4600B1859AB8000AAADBE /* puz1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = puz1.json; path = json_file/puz1.json; sourceTree = "<group>"; };
+		83C8181518C6C92D00907BA1 /* PowerPlayBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerPlayBoard.h; sourceTree = "<group>"; };
+		83C8181618C6C92D00907BA1 /* PowerPlayBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerPlayBoard.m; sourceTree = "<group>"; };
 		83CA1A9F186282A700DA6FA1 /* CDVol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVol.h; sourceTree = "<group>"; };
 		83CA1AA0186282A700DA6FA1 /* CDVol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVol.m; sourceTree = "<group>"; };
 		83F2E50418604C0E00E5FD41 /* allVols的说明.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "allVols的说明.json"; path = "json_file/allVols的说明.json"; sourceTree = "<group>"; };
@@ -485,6 +490,8 @@
 				83479626185AE71000D67FFC /* CDVol+Interface.m */,
 				83B43A2B18574274007E58C2 /* CDPlayBoard+Interface.h */,
 				83B43A2C18574274007E58C2 /* CDPlayBoard+Interface.m */,
+				83C8181518C6C92D00907BA1 /* PowerPlayBoard.h */,
+				83C8181618C6C92D00907BA1 /* PowerPlayBoard.m */,
 				64AF28BF1856A48E0046D43A /* PlayBoard.h */,
 				64AF28C01856A48E0046D43A /* PlayBoard.m */,
 				8373AB641857314A00931677 /* CoreDataModel.xcdatamodeld */,
@@ -701,9 +708,10 @@
 		8373AB581857020600931677 /* Json_file */ = {
 			isa = PBXGroup;
 			children = (
+				8369F74018C6B05A0018C84C /* newJson.json */,
+				8373AB5B1857040500931677 /* td的说明.json */,
 				83B4600B1859AB8000AAADBE /* puz1.json */,
 				83B460071859A53D00AAADBE /* bigdata.json */,
-				8373AB5B1857040500931677 /* td的说明.json */,
 				8373AB5D18570CD100931677 /* td.json */,
 				834D2106185EA335008CD57F /* td2.json */,
 				83A6A621185FFD0400565DE8 /* allVols.json */,
@@ -799,6 +807,7 @@
 				649E1DA5186183BD00468D8C /* mainbutton@2x.png in Resources */,
 				83B4600C1859AB8000AAADBE /* puz1.json in Resources */,
 				649E1E1A186405CE00468D8C /* nostar_bg.png in Resources */,
+				8369F74118C6B05A0018C84C /* newJson.json in Resources */,
 				649E1E31186405EF00468D8C /* group_03.png in Resources */,
 				649E1DE91862CC8100468D8C /* bar_green_bg.png in Resources */,
 				832BF7341866E3F0006AE8A9 /* playboardoffline.json in Resources */,
@@ -951,6 +960,7 @@
 				64BCEBF4185FEBD900573F82 /* GWVolCell.m in Sources */,
 				83479627185AE71100D67FFC /* CDVol+Interface.m in Sources */,
 				831A3C081856BF76005CEF99 /* ModelTest.m in Sources */,
+				83C8181718C6C92D00907BA1 /* PowerPlayBoard.m in Sources */,
 				64BCEBDD185ED31200573F82 /* GWBaseViewController.m in Sources */,
 				64BCEBF0185FE5D400573F82 /* GWVolViewController.m in Sources */,
 				64BCEC061860336100573F82 /* GWHomeViewController.m in Sources */,
