@@ -163,6 +163,32 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
     [self.view addSubview:self.gridViewBackgroundImageView];
     [self.view bringSubviewToFront:_gridView];
+    
+    
+    //增加坐标标注条，横向[a~z]
+    for ( int i = 1; i <= gridRowNum; i++) {
+        CGFloat labelWidth = 30;
+        CGFloat labelX = _gridView.frame.origin.x - labelWidth;
+        CGFloat labelY = _gridView.frame.origin.y + (i-1)*(gridCellHeight+1);
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelWidth, gridCellHeight)];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = [NSString stringWithFormat:@"%d",i];
+        
+        [self.view addSubview:label];
+    }
+    
+    //增加坐标标注条，纵向[1~9]
+    for ( int i = 1; i <= gridColNum; i++) {
+        CGFloat labelHeight = 30;
+        CGFloat labelX = _gridView.frame.origin.x + (i-1)*(gridCellWidth+1);
+        CGFloat labelY = _gridView.frame.origin.y - labelHeight;
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, gridCellWidth, labelHeight)];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = [NSString stringWithFormat:@"%c",97+i-1];
+        
+        [self.view addSubview:label];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
