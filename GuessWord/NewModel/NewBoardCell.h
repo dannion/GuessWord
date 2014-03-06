@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+//#import "BoardCell.h"
 
-/*状态的枚举*/
 typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
     GWGridCellCurrentStateBlock,
     GWGridCellCurrentStateBlank,
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 @property(nonatomic,strong)NSString *display;                           //当前显示的内容
 @property(nonatomic,strong)NSString *chinese;                           //应该显示的汉字
 
-@property(nonatomic)GWGridCellCurrentState currentState;
+//@property(nonatomic)NewGWGridCellCurrentState currentState;
 
 
 -(NSString *)stringOfCorrectAnswers;                                    //打印输出正确答案用

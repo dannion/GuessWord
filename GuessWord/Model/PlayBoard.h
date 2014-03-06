@@ -52,7 +52,7 @@
 -(NSData *)jsonDataDescription;                                                         //返回对象的json数据
 -(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet                //必须调用！每次用户输入一个字母
                                          atPoint:(CGPoint)point;
-//-(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
+-(NSArray *)current_state;                                                              //of cells获取当前游戏显示状态：
 
 -(BOOL)isGameBoardCompleted;                                                            //是否闯关成功
 -(BOOL)isClickableAtPoint:(CGPoint)point;                                               //判断该点是否能够点击
