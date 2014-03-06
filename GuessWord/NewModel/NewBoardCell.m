@@ -12,6 +12,11 @@
 @implementation NewBoardCell
 
 
+-(void)setStateDone{
+    
+}
+
+
 -(BOOL)isCellCanInput{
     if (![self isCellDone] && ![self isCellBlock]) {
         return YES;
@@ -71,7 +76,9 @@
 }
 
 //向multiCorrect添加一个正确答案
--(void)addCharWithAnswer:(NSString *)correctAnswer wordIndex:(NSNumber *)wordIndex position:(NSNumber *)position
+-(void)addCharWithAnswer:(NSString *)correctAnswer
+               wordIndex:(int )wordIndex
+                position:(int )position
 {
     GWCharacter *temp = [[GWCharacter alloc]init];
     temp.wordIndex = wordIndex;

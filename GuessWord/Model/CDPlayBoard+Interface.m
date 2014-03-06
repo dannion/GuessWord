@@ -12,7 +12,7 @@
 
 @implementation CDPlayBoard (Interface)
 
--(void)setAttributesWithPlayBoard:(PlayBoard *)thePlayBoard{
+-(void)setAttributesWithPlayBoard:(NewBoard *)thePlayBoard{
     #warning 棋盘添加字段位置4
     self.score          = [NSNumber numberWithInt:thePlayBoard.score];
     self.star           = thePlayBoard.star;
@@ -75,7 +75,7 @@
 }
 
 //将PlayBoard保存到数据库中,根据vol_number和level来修改
-+(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard
++(void)inserToDatabaseWithPlayBoard:(NewBoard *)thePlayBoard
              inManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSFetchRequest *request=[[NSFetchRequest alloc]init];

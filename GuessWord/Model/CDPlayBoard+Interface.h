@@ -10,20 +10,17 @@
 //
 
 #import "CDPlayBoard.h"
-#import "PlayBoard.h"
+#import "NewBoard.h"
 
 @interface CDPlayBoard (Interface)
 
-+(void)inserToDatabaseWithPlayBoard:(PlayBoard *)thePlayBoard               //(write )          将PlayBoard插入到数据库中
++(void)inserToDatabaseWithPlayBoard:(NewBoard *)thePlayBoard               //(write )          将PlayBoard插入到数据库中
              inManagedObjectContext:(NSManagedObjectContext *)context;
 
 
 +(CDPlayBoard *)cdPlayBoardByVolNumber:(NSNumber *)vol_number               //(read & write)    通过vol_number和level获取CDPlayBoard
                               andLevel:(NSNumber *)level
                 inManagedObjectContext:(NSManagedObjectContext *)context;
-
-//+(CDPlayBoard *)cdPlayBoardByUniqueID:(NSNumber *)uniqueID                  //(read )           通过id获取CDPlayBoard
-//               inManagedObjectContext:(NSManagedObjectContext *)context;
 
 
 +(NSArray *)cdPlayBoardsByVolNumber:(NSNumber *)volNumber                   //(read & write)    通过volNumber来获取一堆CDPlayBoards

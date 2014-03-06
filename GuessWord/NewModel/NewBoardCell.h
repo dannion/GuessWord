@@ -20,8 +20,8 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 /*字类，只有NewBoardCell持有这个类*/
 @interface GWCharacter : NSObject
 
-@property(nonatomic) NSNumber *wordIndex;                //该字所在的词
-@property(nonatomic) NSNumber *positionInWord;          //该字在词中的位置
+@property(nonatomic) int wordIndex;                //该字所在的词
+@property(nonatomic) int positionInWord;          //该字在词中的位置
 @property(nonatomic,strong) NSString *correct_answer;       //正确答案
 
 @end
@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 /*Cell类*/
 @interface NewBoardCell : NSObject
 
+@property(nonatomic) int x;//横向坐标
+@property(nonatomic) int y;//纵向坐标
 @property(nonatomic,strong)NSMutableSet *gwChars;                       //cell包含的字数组
 @property(nonatomic,strong)NSString *input;                             //输入的字母
 @property(nonatomic,strong)NSString *display;                           //当前显示的内容
@@ -47,7 +49,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 -(void)setToBlock;                                                      //置为BLOCK
 
 -(void)addCharWithAnswer:(NSString *)correctAnswer                      //为cell添加字
-               wordIndex:(NSNumber *)wordIndex
-                position:(NSNumber *)position;
+               wordIndex:(int)wordIndex
+                position:(int)position;
 
 @end
