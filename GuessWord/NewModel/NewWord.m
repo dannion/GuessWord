@@ -11,6 +11,7 @@
 
 @implementation NewWord
 
+
 - (NSMutableSet *)coveredCells
 {
     if (!_coveredCells) {
@@ -23,6 +24,14 @@
     NSDictionary *retDic = @{@"desc":self.firstLevelDescription,
                              @"desc2":self.secondLevelDescription,
                              @"to":[NSNumber numberWithInt:self.indexID ]};
+    return retDic;
+}
+
+-(NSDictionary *)jsonDicOfDescriptions{
+//{"desc":"烟花三月","desc2":"烟花三月下扬州","to":1},
+    NSDictionary *retDic = @{@"desc":self.firstLevelDescription,
+                             @"desc2":self.secondLevelDescription,
+                             @"to":[NSNumber numberWithInt:self.indexID]};
     return retDic;
 }
 

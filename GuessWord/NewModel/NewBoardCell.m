@@ -37,7 +37,7 @@
     }
 }
 
--(BOOL)isCellInputBlank{
+-(BOOL)isCellInputBlank{//cell是不是空的，我们能确保一个能输入的cell，只有两种状态，BLANK or not
     if ([self.input isEqualToString:BLANK]) {
         return YES;
     }else {

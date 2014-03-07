@@ -26,6 +26,8 @@
 
 @end
 
+
+
 /*Cell类*/
 @interface NewBoardCell : NSObject
 

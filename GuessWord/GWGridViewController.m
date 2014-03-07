@@ -355,7 +355,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
 - (void)setSelectedWords:(NSArray *)selectedWords
 {
-    if (selectedWords != _selectedWords) {
+    if (![selectedWords isEqualToArray: _selectedWords]) {
         _selectedWords = selectedWords;
         currentSelectedWordIndex = -1;
     }
@@ -483,6 +483,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     NSString* horizontalDescription = nil;
     NSString* verticalDescription = nil;
     
+    NewWord* deselectedWord = nil;
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
         
@@ -490,12 +491,28 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         self.selectedWords = [self.playBoard wordsOfPoint:currentLocation];
         
         if (self.selectedWords) {
+            
+            if (currentSelectedWordIndex != -1) {
+                deselectedWord = [self.selectedWords objectAtIndex:currentSelectedWordIndex];
+            }
+            
             if (currentSelectedWordIndex < [self.selectedWords count]-1) {
                 currentSelectedWordIndex++;
             }else{
                 currentSelectedWordIndex = 0;
             }
             currentSelectedWord = [self.selectedWords objectAtIndex:currentSelectedWordIndex];
+            
+        }
+        
+        if (deselectedWord) {
+            //开始去色
+            for ( NewBoardCell* cell in deselectedWord.coveredCells) {
+                CGPoint cellLocation = CGPointMake(cell.x, cell.y);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
+            }
         }
         
 
@@ -559,7 +576,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     if (deselectedWord) {
         
-        //开始染色
+        //开始去色
         for ( NewBoardCell* cell in deselectedWord.coveredCells) {
             CGPoint cellLocation = CGPointMake(cell.x, cell.y);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
