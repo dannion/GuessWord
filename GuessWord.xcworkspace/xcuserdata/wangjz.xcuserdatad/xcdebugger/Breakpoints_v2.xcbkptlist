@@ -237,7 +237,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
             endingLineNumber = "75"
-            landmarkName = "-updateCellsState"
+            landmarkName = "-isComplete"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

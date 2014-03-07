@@ -222,14 +222,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 #pragma mark LoadData
 - (void)loadData
 {
-    //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
 #ifdef NEWBOARD_DEBUG
     _playBoard = [NewBoard playBoardFromFile:@"newJson"];
     if (_playBoard) {
         [self refreshWithNewData];
     }
-    
 #else
+    //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
+
     //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
@@ -250,7 +250,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //        
 //    }else
     if (self.volNumber && self.level) {
-        _playBoard = [NewBoard newBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
+        _playBoard = [NewBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
         
         if (_playBoard) {
             //now we have data already, draw the actual grid.
@@ -355,7 +355,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 
 - (void)setSelectedWords:(NSArray *)selectedWords
 {
-    if (selectedWords != _selectedWords) {
+    if (![selectedWords isEqualToArray: _selectedWords]) {
         _selectedWords = selectedWords;
         currentSelectedWordIndex = -1;
     }
@@ -480,9 +480,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     GWGridCellCurrentState cellCurrentState = [self gridCellCurrentStateFromIndexPath:indexPath];
     
-    NSString* horizontalDescription = nil;
-    NSString* verticalDescription = nil;
-    
+    NewWord* deselectedWord = nil;
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
         
@@ -490,17 +488,32 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         self.selectedWords = [self.playBoard wordsOfPoint:currentLocation];
         
         if (self.selectedWords) {
+            
+            if (currentSelectedWordIndex != -1) {
+                deselectedWord = [self.selectedWords objectAtIndex:currentSelectedWordIndex];
+            }
+            
             if (currentSelectedWordIndex < [self.selectedWords count]-1) {
                 currentSelectedWordIndex++;
             }else{
                 currentSelectedWordIndex = 0;
             }
             currentSelectedWord = [self.selectedWords objectAtIndex:currentSelectedWordIndex];
+            
+        }
+        
+        if (deselectedWord) {
+            //开始去色
+            for ( NewBoardCell* cell in deselectedWord.coveredCells) {
+                CGPoint cellLocation = CGPointMake(cell.x, cell.y);
+                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+                gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
+            }
         }
         
 
         if (currentSelectedWord) {
-            horizontalDescription = currentSelectedWord.firstLevelDescription;
             
             //开始染色
             for ( NewBoardCell* cell in currentSelectedWord.coveredCells) {
@@ -514,7 +527,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     }
     
     //设置descriptionLabel文案
-    self.descriptionLabel.text = [self descriptionStringMergeWithHorizontalDescription:horizontalDescription andVerticalDescription:verticalDescription];
+    self.descriptionLabel.text = currentSelectedWord.firstLevelDescription;
 
     
     
@@ -559,7 +572,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     if (deselectedWord) {
         
-        //开始染色
+        //开始去色
         for ( NewBoardCell* cell in deselectedWord.coveredCells) {
             CGPoint cellLocation = CGPointMake(cell.x, cell.y);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
@@ -638,7 +651,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     selectedGridCell.label.text = inputChar;
     
     //用户已输入，调用playboard相应接口
-    CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
+    CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation withWord:currentSelectedWord];
     NSLog(@"nextPoint = %f, %f", nextPoint.x, nextPoint.y);
     
     //调用playboard接口 1.检查用户是否填完了 2.检查用户是否答对了
@@ -780,7 +793,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 }
 
 #pragma mark -
-#pragma mark Internal Method
+#pragma mark User Action Internal Method
 
 - (void)enterAWrongAnswer
 {
@@ -806,6 +819,46 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         }];
     }
 }
+
+- (void)hasCompletedTheGame
+{
+    //这里写完成游戏逻辑
+    NSLog(@"闯关成功！！！！你真厉害！！");
+    [self showCompletedToast];
+    [scoreCounter endGame];
+    NSLog(@"score = %d!", scoreCounter.currentScore);
+    
+    //如果用户登陆了，就上传分数给服务器
+    if ([[GWAccountStore shareStore] hasLogined]) {
+        [self sendScoreToServer];
+    }
+    
+}
+
+- (void)resetPlayBoard
+{
+    [self.playBoard resetBoard];
+    [self refreshWithNewData];
+    [scoreCounter resetCounter];
+}
+
+- (void)sendScoreToServer
+{
+    //    示例：http://10.105.223.24/CrossWordPuzzlePHP/sendscore.php?user=xx&score=xx&id=xx
+    NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
+    GWAccount* currentAccount = [[GWAccountStore shareStore] currentAccount];
+    [paraDic setObject:currentAccount.username forKey:@"user"];
+    [paraDic setObject:[NSNumber numberWithInt:scoreCounter.currentScore] forKey:@"score"];
+    [paraDic setObject:self.playBoard.uniqueid forKey:@"id"];
+    
+    [GWNetWorkingWrapper getPath:@"sendscore.php" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+    
+}
+
+#pragma mark -
+#pragma mark Toast Internal Method
 
 - (void)showToastWithTitleText:(NSString*)titleText andDetailsText:(NSString*)detailsText dismissDelay:(NSTimeInterval)delay
 {
@@ -835,42 +888,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     [self showToastWithTitleText:@"闯关成功！" andDetailsText:[NSString stringWithFormat:@"你获得的分数是:%d！你真厉害！", scoreCounter.currentScore] dismissDelay:3.0];
 }
 
-- (void)hasCompletedTheGame
-{
-    //这里写完成游戏逻辑
-    NSLog(@"闯关成功！！！！你真厉害！！");
-    [self showCompletedToast];
-    [scoreCounter endGame];
-    NSLog(@"score = %d!", scoreCounter.currentScore);
-    
-    //如果用户登陆了，就上传分数给服务器
-    if ([[GWAccountStore shareStore] hasLogined]) {
-        [self sendScoreToServer];
-    }
-    
-}
 
-- (void)resetPlayBoard
-{
-    [self.playBoard resetBoard];
-    [self refreshWithNewData];
-    [scoreCounter resetCounter];
-}
-
-- (void)sendScoreToServer
-{
-//    示例：http://10.105.223.24/CrossWordPuzzlePHP/sendscore.php?user=xx&score=xx&id=xx
-    NSMutableDictionary* paraDic = [NSMutableDictionary dictionary];
-    GWAccount* currentAccount = [[GWAccountStore shareStore] currentAccount];
-    [paraDic setObject:currentAccount.username forKey:@"user"];
-    [paraDic setObject:[NSNumber numberWithInt:scoreCounter.currentScore] forKey:@"score"];
-    [paraDic setObject:self.playBoard.uniqueid forKey:@"id"];
-    
-    [GWNetWorkingWrapper getPath:@"sendscore.php" parameters:paraDic successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
-    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-    }];
-    
-}
 #pragma mark -
 #pragma mark Internal Method to do with indexPath,location and gridcell state
 - (CGPoint)locationFromIndexPath:(NSIndexPath *)indexPath
@@ -906,21 +924,6 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (GWGridCellCurrentState)gridCellCurrentStateFromIndexPath:(NSIndexPath *)indexPath
 {
     return [self gridCellCurrentStateWithNewBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
-}
-
-
-- (NSString*)descriptionStringMergeWithHorizontalDescription:(NSString*)horizontalDescription andVerticalDescription:(NSString*)verticalDescription
-{
-    NSString* finalString;
-    if (horizontalDescription && verticalDescription) {
-        finalString = [NSString stringWithFormat:@" 横:%@\n 竖:%@",horizontalDescription,verticalDescription];
-    }else if(horizontalDescription){
-        finalString = [NSString stringWithFormat:@" 横:%@",horizontalDescription];
-    }else if(verticalDescription){
-        finalString = [NSString stringWithFormat:@" 竖:%@",verticalDescription];
-    }
-    
-    return finalString;
 }
 
 @end

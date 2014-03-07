@@ -43,7 +43,7 @@
 
 -(NSString *)stringOfCorrectAnswers;                                    //打印输出正确答案用
 -(BOOL)isCellCorrect;                                                   //该cell的输入是正确的
--(BOOL)isCellInputBlank;                                                //该cell的input是否为控？
+-(BOOL)isCellInputBlank;                                                //该cell的input是否为空？
 -(BOOL)isCellBlock;                                                     //该cell是否是Block的
 -(BOOL)isCellDone;                                                      //该cell是否是汉字的？
 -(BOOL)isCellCanInput;                                                  //该cell可以输入
