@@ -7,7 +7,9 @@
 //
 
 #import "ModelTest.h"
-#import "PlayBoard.h"
+//#import "PlayBoard.h"
+#import "NewBoard.h"
+
 #import "CDVol+Interface.h"
 #import "GWAppDelegate.h"
 #import "GWNetWorkingWrapper.h"
@@ -96,14 +98,10 @@
     
     
 //    /*****************************从本地获取，如果获取不到，从服务器获取***************************/
-//    PlayBoard *pbwithlevel = [PlayBoard playBoardFromLocalDataBaseByVolNumber:[NSNumber numberWithInt:1]
-//                                                                     andLevel:[NSNumber numberWithInt:1]];
-//    if (pbwithlevel) {
-//        NSLog(@"本地[有]第%d期-第%d关",1,1);
-//    }else{
-//        NSLog(@"本地[没有]第%d期-第%d关,从服务器获取",1,1);
-//        pbwithlevel = [PlayBoard playBoardFromFile:@"td"];
-//    }
+    NewBoard *newBoard = [NewBoard playBoardFromFile:@"newJson"];
+    NSLog(@"The new Board %@",newBoard);
+    
+
 //    NSLog(@"当前棋盘信息%@",pbwithlevel);
 //    [pbwithlevel nextPointByUpdatingBoardWithInputValue:@"A" atPoint:CGPointMake(3, 2)];
 //    [pbwithlevel resetBoard];//重置棋盘
@@ -125,6 +123,9 @@
     
     
 //        [CDVol saveArrayToFile:@"allVols.txt" withArray:[CDVol cdvolArray]];
+    
+    
+    NSLog(@"ahahah");
 
 
 

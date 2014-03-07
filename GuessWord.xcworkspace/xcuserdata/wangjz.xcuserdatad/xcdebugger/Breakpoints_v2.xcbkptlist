@@ -105,22 +105,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/CDPlayBoard+Interface.m"
-            timestampString = "409652432.048604"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "+inserToDatabaseWithPlayBoard:inManagedObjectContext:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "GuessWord/GWGridViewController.m"
             timestampString = "411315950.937639"
             startingColumnNumber = "9223372036854775807"
@@ -145,36 +129,6 @@
             endingLineNumber = "668"
             landmarkName = "-textFieldTextDidChangeNotification:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[GWGridViewController textFieldTextDidChangeNotification:]"
-                  moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/GWGridViewController.m"
-                  timestampString = "411551573.177743"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "668"
-                  endingLineNumber = "668"
-                  offsetFromSymbolStart = "3601">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[GWGridViewController textFieldTextDidChangeNotification:]"
-                  moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/GWGridViewController.m"
-                  timestampString = "411551573.17812"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "668"
-                  endingLineNumber = "668"
-                  offsetFromSymbolStart = "3836">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -277,44 +231,122 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GuessWord/Model/PlayBoard.m"
-            timestampString = "411551278.92122"
+            filePath = "GuessWord/NewModel/NewWord.m"
+            timestampString = "415877579.789618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
-            landmarkName = "-updateCellsDisplayByWord:"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-updateCellsState"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GuessWord/NewModel/NewBoard.m"
+            timestampString = "415877593.404564"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "-initWithJsonData:"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[PlayBoard updateCellsDisplayByWord:]"
+                  symbolName = "-[NewBoard initWithJsonData:]"
                   moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/Model/PlayBoard.m"
-                  timestampString = "411551573.178618"
+                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/NewModel/NewBoard.m"
+                  timestampString = "415877593.742394"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "530"
-                  endingLineNumber = "530"
-                  offsetFromSymbolStart = "196">
+                  startingLineNumber = "219"
+                  endingLineNumber = "219"
+                  offsetFromSymbolStart = "6505">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[PlayBoard updateCellsDisplayByWord:]"
+                  symbolName = "-[NewBoard initWithJsonData:]"
                   moduleName = "GuessWord"
-                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/Model/PlayBoard.m"
-                  timestampString = "411551573.181232"
+                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/NewModel/NewBoard.m"
+                  timestampString = "415877593.742799"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "530"
-                  endingLineNumber = "530"
-                  offsetFromSymbolStart = "1538">
+                  startingLineNumber = "219"
+                  endingLineNumber = "219"
+                  offsetFromSymbolStart = "6952">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GuessWord/NewModel/NewBoard.m"
+            timestampString = "415877090.271319"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "-initWithJsonData:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[NewBoard initWithJsonData:]"
+                  moduleName = "GuessWord"
+                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/NewModel/NewBoard.m"
+                  timestampString = "415877593.743237"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "4300">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[NewBoard initWithJsonData:]"
+                  moduleName = "GuessWord"
+                  urlString = "file:///Volumes/HDD/project/GuessWord/GuessWord/NewModel/NewBoard.m"
+                  timestampString = "415877593.743603"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "6451">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GuessWord/NewModel/NewBoard.m"
+            timestampString = "415877593.404564"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-initWithJsonData:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

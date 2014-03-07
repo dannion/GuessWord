@@ -8,7 +8,7 @@
 
 #import "GWAppDelegate.h"
 #import "DatabaseGenerator.h"
-
+#import "ModelTest.h"
 
 @implementation GWAppDelegate
 
@@ -104,7 +104,7 @@
     //工具函数，用来生成本地database
     [DatabaseGenerator importCDVolsToDatabaseWithFile:@"cdVolsOffline2"];
     [DatabaseGenerator importCDPlayBoardsToDatabaseWithFile:@"playboardoffline2"];
-
+    [ModelTest testFunction];
     //将本地数据库初始化
     //[self copyLocalDatabaseIntoApp];
     

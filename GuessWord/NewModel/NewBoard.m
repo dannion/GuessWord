@@ -211,6 +211,7 @@
                 [curCell.gwChars addObject:curChar];//将新的Char添加到数组中
                 curCell.input =[temp isEqualToString:@""] ? BLANK:temp;//设置cell
                 curCell.chinese = chinese;
+                curCell.currentState = [curCell isCellInputBlank] ? GWGridCellCurrentStateBlank : GWGridCellCurrentStateGuessing;
                 NewWord *curWord = self.words[wordIndex - 1];//从0开始的
                 [curWord.coveredCells addObject:curCell];//关联cell与word，如果重复，会自动去掉
             }
@@ -284,6 +285,7 @@
         [retString appendString:@"\n"];
     }
     
+    [retString appendString:@"[CurrestState]\n"];
     for (NSArray *row_array in self.cells) {
         for (NewBoardCell *cell in row_array) {
             [retString appendString:[NSString stringWithFormat:@"%d",cell.currentState]];

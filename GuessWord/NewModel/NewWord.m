@@ -11,6 +11,16 @@
 
 @implementation NewWord
 
+#warning 这样写coveredCells可以吧？
+-(NSMutableSet *)coveredCells{
+    if (!_coveredCells) {
+        _coveredCells = [[NSMutableSet alloc]init];
+        return _coveredCells;
+    }else{
+        return _coveredCells;
+    }
+}
+
 -(BOOL)isComplete{
     for (NewBoardCell *cell in self.coveredCells) {
         if (![cell isCellInputBlank]) {//如果有某个cell是空的，说明这个单词没有填完
