@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "BoardCell.h"
+#import "BoardCell.h"
 
-typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
-    GWGridCellCurrentStateBlock,
-    GWGridCellCurrentStateBlank,
-    GWGridCellCurrentStateGuessing,
-    GWGridCellCurrentStateDone,
-    GWGridCellCurrentStateUnKnown,
-};
+//typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
+//    GWGridCellCurrentStateBlock,
+//    GWGridCellCurrentStateBlank,
+//    GWGridCellCurrentStateGuessing,
+//    GWGridCellCurrentStateDone,
+//    GWGridCellCurrentStateUnKnown,
+//};
 
 /*字类，只有NewBoardCell持有这个类*/
 @interface GWCharacter : NSObject
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, GWGridCellCurrentState) {
 @property(nonatomic,strong)NSString *display;                           //当前显示的内容
 @property(nonatomic,strong)NSString *chinese;                           //应该显示的汉字
 
-//@property(nonatomic)NewGWGridCellCurrentState currentState;
+@property(nonatomic)GWGridCellCurrentState currentState;
 
 
 -(NSString *)stringOfCorrectAnswers;                                    //打印输出正确答案用

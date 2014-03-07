@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "PlayBoard.h"
+#import "NewBoard.h"
 #import "GWBaseViewController.h"
 
 @interface GWGridViewController : GWBaseViewController <PSTCollectionViewDataSource,PSTCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong, readonly) PlayBoard* playBoard;
+//@property (nonatomic, strong, readonly) PlayBoard* playBoard;
+@property (nonatomic, strong, readonly) NewBoard* playBoard;
 
 
 //初始化该页面需要上级页面用以下两种方式之一传递必要数据

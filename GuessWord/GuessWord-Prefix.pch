@@ -19,4 +19,6 @@
     #import "PSTCollectionView.h"
     #import "AFNetworking.h"
     #import "MBProgressHUD.h"
+    #import "GWGlobal.h"
+
 #endif

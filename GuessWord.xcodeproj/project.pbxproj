@@ -164,6 +164,7 @@
 		643E602C186679CA00B818E0 /* UIViewController+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Toast.m"; sourceTree = "<group>"; };
 		643E602E1866B65F00B818E0 /* GWSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWSettingViewController.h; sourceTree = "<group>"; };
 		643E602F1866B65F00B818E0 /* GWSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GWSettingViewController.m; sourceTree = "<group>"; };
+		6476B73A18C9B3BC00C36FD2 /* GWGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GWGlobal.h; sourceTree = "<group>"; };
 		649E1D99186183BD00468D8C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		649E1D9A186183BD00468D8C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		649E1D9B186183BD00468D8C /* mainbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainbutton.png; sourceTree = "<group>"; };
@@ -633,6 +634,7 @@
 				64AF28BE1856A48E0046D43A /* Model */,
 				64D09A4D185594AB0054E807 /* GWAppDelegate.h */,
 				64D09A4E185594AB0054E807 /* GWAppDelegate.m */,
+				6476B73A18C9B3BC00C36FD2 /* GWGlobal.h */,
 				64BCEBE2185EF1C000573F82 /* GWNetWorkingWrapper.h */,
 				64BCEBE3185EF1C000573F82 /* GWNetWorkingWrapper.m */,
 				649E1E4918642C7C00468D8C /* GWAccountStore.h */,
