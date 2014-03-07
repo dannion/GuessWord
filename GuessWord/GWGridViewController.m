@@ -15,6 +15,7 @@
 #import "GWInsetsLabel.h"
 #import "GWScoreCounter.h"
 #import "GWAccountStore.h"
+#import "NewWord.h"
 
 
 NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
@@ -29,11 +30,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     
     GWGridCell* selectedGridCell;
     CGPoint selectedLocation;
-    Word* selectedHorizontalWord;
-    Word* selectedVerticalWord;
+    NewWord* currentSelectedWord;
+    NSInteger currentSelectedWordIndex;
+
     
     GWScoreCounter* scoreCounter;
 }
+
+@property (nonatomic, strong)NSArray* selectedWords;
 
 @property (nonatomic, weak) IBOutlet PSUICollectionView* gridView; //网格页面
 @property (nonatomic, weak) IBOutlet GWInsetsLabel* descriptionLabel;
@@ -42,6 +46,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 @end
 
 @implementation GWGridViewController
+@synthesize selectedWords = _selectedWords;
 @synthesize playBoard = _playBoard;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -59,8 +64,10 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    #warning 测试用，后期应删掉
+
+#ifdef NEWBOARD_DEBUG
     [ModelTest testFunction];
+#endif
     
     
     // init GUI elements
@@ -90,8 +97,8 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     gridColNum = self.playBoard.width;
     
     selectedGridCell = nil;
-    selectedHorizontalWord = nil;
-    selectedVerticalWord = nil;
+    currentSelectedWord = nil;
+    currentSelectedWordIndex = -1;
     
     [self calculateCollectionViewCellSize];
     [self addGridViewBackgroundImage];
@@ -216,12 +223,18 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 - (void)loadData
 {
     //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
+#ifdef NEWBOARD_DEBUG
+    _playBoard = [NewBoard playBoardFromFile:@"newJson"];
+    if (_playBoard) {
+        [self refreshWithNewData];
+    }
     
+#else
     //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
     [self refetchDataFromNetWork];
-    
+#endif
 }
 
 - (void)refetchDataFromLocalCache
@@ -237,7 +250,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //        
 //    }else
     if (self.volNumber && self.level) {
-        _playBoard = [PlayBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
+        _playBoard = [NewBoard newBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
         
         if (_playBoard) {
             //now we have data already, draw the actual grid.
@@ -274,7 +287,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
         NSLog(@"NewData!");
         [MBProgressHUD hideAllHUDsForView:self.gridView animated:YES];
         
-        PlayBoard* playBoard = [PlayBoard playBoardFromData:operation.responseData];
+        NewBoard* playBoard = [NewBoard playBoardFromData:operation.responseData];
         _playBoard = playBoard;
         
         if (!_playBoard.uniqueid) {
@@ -335,6 +348,18 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //    return _playBoard;
 //}
 
+- (NSArray *)selectedWords
+{
+    return _selectedWords;
+}
+
+- (void)setSelectedWords:(NSArray *)selectedWords
+{
+    if (selectedWords != _selectedWords) {
+        _selectedWords = selectedWords;
+        currentSelectedWordIndex = -1;
+    }
+}
 
 #pragma mark -
 #pragma mark PSUICollectionViewDelegateFlowLayout
@@ -372,11 +397,11 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
             cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateGuessing:
-            cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            cell.label.text = [self.playBoard cellAtPoint:[self locationFromIndexPath:indexPath]].display;
             cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateDone:
-            cell.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
+            cell.label.text = [self.playBoard cellAtPoint:[self locationFromIndexPath:indexPath]].display;
             cell.imageView.image = [self imageForClickableCell];
             break;
         case GWGridCellCurrentStateUnKnown:
@@ -390,37 +415,33 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     }
     
     if (selectedGridCell) {
-        if ([self cellWithIndexPath:indexPath belongsToSelectedHorizontalWord:selectedHorizontalWord orSelectedVerticalWord:selectedVerticalWord]){//添加判断
+        if ([self cellWithIndexPath:indexPath belongsToWord:currentSelectedWord]) {
             cell.imageView.image = [self imageForRelatedCell];
         }
+        
         CGPoint cellLocation = [self locationFromIndexPath:indexPath];
         if (cellLocation.x == selectedLocation.x && cellLocation.y == selectedLocation.y) {
             cell.imageView.image = [self imageForSelectedCell];
         }
+        
     }
     
     return cell;
 }
 
-- (BOOL)cellWithIndexPath:(NSIndexPath*)indexPath belongsToSelectedHorizontalWord:(Word*)aSelectedHorizontalWord orSelectedVerticalWord:(Word*)aSelectedVerticalWord
+- (BOOL)cellWithIndexPath:(NSIndexPath*)indexPath belongsToWord:(NewWord*)word
 {
-    CGPoint location = [self locationFromIndexPath:indexPath];
-    if (aSelectedHorizontalWord) {
-        if (aSelectedHorizontalWord.start_y == (int)location.y) {
-            if ((int)location.x - aSelectedHorizontalWord.start_x >= 0 && (int)location.x - aSelectedHorizontalWord.start_x < aSelectedHorizontalWord.length) {
-                return YES;
-            }
-        }
-    }
-    if(aSelectedVerticalWord){
-        if (aSelectedVerticalWord.start_x == (int)location.x) {
-            if ((int)location.y - aSelectedVerticalWord.start_y >=0 && (int)location.y - aSelectedVerticalWord.start_y < aSelectedVerticalWord.length) {
+    if (word) {
+        CGPoint location = [self locationFromIndexPath:indexPath];
+        for (NewBoardCell* cell in word.coveredCells) {
+            if (location.x == cell.x && location.y == cell.y) {
                 return YES;
             }
         }
     }
     return NO;
 }
+
 
 - (CGSize)collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -451,7 +472,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     NSLog(@"Delegate cell %@ : SELECTED", [self formatIndexPath:indexPath]);
     
     if (!scoreCounter) {
-        scoreCounter = [GWScoreCounter beginGameWithCurrentPlayBoard:self.playBoard];
+        scoreCounter = [GWScoreCounter beginGameWithCurrentNewBoard:self.playBoard];
     }
 
     selectedGridCell = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
@@ -466,28 +487,24 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     if (cellCurrentState != GWGridCellCurrentStateBlock) {
         
         CGPoint currentLocation = [self locationFromIndexPath:indexPath];
-        selectedHorizontalWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:YES];
-        if (selectedHorizontalWord) {
-            horizontalDescription = selectedHorizontalWord.description;
-            
-            int length = selectedHorizontalWord.length;
-            
-            for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(selectedHorizontalWord.start_x+i, selectedHorizontalWord.start_y);
-                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-                gridCellWhichShouldShowAnswer.imageView.image = [self imageForRelatedCell];
+        self.selectedWords = [self.playBoard wordsOfPoint:currentLocation];
+        
+        if (self.selectedWords) {
+            if (currentSelectedWordIndex < [self.selectedWords count]-1) {
+                currentSelectedWordIndex++;
+            }else{
+                currentSelectedWordIndex = 0;
             }
+            currentSelectedWord = [self.selectedWords objectAtIndex:currentSelectedWordIndex];
         }
         
-        selectedVerticalWord = [self.playBoard wordOfPoint:currentLocation inHorizontalDirection:NO];
-        if (selectedVerticalWord) {
-            verticalDescription = selectedVerticalWord.description;
+
+        if (currentSelectedWord) {
+            horizontalDescription = currentSelectedWord.firstLevelDescription;
             
-            int length = selectedVerticalWord.length;
-            
-            for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(selectedVerticalWord.start_x, selectedVerticalWord.start_y+i);
+            //开始染色
+            for ( NewBoardCell* cell in currentSelectedWord.coveredCells) {
+                CGPoint cellLocation = CGPointMake(cell.x, cell.y);
                 NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
                 GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
                 gridCellWhichShouldShowAnswer.imageView.image = [self imageForRelatedCell];
@@ -536,30 +553,42 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     }
     
     //判断选中的cell是否在单词中，在的话为单词的所有cell染色。
-    CGPoint deselectLocation = [self locationFromIndexPath:indexPath];
-    Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:YES];
-   
-    if (deselectWord) {
-        int length = deselectWord.length;
+//    CGPoint deselectLocation = [self locationFromIndexPath:indexPath];
+//    Word* deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:YES];
+    NewWord* deselectedWord = currentSelectedWord;
+    
+    if (deselectedWord) {
         
-        for (int i=0; i<length; i++) {
-            CGPoint cellLocation = CGPointMake(deselectWord.start_x+i, deselectWord.start_y);
+        //开始染色
+        for ( NewBoardCell* cell in deselectedWord.coveredCells) {
+            CGPoint cellLocation = CGPointMake(cell.x, cell.y);
             NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
             GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
             gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
         }
     }
-    deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:NO];
-    if (deselectWord) {
-        int length = deselectWord.length;
-        
-        for (int i=0; i<length; i++) {
-            CGPoint cellLocation = CGPointMake(deselectWord.start_x, deselectWord.start_y+i);
-            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-            gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
-        }
-    }
+    
+//    if (deselectWord) {
+//        int length = deselectWord.length;
+//        
+//        for (int i=0; i<length; i++) {
+//            CGPoint cellLocation = CGPointMake(deselectWord.start_x+i, deselectWord.start_y);
+//            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+//            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+//            gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
+//        }
+//    }
+//    deselectWord = [self.playBoard wordOfPoint:deselectLocation inHorizontalDirection:NO];
+//    if (deselectWord) {
+//        int length = deselectWord.length;
+//        
+//        for (int i=0; i<length; i++) {
+//            CGPoint cellLocation = CGPointMake(deselectWord.start_x, deselectWord.start_y+i);
+//            NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+//            GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+//            gridCellWhichShouldShowAnswer.imageView.image = [self imageForClickableCell];
+//        }
+//    }
 
 }
 
@@ -616,69 +645,15 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     // a 未填完 无提示
     // b 填完 答错 提示错误
     // c 填完 答对 显示正确汉字答案
-    
-    //先判断垂直方向，再判断水平方向
-    if ([self.playBoard isFullFillOfWordAtPoint:selectedLocation inHorizontalDirection:NO]) {
-        
-        if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:NO]){
-            //答错了，弹出错误提示
-            [scoreCounter userEnterWrongAnswer];
-            [self showErrorToast];
+    for ( NewWord* word in self.selectedWords) {
+        if ([word isComplete]) {
             
-        }else{
-            //答对了，将对应单词转换为汉字结果。
-            Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:NO];
-            [scoreCounter userEnterCorrectWord:correctWord];
-            
-            int length = correctWord.length;
-            
-            for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(correctWord.start_x, correctWord.start_y+i);
-                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-
-                [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
-                    gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-                } completion:^(BOOL finished) {
-                    
-                }];
-                
+            if (![word isBingo]) {
+                [self enterAWrongAnswer];
+            }else{
+                [self enterACorrectAnswer:word];
             }
             
-        }
-    }
-    
-    //水平方向
-    if ([self.playBoard isFullFillOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
-        
-        if (![self.playBoard isBingoOfWordAtPoint:selectedLocation inHorizontalDirection:YES]) {
-            //答错了，弹出错误提示
-            [scoreCounter userEnterWrongAnswer];
-            [self showErrorToast];
-            
-        }else{
-            //答对了，将对应单词转换为汉字结果。
-            Word* correctWord = [self.playBoard wordOfPoint:selectedLocation inHorizontalDirection:YES];
-            [scoreCounter userEnterCorrectWord:correctWord];
-            
-            int length = correctWord.length;
-            
-            for (int i=0; i<length; i++) {
-                CGPoint cellLocation = CGPointMake(correctWord.start_x+i, correctWord.start_y);
-                NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
-                GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
-//                gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-                                
-                [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
-                    gridCellWhichShouldShowAnswer.label.text = [self gridCellCurrentStringFromIndexPath:indexPath];
-                } completion:^(BOOL finished) {
-                    
-                }];
-            }
-
         }
     }
 
@@ -807,30 +782,59 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 #pragma mark -
 #pragma mark Internal Method
 
-- (void)showErrorToast
+- (void)enterAWrongAnswer
 {
-//    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    hud.color = [UIColor whiteColor];
-//    hud.labelTextColor = [UIColor blueColor];
-//    hud.mode = MBProgressHUDModeText;
-//    hud.labelText = @"猜错了！";
-//    [hud hide:YES afterDelay:1.0];
+    [scoreCounter userEnterWrongAnswer];
+    [self showErrorToast];
 }
 
-- (void)showCompletedToast
+- (void)enterACorrectAnswer:(NewWord*)word
 {
-    //答错了，弹出错误提示
+    [scoreCounter userEnterCorrectNewWord:word];
+    
+    for (NewBoardCell* cell in word.coveredCells) {
+        CGPoint cellLocation = CGPointMake(cell.x, cell.y);
+        NSIndexPath* indexPath = [self indexPathFromLocation:cellLocation];
+        GWGridCell* gridCellWhichShouldShowAnswer = (GWGridCell*)[_gridView cellForItemAtIndexPath:indexPath];
+        gridCellWhichShouldShowAnswer.label.text = [self.playBoard cellAtPoint:cellLocation].chinese;
+        
+        [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft  forView:gridCellWhichShouldShowAnswer cache:YES];
+            gridCellWhichShouldShowAnswer.label.text = [self.playBoard cellAtPoint:cellLocation].chinese;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+}
+
+- (void)showToastWithTitleText:(NSString*)titleText andDetailsText:(NSString*)detailsText dismissDelay:(NSTimeInterval)delay
+{
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.color = [UIColor whiteColor];
     
-    hud.labelText = @"闯关成功！";
+    hud.labelText = titleText;
     hud.labelTextColor = [UIColor blueColor];
     
-    hud.detailsLabelText = [NSString stringWithFormat:@"你获得的分数是:%d！你真厉害！", scoreCounter.currentScore];
-    hud.detailsLabelTextColor = [UIColor blackColor];
-    [hud hide:YES afterDelay:3.0];
+    if (detailsText) {
+        hud.detailsLabelText = detailsText;
+        hud.detailsLabelTextColor = [UIColor blackColor];
+    }
+    
+    [hud hide:YES afterDelay:delay];
+
 }
+
+- (void)showErrorToast
+{
+    [self showToastWithTitleText:@"猜错了！" andDetailsText:Nil dismissDelay:1.0];
+}
+
+- (void)showCompletedToast
+{
+    [self showToastWithTitleText:@"闯关成功！" andDetailsText:[NSString stringWithFormat:@"你获得的分数是:%d！你真厉害！", scoreCounter.currentScore] dismissDelay:3.0];
+}
+
 - (void)hasCompletedTheGame
 {
     //这里写完成游戏逻辑
@@ -884,30 +888,24 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     return [NSIndexPath indexPathForItem:index inSection:0];
 }
 
-- (BoardCell*)gridCellCurrentStringWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
-{
-    BoardCell* currentStateDescription;
-    if (aPlayboard.current_state) {
-        currentStateDescription = (BoardCell*)aPlayboard.current_state[(int)aLocation.y][(int)aLocation.x];
-    }
-    return currentStateDescription;
-}
 
 - (GWGridCellCurrentState)gridCellCurrentStateWithPlayBoard:(PlayBoard*)aPlayboard andLocation:(CGPoint)aLocation
 {
-    BoardCell* boardCell = [self gridCellCurrentStringWithPlayBoard:aPlayboard andLocation:aLocation];
+    BoardCell* boardCell = [aPlayboard cellAtPoint:aLocation];
     
     return boardCell.currentState;
 }
 
-- (NSString*)gridCellCurrentStringFromIndexPath:(NSIndexPath *)indexPath
+- (GWGridCellCurrentState)gridCellCurrentStateWithNewBoard:(NewBoard*)aPlayboard andLocation:(CGPoint)aLocation
 {
-    return [self gridCellCurrentStringWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]].display;
+    NewBoardCell* boardCell = [aPlayboard cellAtPoint:aLocation];
+    
+    return boardCell.currentState;
 }
 
 - (GWGridCellCurrentState)gridCellCurrentStateFromIndexPath:(NSIndexPath *)indexPath
 {
-    return [self gridCellCurrentStateWithPlayBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
+    return [self gridCellCurrentStateWithNewBoard:self.playBoard andLocation:[self locationFromIndexPath:indexPath]];
 }
 
 

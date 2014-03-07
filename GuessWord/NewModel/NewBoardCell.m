@@ -9,7 +9,6 @@
 #import "NewBoardCell.h"
 #import "PlayBoard.h"
 
-
 @implementation GWCharacter
 
 @end

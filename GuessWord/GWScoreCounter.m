@@ -51,6 +51,31 @@
     return self;
 }
 
++ (GWScoreCounter*)beginGameWithCurrentNewBoard:(NewBoard*)currentPlayBoard
+{
+    GWScoreCounter* scoreCounter = [[GWScoreCounter alloc] initWithCurrentNewBoard:currentPlayBoard];
+    
+    
+    return scoreCounter;
+}
+
+- (id)initWithCurrentNewBoard:(NewBoard*)currentPlayBoard
+{
+    self = [super init];
+    if (self) {
+        isCountingScore = YES;
+        
+        if (currentPlayBoard.score == 0) {
+            currentScore = INITIAL_SCORE;
+        }else{
+            currentScore = currentPlayBoard.score;
+        }
+        //计时
+        
+    }
+    return self;
+}
+
 - (void)userUseTip
 {
     if (isCountingScore) {
@@ -69,7 +94,12 @@
         currentScore += SCORE_PER_CHARACTER * word.length;
     }
 }
-
+- (void)userEnterCorrectNewWord:(NewWord*)word
+{
+    if (isCountingScore) {
+        currentScore += SCORE_PER_CHARACTER * word.length;
+    }
+}
 - (void)endGame
 {
     //结束计时，对currentScore加上时间加成。
