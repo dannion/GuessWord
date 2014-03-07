@@ -25,4 +25,7 @@
 -(void)updateCellsState;                                        //更新本单词的所有cells
 -(void)addCell;//添加新的cell
 -(BOOL)isBingo;//判断是否完成
+
+-(BOOL)isComplete;//new
+
 @end
