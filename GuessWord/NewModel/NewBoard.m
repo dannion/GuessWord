@@ -52,7 +52,7 @@
 }
 
 /*通过X期和Y关来获取PlayBoard*/
-+(NewBoard *)newBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number
++(NewBoard *)playBoardFromLocalDataBaseByVolNumber:(NSNumber *)vol_number
                                          andLevel:(NSNumber *)level
 {
     NewBoard *retPlayBoard = nil;
@@ -174,9 +174,9 @@
             
             /*****************解析每一个description***************/
             NSArray *descriptions = [playBoardDic objectForKey:@"descriptions"];
-            NSMutableArray *output_words = [[NSMutableArray alloc]initWithCapacity:50];
+            NSMutableArray *output_words = [[NSMutableArray alloc] initWithCapacity:50];
             for (NSDictionary *aDespDic in descriptions) {
-                NewWord *tmpWord = [[NewWord alloc]init];
+                NewWord *tmpWord = [[NewWord alloc] init];
                 tmpWord.firstLevelDescription       = [aDespDic objectForKey:@"desc"];
                 tmpWord.secondLevelDescription      = [aDespDic objectForKey:@"desc2"];
                 tmpWord.indexID                     = [[aDespDic objectForKey:@"to"] intValue];
@@ -325,7 +325,7 @@
 
 #warning 下一个点返回在哪有待商榷
 /*在某个坐标上输入一个字母，修改cell.Input*/
--(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point
+-(CGPoint)nextPointByUpdatingBoardWithInputValue:(NSString *)oneAlphabet atPoint:(CGPoint)point withWord:(NewWord *)word
 {
     int x = (int)point.x;
     int y = (int)point.y;
@@ -339,6 +339,7 @@
 #warning 暂时没有实现这个部分
     return point;
 }
+
 
 /*是否闯关成功*/
 -(BOOL)isGameBoardCompleted{

@@ -11,6 +11,14 @@
 
 @implementation NewWord
 
+- (NSMutableSet *)coveredCells
+{
+    if (!_coveredCells) {
+        _coveredCells = [[NSMutableSet alloc] init];
+    }
+    return _coveredCells;
+}
+
 -(NSDictionary *)dictionaryOfDescription{
     NSDictionary *retDic = @{@"desc":self.firstLevelDescription,
                              @"desc2":self.secondLevelDescription,
@@ -64,6 +72,16 @@
     //如果当前word的多个cell中有一个不是正确的，
     for (NewBoardCell *cell in self.coveredCells) {
         if (![cell isCellCorrect]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+-(BOOL)isComplete{
+    //如果当前word的cell都不为空，则返回YES
+    for (NewBoardCell *cell in self.coveredCells) {
+        if ([cell isCellInputBlank]) {
             return NO;
         }
     }

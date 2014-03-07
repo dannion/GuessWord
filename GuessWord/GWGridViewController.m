@@ -222,14 +222,14 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 #pragma mark LoadData
 - (void)loadData
 {
-    //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
 #ifdef NEWBOARD_DEBUG
     _playBoard = [NewBoard playBoardFromFile:@"newJson"];
     if (_playBoard) {
         [self refreshWithNewData];
     }
-    
 #else
+    //逻辑： 根据PlayBoard的UniqueID来获取数据。 先查找本地数据库是否有，没有则访问网络获取。
+
     //从本地数据库取
     [self refetchDataFromLocalCache];
     //从网络取
@@ -250,7 +250,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
 //        
 //    }else
     if (self.volNumber && self.level) {
-        _playBoard = [NewBoard newBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
+        _playBoard = [NewBoard playBoardFromLocalDataBaseByVolNumber:self.volNumber andLevel:self.level];
         
         if (_playBoard) {
             //now we have data already, draw the actual grid.
@@ -638,7 +638,7 @@ NSString *GWGridViewCellIdentifier = @"GWGridViewCellIdentifier";
     selectedGridCell.label.text = inputChar;
     
     //用户已输入，调用playboard相应接口
-    CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation];
+    CGPoint nextPoint = [self.playBoard nextPointByUpdatingBoardWithInputValue:inputChar atPoint:selectedLocation withWord:currentSelectedWord];
     NSLog(@"nextPoint = %f, %f", nextPoint.x, nextPoint.y);
     
     //调用playboard接口 1.检查用户是否填完了 2.检查用户是否答对了
