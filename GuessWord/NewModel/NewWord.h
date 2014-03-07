@@ -23,9 +23,8 @@
 -(NSArray *)itemsOfCharacters;                                  //将描述信息转换成jsonDic
 
 -(void)updateCellsState;                                        //更新本单词的所有cells
--(void)addCell;//添加新的cell
--(BOOL)isBingo;//判断是否完成
+-(BOOL)isBingo;//判断是否答对
 
--(BOOL)isComplete;//new
+-(BOOL)isComplete;//判断是否回答完毕（不一定正确）
 
 @end
